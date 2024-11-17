@@ -1,6 +1,8 @@
 # Academic Pages
 **Academic Pages is a Github Pages template for academic websites.**
 
+Good reference for blog usage with github pages [understanding the roofline model](https://dando18.github.io/posts/2020/04/02/roofline-model)
+
 ![Academic Pages template example](images/homepage.png "Academic Pages template example")
 
 # Getting Started
