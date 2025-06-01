@@ -13,9 +13,9 @@ title                    : "Jared Frazier"
 title_separator          : "-"
 name                     : &name "Jared Frazier"
 description              : &description "Scientific Programmer at Leibniz Institute for Atmospheric Physics (IAP)"
-url                      : https://jfdev001.github.io/  # the base hostname & protocol for your site e.g. "https://[your GitHub username].github.io" or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
+url                      : "https://jfdev001.github.io/"  # the base hostname & protocol for your site e.g. "https://[your GitHub username].github.io" or if you already have some other page hosted on Github then use "https://[your GitHub username].github.io/[Your Repo Name]"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : "jfdev001/jfdev001.github.io"
+repository               : #
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
@@ -46,7 +46,7 @@ author:
   bitbucket        : # Username - Update with your username on the site
   codepen          : # Username
   dribbble         : # Username
-  github           : "https://github.com/jfdev001"
+  github           : "jfdev001"
   kaggle           : # Username  
   stackoverflow    : "15001463/jared" 
 
