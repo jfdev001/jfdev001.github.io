@@ -11,11 +11,11 @@ main:
   - title: "Publications"
     url: /publications/
 
-  - title: "Talks"
-    url: /talks/    
+  #- title: "Talks"
+    #url: /talks/    
 
-  - title: "Teaching"
-    url: /teaching/    
+  #- title: "Teaching"
+    #url: /teaching/    
     
   - title: "Portfolio"
     url: /portfolio/
@@ -28,6 +28,7 @@ main:
     
   # - title: "CV"
   #   url: /cv-json/
-    
-  - title: "Guide"
-    url: /markdown/
+   
+  # Very useful for general writing of markdowns and static website stuff  
+  #- title: "Guide"
+    #url: /markdown/
