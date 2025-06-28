@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default"
-title                    : "Jared Frazier"
+title                    : "jfdev001.github.io"
 title_separator          : "-"
 name                     : &name "Jared Frazier"
 description              : &description "Scientific Programmer at Leibniz Institute for Atmospheric Physics"
