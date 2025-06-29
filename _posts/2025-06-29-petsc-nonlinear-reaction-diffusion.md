@@ -1,19 +1,141 @@
 ---
-title: 'Mapping a PETSc Implementation of Steady-State Reaction Diffusion Equations to Mathematics'
+title: 'Extra Mathematical Details: The Steady State Reaction-Diffusion Equations and their Solution in PETSc'
 date: 2025-06-29
 permalink: /posts/2025/06/petsc-nonlinear-reaction-diffusion-maths/
 tags:
   - nonlinear
   - pdes
+  - time independent
   - petsc
   - jacobian
   - gateaux derivative 
+  - newton's method
 ---
 
-In this article, I explain how PETSc impelmentation maps to mathematics.
+In this article, some extra mathematical details related to the 
+solution of the steady state reaction-diffusion equations using 
+[PETSc](https://petsc.org/release/) are discussed. First, the simple nonlinear
+governing equations of interest are shown. Then, Newton's method is presented
+at the PDE level for generality rather than being presented at the algebraic
+level. Subsequently, the spatial discretization via the finite difference method 
+is shown for completeness. Finally, a commented PETSc implementation of the 
+discretized reaction-diffusion equations is shown to concretely illustrate how 
+the mathematical notation maps to code. 
 
+# The Governing Equations
 
-# Outline 
+The general form of the one dimensional, time evolving heat equation 
+can be modelled with diffusion (i.e., \\(\frac{\partial^2 u}{\partial x^2}\\) 
+in 1D or \\(\nabla^2 u\\) in N-dimensions), reaction 
+\\(R(u)\\), and source \\(f(\cdot)\\) processes for temperature (or substances 
+more generally) with concentration \\(u(x, t)\\) and is given by
+
+$$
+\frac{\partial u}{\partial t} = \frac{\partial^2 u}{\partial x^2} + R(u) + f. \\ \tag{1}
+$$
+
+In this post, we focus on the time independent (aka steady state) form of 
+equation (1)
+
+$$
+0 = \frac{\partial^2 u}{\partial x^2} + R(u) + f. \\ \tag{2}
+$$
+
+We define also \\(R(u) = -\rho \sqrt u\\) and \\(f(x) = 0\\) as well as the 
+Dirichlet boundary conditions \\(u(0) = \alpha\\) and \\(u(1) = \beta\\) for our 
+domain \\(\Omega \in [0, 1] \\).
+
+Clearly, the
+square root function in \\(R(u)\\) introduces a nonlinear term into
+equation (2). Since identifying whether an equation has nonlinear terms naturally
+determines whether you can use a linear or nonlinear solver, it is useful
+to recall the definition of a [linear operator](https://mathworld.wolfram.com/LinearOperator.html)
+\\(L\\) which is said to be linear if, for every pair of functions \\(f\\)
+and \\(g\\) and a scalar \\(\theta\\)
+
+$$
+L(f + g) = L(f) + L(g),
+$$
+
+and
+
+$$
+L(\theta f) = \theta L(f).
+$$
+
+In this case, the square root term is obviously nonlinear.
+
+# Newton's Method at the PDE Level
+
+We present here Newton's method at the PDE level to make it as generally 
+applicable as possible. Newton's method is often presented at the algebraic 
+level since its presentation is paired with the discretization (e.g., via
+finite difference methods, finite element methods, etc.) method of the PDEs. Since 
+there are a large number of techniques to discretize PDEs, it is more general to 
+formulate Newton's method in the context of the strong 
+("original") form of the PDEs. You can then select and apply the appropriate 
+steps for your desired discretization (e.g., for the finite element method,
+this involves deriving a weak formulation and substituting the finite element
+solution using specified basis functions) followed by an application of your
+solver to the discretized PDEs.
+
+Now, Newton's method is for solving general nonlinear equations of the form
+
+$$
+F(u) = 0. \\ \tag{3}
+$$
+
+Substituting equation (2) into equation (3) and then expanding terms
+
+$$
+F(u) = \frac{\partial^2 u}{\partial x^2} - \rho \sqrt u = 0, \\ \tag{4}
+$$
+
+we now have our governing equation in the desired general form. A cornerstone of
+computational science is converting problems into forms that we know how
+to solve effectively. We know and have numerous methods to solve linear 
+systems of equations. Newton's method iteratively approximates solutions
+to \\(u\\) in equation (4) by linearizing (i.e., converting a nonlinear problem
+to a linear one) around an iterate, solving the new *linear* system for a 
+step in the direction of the solution, and then adding that step to the current
+current iterate. That step in the direction of the solution is called a 
+"Newton step" or perturbation. Mathematically, this solution process 
+can be written as 
+
+$$
+\begin{aligned}
+F(u^k + \delta u) &= F(u^k) + F'(u^k)(\delta u), \\
+F'(u^k)(\delta u) &= -F(u^k), \\
+u^{k+1} &= u^{k} + \delta u,
+\end{aligned} \\ \tag{5}
+$$ 
+
+The "linearization" is the first equation in equation (5): it is a truncated 
+[Taylor series](https://en.wikipedia.org/wiki/Taylor_series) that is a linear
+function of \\(\delta u\\) that approximates \\(F\\) near \\(u^k\\) at
+iteration \\(k\\), therefore we have replaced our nonlinear function with a 
+linear one. We seek the zeros of this function, that is 
+\\(F(u^k + \delta u) = 0\\) and rearrange to get the second equation in 
+equation (5). The term \\(F'(u)(\delta u)\\) may look a little suspicious, but
+consider for a moment what \\(F\\) actually is. If \\(F\\) were a scalar
+function, naturally \\(F'\\) is the ordinary derivative. Similarly, 
+if \\(F\\) were a vector function, \\(F'\\) would be the Jacobian written
+as \\(J_F(u^k)\\). However, \\(F\\) is neither a scalar nor a vector function,
+but rather it is an operator: a map of one function space to another 
+function space. Thus, we need the The derivative of an operator. This is given 
+by the [Gateaux derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
+
+$$
+dF(u; \delta u) = \lim_{\epsilon \rightarrow 0} \frac{F(u + \epsilon \delta u) - F(u)}{\epsilon} = \left . \frac{d}{d\epsilon} F(u + \epsilon \delta u) \right\vert_{\epsilon = 0}.
+$$
+
+TODO: Write out the Gateaux derivative here
+
+# Discretization by the Finite Difference Method
+
+# Commented Implementation in PETSc
+
+Here I present the relevant 
 
 * Context of equation
 
@@ -37,10 +159,21 @@ $$
             \\(H^1_E \subset H^1 \implies H^1_E \rightarrow H^{-1} \equiv H^1 \rightarrow H^{-1}\\)
     * [Gateaux derivative in context of FEM discussed by imperial college london](https://finite-element.github.io/8_nonlinear_problems.html)
     * [cls overflow: Newton iteration perturbations have to be in linear vector space...](https://scicomp.stackexchange.com/questions/45146/notation-for-defining-operators-for-residual-form-of-pde)
-    * [bangerth fem: gateaux derivative and derivative for operators](https://www.youtube.com/watch?v=oVvIWMDctlE)
 
     * [definition: gateaux derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
 
 * [implementation from book with your comments added](https://github.com/bueler/p4pdes/blob/master/c/ch4/reaction.c)
+
+# References
+
+[1] : Bueler2020
+
+[2] : Logg2012
+
+[3] : Heath2018
+
+[4] : [Bangerth FEM Lectures: gateaux derivative and derivative for operators](https://www.youtube.com/watch?v=oVvIWMDctlE)
+
+[5] : [Custom Newton Solver](https://jsdokken.com/dolfinx-tutorial/chapter4/newton-solver.html)
 
 

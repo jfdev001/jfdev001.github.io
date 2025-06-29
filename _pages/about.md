@@ -28,6 +28,9 @@ German Weather Service (DWD) on refactoring the ICON upper atmosphere codes.
 
 Outside of work, I enjoy language learning (Dutch, German, and Italian), 
 playing guitar, calisthenics, cooking, and hiking. I also enjoy contributing to 
-open-source projects! For example, I am currently working on documentation/tutorials
-for [Ferrite.jl](https://github.com/Ferrite-FEM/Ferrite.jl) 
-(a finite element toolbox) and [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl) (an atmospheric modelling framework). 
+open-source projects as well as [blogging](https://jfdev001.github.io//year-archive/) 
+about different topics in computational science! For example, I am currently 
+working on documentation/tutorials for [Ferrite.jl](https://github.com/Ferrite-FEM/Ferrite.jl) 
+(a finite element toolbox) and [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl) 
+(an atmospheric modelling framework). 
+
