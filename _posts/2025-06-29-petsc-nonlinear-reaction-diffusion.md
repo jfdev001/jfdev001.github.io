@@ -28,6 +28,7 @@ $$
         which is relevant for using FDM vs FVM vs FEM etc.)
         * See FENICS Book pg 39-48, particularly 1.2.3
         * See [Fenics custom newton solvers](https://jsdokken.com/dolfinx-tutorial/chapter4/newton-solver.html)
+        * Above discussion found from [fenics question on maths for newtons method](https://fenicsproject.discourse.group/t/mathematically-correct-representation-of-newtons-method-in-weak-formulation/14439)
     * Some not so useful notes anymore 
         * For a description of some example function spaces, I use the notation [ch. 2.2. in He 2012](https://uu.diva-portal.org/smash/record.jsf?pid=diva2%3A544511&dswid=-3123)... need to write \\(R: H^1_E \rightarrow H^{-1}\\) but need to justify
     dual space corresponds to affine subspace \\(H^1_E = \phi + H^1_0\\) where \\(\phi \in H^1\\) (find also ref for this as this is just GPT output...)
