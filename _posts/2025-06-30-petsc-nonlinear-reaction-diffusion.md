@@ -48,7 +48,7 @@ domain \\(\Omega \in [0, 1] \\).
 Clearly, the
 square root function in \\(R(u)\\) introduces a nonlinear term into
 equation (2). Since identifying whether an equation has nonlinear terms naturally
-determines whether you can use a linear or nonlinear solver, it is useful
+determines whether we can use a linear or nonlinear solver, it is useful
 to recall the definition of a [linear operator](https://mathworld.wolfram.com/LinearOperator.html)
 \\(L\\) which is said to be linear if, for every pair of functions \\(f\\)
 and \\(g\\) and a scalar \\(\theta\\)
@@ -97,33 +97,34 @@ to solve effectively. We know and have numerous methods to solve linear
 systems of equations. Newton's method iteratively approximates solutions
 to \\(u\\) in equation (4) by linearizing (i.e., converting a nonlinear problem
 to a linear one) around an iterate, solving the new *linear* system for a 
-step in the direction of the solution, and then adding that step to the current
+step in the direction of the solution, and then adding that step to the
 current iterate. That step in the direction of the solution is called a 
 "Newton step" or perturbation. Mathematically, this solution process 
 can be written as 
 
 $$
 \begin{aligned}
-F(u^k + \delta u) &= F(u^k) + F'(u^k)(\delta u), \\
-F'(u^k)(\delta u) &= -F(u^k), \\
-u^{k+1} &= u^{k} + \delta u,
-\end{aligned} \\ \tag{5}
+F(u^k + \delta u) &= F(u^k) + F'(u^k)(\delta u), && \text{(5.1)}\\
+F'(u^k)(\delta u) &= -F(u^k), && \text{(5.2)} \\
+u^{k+1} &= u^{k} + \delta u, && \text{(5.3)}
+\end{aligned} 
 $$ 
 
-The "linearization" is the first equation in equation (5): it is a truncated 
+The "linearization" is equation (5.1): it is a truncated 
 [Taylor series](https://en.wikipedia.org/wiki/Taylor_series) that is a linear
 function of \\(\delta u\\) that approximates \\(F\\) near \\(u^k\\) at
 iteration \\(k\\), therefore we have replaced our nonlinear function with a 
-linear one. We seek the zeros of this function, that is 
-\\(F(u^k + \delta u) = 0\\) and rearrange to get the second equation in 
-equation (5). The term \\(F'(u)(\delta u)\\) may look a little suspicious, but
+linear one. We seek the zero of this function, that is 
+\\(F(u^k + \delta u) = 0\\) and rearrange to get equation (5.2). 
+The term \\(F'(u)(\delta u)\\) may look a little suspicious, but
 consider for a moment what \\(F\\) actually is. If \\(F\\) were a scalar
 function, naturally \\(F'\\) is the ordinary derivative. Similarly, 
 if \\(F\\) were a vector function, \\(F'\\) would be the Jacobian written
 as \\(J_F(u^k)\\). However, \\(F\\) is neither a scalar nor a vector function,
 but rather it is an operator: a map of one function space to another 
-function space. Thus, we need the The derivative of an operator. This is given 
-by the [Gateaux derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
+function space. Thus, we need 
+the derivative of an operator. This is given by the 
+[Gateaux derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
 
 $$
 dF(u; \delta u) = \lim_{\epsilon \rightarrow 0} \frac{F(u + \epsilon \delta u) - F(u)}{\epsilon} = \left . \frac{d}{d\epsilon} F(u + \epsilon \delta u) \right\vert_{\epsilon = 0}.
@@ -135,13 +136,14 @@ represented by the Jacobian matrix (see [Rall1971](https://www.sciencedirect.com
 Thus, to solve nonlinear PDE problems via Newton's method, we must do one of
 the following:
 
-**(a)** Provide the Jacobian explicitly after deriving it via the Gateaux derivative.
+**(a)** Provide the Jacobian explicitly after deriving and discretizing the 
+Gateaux derivative.
 
 **(b)** Allow a library (or write it yourself if you so desire) to compute the 
 Jacobian by relying on automatic differentiation (e.g., 
-[NonlinearSolvers.jl: Solvers](https://docs.sciml.ai/NonlinearSolve/stable/native/solvers/#Nonlinear-Solvers))
+[NonlinearSolver.jl: Solvers](https://docs.sciml.ai/NonlinearSolve/stable/native/solvers/#Nonlinear-Solvers))
 and/or sparsity detection (e.g., 
-[NonlinearSolve.jl: Declaring a Sparse Jacobian with Automatic Sparsity Detection](https://docs.sciml.ai/NonlinearSolve/stable/tutorials/large_systems/#Declaring-a-Sparse-Jacobian-with-Automatic-Sparsity-Detection).
+[NonlinearSolve.jl: Declaring a Sparse Jacobian with Automatic Sparsity Detection](https://docs.sciml.ai/NonlinearSolve/stable/tutorials/large_systems/#Declaring-a-Sparse-Jacobian-with-Automatic-Sparsity-Detection)).
 
 **(c)** Allow a library to symbolically compute the Jacobian (e.g.,
  [Mathematica: Unconstrained Optimization -- Methods for Solving Nonlinear Equations](https://reference.wolfram.com/language/tutorial/UnconstrainedOptimizationMethodsForSolvingNonlinearEquations.html),
@@ -151,8 +153,7 @@ It is worth noting that there are Jacobian-free methods (see
 [Knoll2004](https://www.sciencedirect.com/science/article/abs/pii/S0021999103004340)),
 but these come with their own trade-offs. 
 
-To be as explicit as possible, we now derive the Jacobian by taking the 
-Gateaux derivative of \\(F\\)
+To be as explicit as possible, we now compute the Gateaux derivative of \\(F\\)
 
 $$
 \begin{aligned}
@@ -160,13 +161,76 @@ $$
 &= \left . \frac{d}{d \epsilon}\left[\frac{\partial^2}{\partial x^2}u\right] + \frac{d}{d \epsilon}\left[\frac{\partial^2}{\partial x^2}\epsilon \delta u \right] - \frac{d}{d \epsilon} \left[ \rho \sqrt{(u + \epsilon \delta u)} \right] \right\vert_{\epsilon = 0} \\
 &= \left . \frac{\partial^2}{\partial x^2} \delta u - \frac{d}{d \epsilon} \left[ \rho \sqrt{(u + \epsilon \delta u)} \right] \right\vert_{\epsilon = 0} \\
 &= \left . \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2}(u + \epsilon \delta u)^{-\frac{1}{2}} \delta u \right\vert_{\epsilon = 0} \\
-&= \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2 \sqrt u} \delta u.
-\end{aligned}
+&= \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2 \sqrt u} \delta u,
+\end{aligned} \\ \tag{6}
 $$
+
+and in the next section we perform the discretization to recover the Jacobian.
+
+Once we have the Gateaux derivative, equation (5.3) is simply an update of the 
+solution space in the direction "pointing" toward the zero of our nonlinear function. 
 
 # Discretization by the Finite Difference Method
 
+Since equation (6) defines a linear operator on \\(\delta u\\), we only 
+care about discretizing the coefficients of \\(\delta u\\). That is, we 
+want the discrete form of the continuous linear operator 
+
+$$
+F'(u) = \frac{\partial}{\partial x^2} - \frac{\rho}{2 \sqrt u},
+$$ 
+
+since \\(F'(u)\\) acts on \\(\delta u\\) as represented by 
+\\(F'(u)(\delta u)\\) in equation (5.2). If we apply a centered finite 
+difference scheme to discretize the second derivative operator acting on
+\\(\delta u\\), we can consider the local stencil acting on points \\(i-1\\), 
+\\(i\\), and \\(i+1\\) in the 1D mesh  as 
+
+$$
+\frac{\partial}{\partial x^2} \delta u \approx \frac{-1 \delta u_{i-1} + 2 \delta u_i - 1 \delta u_{i+1}}{h^2}.
+$$
+
+Moreover, \\(u\\) in \\(\frac{\rho}{2 \sqrt u}\\) corresponds to simply to 
+\\(u_i^{k}\\). We now frame the action of the Jacobian on the perturbation \\(\delta u\\) in 
+the context of Newton iteration. The Jacobian can therefore 
+be written---emphasizing the coefficients of the Jacobian by wrapping
+them in brackets---in the form
+
+$$
+\begin{aligned}
+F'(u^k)(\delta u) &= J_F(u^k) \delta u \\
+&= \left[ \frac{-1}{h^2} \right] \delta u_{i-1} + \left[ \frac{2}{h^2} \right] \delta u_i + \left[ \frac{-1}{h^2} \right] \delta u_{i+1} - \left[\frac{-\rho}{2 \sqrt{u^k_i}}\right]\delta u_i \\
+&= \left[ \frac{-1}{h^2} \right] \delta u_{i-1} + \left[ \frac{2}{h^2} - \frac{\rho}{2 \sqrt{u^k_i}} \right] \delta u_i + \left[ \frac{-1}{h^2} \right] \delta u_{i+1}.
+\end{aligned}
+$$
+
+With the components of the Jacobian explicitly specified, we can now propose
+functions for implementing the solution of the reaction-diffusion equations
+using PETSc. 
+
 # Commented Implementation in PETSc
+
+PETSc provides a suite of nonlinear solvers, preconditioners, data types
+for linear algebra, automatic and highly scalable parallelism, and more 
+while the user need only provide a comparatively simple---at least for the
+problem we consider in this blog---set of functions that specify their 
+particular problem. Per figure (1), the user needs only to implement 
+`FormFunctionLocal`---which is simply \\(F(u)\\)---as well as 
+`FormJacobianLocal`---which is simlpy \\(J_F(u^k)\\).
+
+<figure>
+    <img src="/images/petsc_user_code.png">
+    <figcaption><font size="4">Figure (1): An overview of a full PETSc solution to 
+    the reaction-diffusion equations. Critically, the user need only implement
+    two functions. Taken from Bueller2021.</font></figcaption>
+</figure>
+
+{% highlight c linenos %}
+int main() {
+    return 0;
+}
+{% endhighlight %}
+
 
 Here I present the relevant 
 
@@ -199,7 +263,7 @@ $$
 
 # References
 
-[1] : Bueler2020
+[1] : Bueller2021
 
 [2] : Logg2012
 
