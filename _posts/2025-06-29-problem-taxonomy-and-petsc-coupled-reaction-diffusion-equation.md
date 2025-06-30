@@ -12,3 +12,6 @@ might be treated explicitly and others implicitly while the solve itself
 is still generally nonlinear due to the nonlinear terms enforcing this...
 
 ![](../../files/linear_nonlinear_time_solver_relationships.png)
+
+* note that a nonlinaer solve of a linear system is the general case though less efficient ofc (see e.g.,
+https://github.com/dealii/dealii/issues/17526 and petsc book)
