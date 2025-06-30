@@ -12,6 +12,8 @@ tags:
   - newton's method
 ---
 
+TODO: Table of contents here (see https://stackoverflow.com/questions/11948245/markdown-to-create-pages-and-table-of-contents)
+
 In this article, some extra mathematical details related to the 
 solution of the steady state reaction-diffusion equations using 
 [PETSc](https://petsc.org/release/) are discussed. First, the simple nonlinear
@@ -172,6 +174,31 @@ solution space in the direction "pointing" toward the zero of our nonlinear func
 
 # Discretization by the Finite Difference Method
 
+We now have the continuous forms of the reaction-diffusion equation suitable 
+for solution via Newton's method. To provide implementations, these 
+continuous forms have to be discretized as shown in the next sections.
+We require a structured, 1D grid with difference \\(h\\) between grid 
+points and indices \\(i \in [0...5] \\) where the full domain is 
+\\(x \in [0, 1]\\). Recall also that \\(u(0, t) = \alpha\\) and 
+\\(u(1, t) = \beta\\). The grid is depicted and annotated below for reference.
+
+<pre style="display: flex; justify-content: center;">
+                  h
+               -------
+               |     |
+u: α           V     V           β
+   O-----O-----O-----O-----O-----O
+x: 0                             1
+i: 0     1     2     3     4     5 
+</pre>
+
+
+## The Residual Form of the PDE
+
+First, we discretize the residual form 
+
+## The Jacobian from the Gateaux Derivative
+
 Since equation (6) defines a linear operator on \\(\delta u\\), we only 
 care about discretizing the coefficients of \\(\delta u\\). That is, we 
 want the discrete form of the continuous linear operator 
@@ -217,7 +244,9 @@ The user need only provide a comparatively simple---at least for the
 problem we consider in this blog---set of functions that specify their 
 particular problem. Per figure (1), the user needs to implement 
 `FormFunctionLocal`---which is simply \\(F(u)\\)---as well as 
-`FormJacobianLocal`---which is simply \\(J_F(u^k)\\).
+`FormJacobianLocal`---which is simply \\(J_F(u^k)\\). First the implementation
+will be shown, then relevant parts of the code will be mapped to their 
+mathematical equivalent.
 
 <figure>
     <img src="/images/petsc_user_code.png">
@@ -226,41 +255,48 @@ particular problem. Per figure (1), the user needs to implement
     two functions. Taken from Bueller2021.</font></figcaption>
 </figure>
 
-
-Here's the F(u) function adapted from https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L92-L115
+The PETSc function below for \\(F(u)\\) is adapted from 
+[p4pdes/reaction.c:92-115](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L92-L115).
 
 {% highlight c linenos %}
 // Compute F(u) for reaction-diffusion equation
+// Reference: Equation 
 PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
                                  PetscReal *FF, AppCtx *user) {
     PetscInt   i;
     PetscReal  h = 1.0 / (info->mx-1), x, R;
+    // iterate through grid indices 
     for (i=info->xs; i<info->xs+info->xm; i++) {
+        // point on left boundary
         if (i == 0) {
             FF[i] = u[i] - user->alpha;
+        // point on right boundary
         } else if (i == info->mx-1) {
             FF[i] = u[i] - user->beta;
-        } else {  // interior location
+        // handle interior points 
+        } else {
+            // stencil includes left boundary
             if (i == 1) {
                 FF[i] = - u[i+1] + 2.0 * u[i] - user->alpha;
+            // stencil includes right boundary
             } else if (i == info->mx-2) {
                 FF[i] = - user->beta + 2.0 * u[i] - u[i-1];
+            // stencil is purely in interior 
             } else {
                 FF[i] = - u[i+1] + 2.0 * u[i] - u[i-1];
             }
             R = - user->rho * PetscSqrtReal(u[i]);
-            x = i * h;
-            FF[i] -= h*h * (R + f_source(x));
+            FF[i] -= h*h * R;
         }
     }
     return 0;
 }
 {% endhighlight %}
 
-I explain the code line by line as needed
+TODO: I explain the code line by line as needed
 
-Here is the Jacobian function adapted from https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L117-L144
-
+Next, the PETSc function for the Jacobian 
+is adapted from [p4pdes/reaction.c:117-114](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L117-L144).
 
 {% highlight c linenos %}
 // Compute J_F(u^k) for reaction-diffusion equation
@@ -293,6 +329,8 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
     return 0;
 }
 {% endhighlight %}
+
+TODO: explain line by line the code 
 
 # References
 
