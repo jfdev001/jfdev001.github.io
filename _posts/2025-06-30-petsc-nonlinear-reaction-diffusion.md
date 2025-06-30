@@ -1,6 +1,6 @@
 ---
 title: 'Extra Mathematical Details: The Steady State Reaction-Diffusion Equations and their Solution in PETSc'
-date: 2025-06-29
+date: 2025-06-30
 permalink: /posts/2025/06/petsc-nonlinear-reaction-diffusion-maths/
 tags:
   - nonlinear
@@ -129,7 +129,40 @@ $$
 dF(u; \delta u) = \lim_{\epsilon \rightarrow 0} \frac{F(u + \epsilon \delta u) - F(u)}{\epsilon} = \left . \frac{d}{d\epsilon} F(u + \epsilon \delta u) \right\vert_{\epsilon = 0}.
 $$
 
-TODO: Write out the Gateaux derivative here
+It turns out that by definition, \\(F'\\) in 
+\\(dF(u; \delta u) = F'(u)(\delta u)\\) is just the continuous linear operator
+represented by the Jacobian matrix (see [Rall1971](https://www.sciencedirect.com/science/article/abs/pii/B9780125763509500059)].
+Thus, to solve nonlinear PDE problems via Newton's method, we must do one of
+the following:
+
+**(a)** Provide the Jacobian explicitly after deriving it via the Gateaux derivative.
+
+**(b)** Allow a library (or write it yourself if you so desire) to compute the 
+Jacobian by relying on automatic differentiation (e.g., 
+[NonlinearSolvers.jl: Solvers](https://docs.sciml.ai/NonlinearSolve/stable/native/solvers/#Nonlinear-Solvers))
+and/or sparsity detection (e.g., 
+[NonlinearSolve.jl: Declaring a Sparse Jacobian with Automatic Sparsity Detection](https://docs.sciml.ai/NonlinearSolve/stable/tutorials/large_systems/#Declaring-a-Sparse-Jacobian-with-Automatic-Sparsity-Detection).
+
+**(c)** Allow a library to symbolically compute the Jacobian (e.g.,
+ [Mathematica: Unconstrained Optimization -- Methods for Solving Nonlinear Equations](https://reference.wolfram.com/language/tutorial/UnconstrainedOptimizationMethodsForSolvingNonlinearEquations.html),
+ [FENICS: Solving the Nonlinear Variational Problem Directly](https://home.simula.no/~hpl/homepage/fenics-tutorial/release-1.0/webm/nonlinear.html#solving-the-nonlinear-variational-problem-directly), etc.).
+
+It is worth noting that there are Jacobian-free methods (see 
+[Knoll2004](https://www.sciencedirect.com/science/article/abs/pii/S0021999103004340)),
+but these come with their own trade-offs. 
+
+To be as explicit as possible, we now derive the Jacobian by taking the 
+Gateaux derivative of \\(F\\)
+
+$$
+\begin{aligned}
+\left . \frac{d}{d\epsilon} F(u + \epsilon \delta u) \right\vert_{\epsilon = 0} &= \left . \frac{d}{d\epsilon}\left[ \frac{\partial^2}{\partial x^2}(u + \epsilon \delta u) - \rho \sqrt{(u + \epsilon \delta u)} \right] \right\vert_{\epsilon = 0} \\
+&= \left . \frac{d}{d \epsilon}\left[\frac{\partial^2}{\partial x^2}u\right] + \frac{d}{d \epsilon}\left[\frac{\partial^2}{\partial x^2}\epsilon \delta u \right] - \frac{d}{d \epsilon} \left[ \rho \sqrt{(u + \epsilon \delta u)} \right] \right\vert_{\epsilon = 0} \\
+&= \left . \frac{\partial^2}{\partial x^2} \delta u - \frac{d}{d \epsilon} \left[ \rho \sqrt{(u + \epsilon \delta u)} \right] \right\vert_{\epsilon = 0} \\
+&= \left . \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2}(u + \epsilon \delta u)^{-\frac{1}{2}} \delta u \right\vert_{\epsilon = 0} \\
+&= \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2 \sqrt u} \delta u.
+\end{aligned}
+$$
 
 # Discretization by the Finite Difference Method
 
