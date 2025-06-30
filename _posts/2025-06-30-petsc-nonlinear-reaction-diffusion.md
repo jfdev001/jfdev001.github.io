@@ -210,13 +210,14 @@ using PETSc.
 
 # Commented Implementation in PETSc
 
-PETSc provides a suite of nonlinear solvers, preconditioners, data types
-for linear algebra, automatic and highly scalable parallelism, and more 
-while the user need only provide a comparatively simple---at least for the
+PETSc provides and supports a suite of (non)linear solvers, preconditioners, 
+data types for linear algebra, massive scalability through automatic support for
+distributed and shared memory parallelism, and much more.
+The user need only provide a comparatively simple---at least for the
 problem we consider in this blog---set of functions that specify their 
-particular problem. Per figure (1), the user needs only to implement 
+particular problem. Per figure (1), the user needs to implement 
 `FormFunctionLocal`---which is simply \\(F(u)\\)---as well as 
-`FormJacobianLocal`---which is simlpy \\(J_F(u^k)\\).
+`FormJacobianLocal`---which is simply \\(J_F(u^k)\\).
 
 <figure>
     <img src="/images/petsc_user_code.png">
@@ -225,41 +226,73 @@ particular problem. Per figure (1), the user needs only to implement
     two functions. Taken from Bueller2021.</font></figcaption>
 </figure>
 
+
+Here's the F(u) function adapted from https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L92-L115
+
 {% highlight c linenos %}
-int main() {
+// Compute F(u) for reaction-diffusion equation
+PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
+                                 PetscReal *FF, AppCtx *user) {
+    PetscInt   i;
+    PetscReal  h = 1.0 / (info->mx-1), x, R;
+    for (i=info->xs; i<info->xs+info->xm; i++) {
+        if (i == 0) {
+            FF[i] = u[i] - user->alpha;
+        } else if (i == info->mx-1) {
+            FF[i] = u[i] - user->beta;
+        } else {  // interior location
+            if (i == 1) {
+                FF[i] = - u[i+1] + 2.0 * u[i] - user->alpha;
+            } else if (i == info->mx-2) {
+                FF[i] = - user->beta + 2.0 * u[i] - u[i-1];
+            } else {
+                FF[i] = - u[i+1] + 2.0 * u[i] - u[i-1];
+            }
+            R = - user->rho * PetscSqrtReal(u[i]);
+            x = i * h;
+            FF[i] -= h*h * (R + f_source(x));
+        }
+    }
     return 0;
 }
 {% endhighlight %}
 
+I explain the code line by line as needed
 
-Here I present the relevant 
+Here is the Jacobian function adapted from https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L117-L144
 
-* Context of equation
 
-$$
-F(u) = \frac{d^2}{dx^2} u - \rho \sqrt u + f = 0
-$$
-
-* you need to use newton iteration because nonlinear
-
-* formulation of jacobian requires gateaux derivative
-    * Formulate newton method at the PDE level (independent of discretization
-        which is relevant for using FDM vs FVM vs FEM etc.)
-        * See FENICS Book pg 39-48, particularly 1.2.3
-        * See [Fenics custom newton solvers](https://jsdokken.com/dolfinx-tutorial/chapter4/newton-solver.html)
-        * Above discussion found from [fenics question on maths for newtons method](https://fenicsproject.discourse.group/t/mathematically-correct-representation-of-newtons-method-in-weak-formulation/14439)
-    * Some not so useful notes anymore 
-        * For a description of some example function spaces, I use the notation [ch. 2.2. in He 2012](https://uu.diva-portal.org/smash/record.jsf?pid=diva2%3A544511&dswid=-3123)... need to write \\(R: H^1_E \rightarrow H^{-1}\\) but need to justify
-    dual space corresponds to affine subspace \\(H^1_E = \phi + H^1_0\\) where \\(\phi \in H^1\\) (find also ref for this as this is just GPT output...)
-        * [SO: all separable hilbert spaces are isomorphic to one another](https://math.stackexchange.com/questions/314113/dual-space-of-h1)
-        * isomorphism implies that if \\(H^1 \rightarrow H^{-1}\\), then since 
-            \\(H^1_E \subset H^1 \implies H^1_E \rightarrow H^{-1} \equiv H^1 \rightarrow H^{-1}\\)
-    * [Gateaux derivative in context of FEM discussed by imperial college london](https://finite-element.github.io/8_nonlinear_problems.html)
-    * [cls overflow: Newton iteration perturbations have to be in linear vector space...](https://scicomp.stackexchange.com/questions/45146/notation-for-defining-operators-for-residual-form-of-pde)
-
-    * [definition: gateaux derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
-
-* [implementation from book with your comments added](https://github.com/bueler/p4pdes/blob/master/c/ch4/reaction.c)
+{% highlight c linenos %}
+// Compute J_F(u^k) for reaction-diffusion equation
+PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
+                                 Mat J, Mat P, AppCtx *user) {
+    PetscInt   i, col[3];
+    PetscReal  h = 1.0 / (info->mx-1), dRdu, v[3];
+    for (i=info->xs; i<info->xs+info->xm; i++) {
+        if ((i == 0) | (i == info->mx-1)) {
+            v[0] = 1.0;
+            PetscCall(MatSetValues(P,1,&i,1,&i,v,INSERT_VALUES));
+        } else {
+            col[0] = i;
+            v[0] = 2.0;
+            if (!user->noRinJ) {
+                dRdu = - (user->rho / 2.0) / PetscSqrtReal(u[i]);
+                v[0] -= h*h * dRdu;
+            }
+            col[1] = i-1;   v[1] = (i > 1) ? - 1.0 : 0.0;
+            col[2] = i+1;   v[2] = (i < info->mx-2) ? - 1.0 : 0.0;
+            PetscCall(MatSetValues(P,1,&i,3,col,v,INSERT_VALUES));
+        }
+    }
+    PetscCall(MatAssemblyBegin(P,MAT_FINAL_ASSEMBLY));
+    PetscCall(MatAssemblyEnd(P,MAT_FINAL_ASSEMBLY));
+    if (J != P) {
+        PetscCall(MatAssemblyBegin(J,MAT_FINAL_ASSEMBLY));
+        PetscCall(MatAssemblyEnd(J,MAT_FINAL_ASSEMBLY));
+    }
+    return 0;
+}
+{% endhighlight %}
 
 # References
 
