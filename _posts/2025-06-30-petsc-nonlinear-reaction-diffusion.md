@@ -134,7 +134,7 @@ $$
 
 It turns out that by definition, \\(F'\\) in 
 \\(dF(u; \delta u) = F'(u)(\delta u)\\) is just the continuous linear operator
-represented by the Jacobian matrix (see [Rall1971](https://www.sciencedirect.com/science/article/abs/pii/B9780125763509500059)].
+represented by the Jacobian matrix (see [Rall 1971](https://www.sciencedirect.com/science/article/abs/pii/B9780125763509500059)].
 Thus, to solve nonlinear PDE problems via Newton's method, we must do one of
 the following:
 
@@ -179,8 +179,8 @@ for solution via Newton's method. To provide implementations, these
 continuous forms have to be discretized as shown in the next sections.
 We require a structured, 1D grid with difference \\(h\\) between grid 
 points and indices \\(i \in [0...5] \\) where the full domain is 
-\\(x \in [0, 1]\\). Recall also that \\(u(0, t) = \alpha\\) and 
-\\(u(1, t) = \beta\\). The grid is depicted and annotated below for reference.
+\\(x \in [0, 1]\\). Recall also that \\(u(0) = \alpha\\) and 
+\\(u(1) = \beta\\). The grid is depicted and annotated below for reference.
 
 <pre style="display: flex; justify-content: center;">
                   h
@@ -194,6 +194,8 @@ i: 0     1     2     3     4     5
 
 
 ## The Residual Form of the PDE
+
+TODO
 
 First, we discretize the residual form 
 
@@ -254,6 +256,12 @@ mathematical equivalent.
     the reaction-diffusion equations. Critically, the user need only implement
     two functions. Taken from Bueller2021.</font></figcaption>
 </figure>
+
+## Adapted Implementation
+
+In this section we implement the necessary PETSc functions for the solution
+of the reaction-diffusion equations. These implementations correspond directly
+to the maths introduced in the present article. 
 
 The PETSc function below for \\(F(u)\\) is adapted from 
 [p4pdes/reaction.c:92-115](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L92-L115).
@@ -332,16 +340,32 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
 
 TODO: explain line by line the code 
 
+## Original Implementation
+
+The adapted implementation in the previous section is based on maths
+that we derived in the present article with the intention of making the 
+derivation more clear as well as generally applicable to nonlinear PDE
+problems. However, the basis of the implementation came from Bueller 2021,
+and for completeness we explain how the original implementation maps
+to slightly different rearrangements of the maths we covered throughout
+the rest of the article.
+
+
+
 # References
 
-[1] : Bueller2021
+[1] : Bueller, E. *Chapter 4: Nonlinear equations by Newton's Method* in PETSc for Partial Differential 
+Equations: Numerical Solutions in C and Python. SIAM 2021.
 
-[2] : Logg2012
+[2] : Logg, A. et. al. *Chapter 1.2: Nonlinear problems* in Automated Solution of Differential
+Equations by the Finite Element Method -- The FEniCS Book. Springer 2012
 
-[3] : Heath2018
+[3] : Heath, M. *Chapter 5: Nonlinear equations* in Scientific Computing: An Introductory 
+Survey, 2ed. SIAM 2018.
 
-[4] : [Bangerth FEM Lectures: gateaux derivative and derivative for operators](https://www.youtube.com/watch?v=oVvIWMDctlE)
+[4] : Bangerth, W. 
+[MATH 676 Lecture 31.55 from Colorado State University: Nonlinear problems, part 2 -- Newton's method for PDEs](https://www.youtube.com/watch?v=oVvIWMDctlE).
 
-[5] : [Custom Newton Solver](https://jsdokken.com/dolfinx-tutorial/chapter4/newton-solver.html)
+[5] : Dokken, J. [The FEniCS Tutorial: Custom Newton Solver](https://jsdokken.com/dolfinx-tutorial/chapter4/newton-solver.html).
 
 
