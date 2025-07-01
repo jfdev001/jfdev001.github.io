@@ -197,7 +197,14 @@ i: 0     1     2     3     4     5
 
 TODO
 
-First, we discretize the residual form 
+Here, we discretize the equation (4). The discrete form of the second derivative 
+operator using a centered finite difference as well as writing \\(u\\) in
+the nonlinear operator as simply \\(u_i\\), the solution at at grid point i,
+yields
+
+$$
+
+$$
 
 ## The Jacobian from the Gateaux Derivative
 
