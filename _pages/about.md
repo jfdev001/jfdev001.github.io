@@ -34,6 +34,5 @@ working on documentation/tutorials for [Ferrite.jl](https://github.com/Ferrite-F
 (a finite element toolbox) and [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl) 
 (an atmospheric modelling framework). I've also made small contributions to a 
 number of other projects like [PETSc](gitlab.com/petsc/petsc) as well as
-[fortran-lang/fftpack](https://github.com/fortran-lang/fftpack). I plan to have
-more significant contributions under my belt by 2025-12 :)
+[fortran-lang/fftpack](https://github.com/fortran-lang/fftpack).
 
