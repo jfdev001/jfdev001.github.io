@@ -2,6 +2,7 @@
 title: 'Extra Mathematical Details: The Steady State Reaction-Diffusion Equations and their Solution in PETSc'
 date: 2025-06-30
 permalink: /posts/2025/06/petsc-nonlinear-reaction-diffusion-maths/
+toc: true 
 tags:
   - nonlinear
   - pdes
@@ -12,7 +13,6 @@ tags:
   - newton's method
 ---
 
-TODO: Table of contents here (see https://stackoverflow.com/questions/11948245/markdown-to-create-pages-and-table-of-contents)
 
 In this article, some extra mathematical details related to the 
 solution of the steady state reaction-diffusion equations using 
