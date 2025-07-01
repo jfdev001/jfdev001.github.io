@@ -152,7 +152,7 @@ and/or sparsity detection (e.g.,
  [FENICS: Solving the Nonlinear Variational Problem Directly](https://home.simula.no/~hpl/homepage/fenics-tutorial/release-1.0/webm/nonlinear.html#solving-the-nonlinear-variational-problem-directly), etc.).
 
 It is worth noting that there are Jacobian-free methods (see 
-[Knoll2004](https://www.sciencedirect.com/science/article/abs/pii/S0021999103004340)),
+[Knoll 2004](https://www.sciencedirect.com/science/article/abs/pii/S0021999103004340)),
 but these come with their own trade-offs. 
 
 To be as explicit as possible, we now compute the Gateaux derivative of \\(F\\)
@@ -195,16 +195,19 @@ i: 0     1     2     3     4     5
 
 ## The Residual Form of the PDE
 
-TODO
-
 Here, we discretize the equation (4). The discrete form of the second derivative 
 operator using a centered finite difference as well as writing \\(u\\) in
 the nonlinear operator as simply \\(u_i\\), the solution at at grid point i,
 yields
 
 $$
-
+F(u) \approx \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}. \\ \tag{8}
 $$
+
+That's it! If you're unfamiliar with the finite difference method, a clear 
+explanation and derivation can be found at 
+[CFD University's: The Finite Difference Method](https://cfd.university/learn/10-key-concepts-everyone-must-understand-in-cfd/how-to-discretise-the-navier-stokes-equations/#aioseo-the-finite-difference-method-fdm).
+Ignore the bits in that article related to the Navier-Stokes equations, of course :) 
 
 ## The Jacobian from the Gateaux Derivative
 
@@ -218,26 +221,45 @@ $$
 
 since \\(F'(u)\\) acts on \\(\delta u\\) as represented by 
 \\(F'(u)(\delta u)\\) in equation (5.2). If we apply a centered finite 
-difference scheme to discretize the second derivative operator acting on
-\\(\delta u\\), we can consider the local stencil acting on points \\(i-1\\), 
-\\(i\\), and \\(i+1\\) in the 1D mesh  as 
+difference scheme to discretize the second derivative operator on
+\\(\delta u\\), we have 
 
 $$
-\frac{\partial}{\partial x^2} \delta u \approx \frac{-1 \delta u_{i-1} + 2 \delta u_i - 1 \delta u_{i+1}}{h^2}.
+\frac{\partial}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{9}
 $$
 
-Moreover, \\(u\\) in \\(\frac{\rho}{2 \sqrt u}\\) corresponds to simply to 
-\\(u_i^{k}\\). We now frame the action of the Jacobian on the perturbation \\(\delta u\\) in 
-the context of Newton iteration. The Jacobian can therefore 
+Moreover, \\(u\\) in \\(\frac{\rho}{2 \sqrt u}\\) corresponds simply to 
+\\(u_i^{k}\\). 
+
+If you're paying attention, you'll notice that the discrete 
+form of the second derivative operator---a linear operator---acting on \\(\delta u\\)
+is the same as the discrete form of the second derivative operator when it acts 
+on \\(u\\). This may seem like a rather silly thing to note; however, it's 
+surprisingly important for the [efficient solution of nonlinear equations](https://docs.sciml.ai/NonlinearSolve/stable/tutorials/large_systems/#Choosing-Jacobian-Types)
+since the discrete form of the linear operator is completely independent of
+the values of \\(u_i^k\\)---which is *changing* at every iteration.
+This means that a performance-conscious programmer can not only initialize the 
+sparsity pattern of the Jacobian but can also cache those values 
+of the discrete linear operator in the Jacobian---meaning you do not have
+to assign the coefficients of the discrete linear operator to the Jacobian
+more than once. This doesn't apply to the PETSc implementation of the present
+article, but it's information that's certainly worth knowing. You can find an 
+example of this sort of caching in a 
+[solving the Navier-Stokes equations with Ferrite.jl](https://ferrite-fem.github.io/Ferrite.jl/stable/tutorials/ns_vs_diffeq/)
+example if you like. 
+
+With the discrete operations described above, we now frame the action of the 
+Jacobian on the perturbation \\(\delta u\\) in 
+the context of a Newton iteration \\(k\\). The Jacobian can therefore 
 be written---emphasizing the coefficients of the Jacobian by wrapping
 them in brackets---in the form
 
 $$
 \begin{aligned}
 F'(u^k)(\delta u) &= J_F(u^k) \delta u \\
-&= \left[ \frac{-1}{h^2} \right] \delta u_{i-1} + \left[ \frac{2}{h^2} \right] \delta u_i + \left[ \frac{-1}{h^2} \right] \delta u_{i+1} - \left[\frac{-\rho}{2 \sqrt{u^k_i}}\right]\delta u_i \\
-&= \left[ \frac{-1}{h^2} \right] \delta u_{i-1} + \left[ \frac{2}{h^2} - \frac{\rho}{2 \sqrt{u^k_i}} \right] \delta u_i + \left[ \frac{-1}{h^2} \right] \delta u_{i+1}.
-\end{aligned}
+&= \left[ \frac{1}{h^2} \right] \delta u_{i-1} + \left[ \frac{-2}{h^2} \right] \delta u_i + \left[ \frac{1}{h^2} \right] \delta u_{i+1} + \left[\frac{-\rho}{2 \sqrt{u^k_i}}\right]\delta u_i \\
+&= \left[ \frac{1}{h^2} \right] \delta u_{i-1} + \left[ \frac{-2}{h^2} - \frac{\rho}{2 \sqrt{u^k_i}} \right] \delta u_i + \left[ \frac{1}{h^2} \right] \delta u_{i+1}.
+\end{aligned} \\ \tag{10}
 $$
 
 With the components of the Jacobian explicitly specified, we can now propose
