@@ -177,10 +177,14 @@ solution space in the direction "pointing" toward the zero of our nonlinear func
 We now have the continuous forms of the reaction-diffusion equation suitable 
 for solution via Newton's method. To provide implementations, these 
 continuous forms have to be discretized as shown in the next sections.
-We require a structured, 1D grid with difference \\(h\\) between grid 
+We require a structured, 1D grid with spacing \\(h\\) between grid 
 points and indices \\(i \in [0...5] \\) where the full domain is 
 \\(x \in [0, 1]\\). Recall also that \\(u(0) = \alpha\\) and 
-\\(u(1) = \beta\\). The grid is depicted and annotated below for reference.
+\\(u(1) = \beta\\). Note that the grid spacing can be calculated by 
+\\(h = \frac{1}{mx - 1}\\) where \\(mx\\) is the number of grid points.
+Naturally, we subtract 1 as there are \\(mx - 1\\) "spacings" between the 
+\\(1^{st}\\) and \\(mx^{th}\\) grid point.
+The grid is depicted and annotated below for reference.
 
 <pre style="display: flex; justify-content: center;">
                   h
@@ -201,7 +205,7 @@ the nonlinear operator as simply \\(u_i\\), the solution at at grid point i,
 yields
 
 $$
-F(u) \approx \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}. \\ \tag{8}
+F(u) \approx F(u_i) = F_i = \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}. \\ \tag{8}
 $$
 
 That's it! If you're unfamiliar with the finite difference method, a clear 
@@ -330,7 +334,21 @@ PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
 }
 {% endhighlight %}
 
-TODO: I explain the code line by line as needed
+In line 6, the grid spacing `h` is computed as expected. In line, we iterate 
+through the locally owned part of a distributed vector, hence the indices 
+start from `xs` and go until (but excluding) the the local index start 
+plus the number of points `info->xm` owned by the process. 
+
+There are, of course, two special cases that occur while iterating over the 
+grid points: the left boundary (i.e., \\(u(0) \equiv u_0 = \alpha\\)) and the 
+right boundary (i.e., \\(u(1) \equiv u_{mx - 1} = \beta\\)) conditions. From 
+equation (4) and equation, we know that \\(F_i = 0\\), and if we recognize the 
+fact that the boundary conditions demand that \\(u_0 = \alpha \\), then we can infer
+that \\(F_0 = u_0 - \alpha = 0\\), which is exactly the residual form we need.
+Line 11 follows from this reasoning. The same logic applies to line 14
+but for the right boundary condition.
+
+TODO: interior points 
 
 Next, the PETSc function for the Jacobian 
 is adapted from [p4pdes/reaction.c:117-114](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L117-L144).
