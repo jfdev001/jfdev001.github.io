@@ -134,7 +134,7 @@ $$
 
 It turns out that by definition, \\(F'\\) in 
 \\(dF(u; \delta u) = F'(u)(\delta u)\\) is just the continuous linear operator
-represented by the Jacobian matrix (see [Rall 1971](https://www.sciencedirect.com/science/article/abs/pii/B9780125763509500059)].
+represented by the Jacobian matrix (see [Rall 1971](https://www.sciencedirect.com/science/article/abs/pii/B9780125763509500059)).
 Thus, to solve nonlinear PDE problems via Newton's method, we must do one of
 the following:
 
@@ -181,18 +181,19 @@ We require a structured, 1D grid with spacing \\(h\\) between grid
 points and indices \\(i \in [0...5] \\) where the full domain is 
 \\(x \in [0, 1]\\). Recall also that \\(u(0) = \alpha\\) and 
 \\(u(1) = \beta\\). Note that the grid spacing can be calculated by 
-\\(h = \frac{1}{mx - 1}\\) where \\(mx\\) is the number of grid points.
-Naturally, we subtract 1 as there are \\(mx - 1\\) "spacings" between the 
-\\(1^{st}\\) and \\(mx^{th}\\) grid point.
+\\(h = \frac{1}{m_x - 1}\\) where \\(m_x\\) is the number of grid points.
+Naturally, we subtract 1 as there are \\(m_x - 1\\) "spacings" between the 
+\\(1^{st}\\) and \\(m_x^{th}\\) grid point.
 The grid is depicted and annotated below for reference.
 
 <pre style="display: flex; justify-content: center;">
                   h
                -------
                |     |
-u: α           V     V           β
-   O-----O-----O-----O-----O-----O
-x: 0                             1
+               V     V
+u: α     ?     ?     ?     ?     β
+   ▆-----▆-----▆-----▆-----▆-----▆
+x: 0    0.2   0.4   0.6   0.8    1
 i: 0     1     2     3     4     5 
 </pre>
 
@@ -287,7 +288,7 @@ mathematical equivalent.
     <img src="/images/petsc_user_code.png">
     <figcaption><font size="4">Figure (1): An overview of a full PETSc solution to 
     the reaction-diffusion equations. Critically, the user need only implement
-    two functions. Taken from Bueller2021.</font></figcaption>
+    two functions. Taken from Bueller 2021.</font></figcaption>
 </figure>
 
 ## Adapted Implementation
@@ -341,8 +342,8 @@ plus the number of points `info->xm` owned by the process.
 
 There are, of course, two special cases that occur while iterating over the 
 grid points: the left boundary (i.e., \\(u(0) \equiv u_0 = \alpha\\)) and the 
-right boundary (i.e., \\(u(1) \equiv u_{mx - 1} = \beta\\)) conditions. From 
-equation (4) and equation, we know that \\(F_i = 0\\), and if we recognize the 
+right boundary (i.e., \\(u(1) \equiv u_{m_x - 1} = \beta\\)) conditions. From 
+equation (4) and equation (8), we know that \\(F_i = 0\\), and if we recognize the 
 fact that the boundary conditions demand that \\(u_0 = \alpha \\), then we can infer
 that \\(F_0 = u_0 - \alpha = 0\\), which is exactly the residual form we need.
 Line 11 follows from this reasoning. The same logic applies to line 14
@@ -387,6 +388,8 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
 
 TODO: explain line by line the code 
 
+TODO: The J != P line is discussed a bit more here: https://petsc.org/release/manual/snes/
+
 ## Original Implementation
 
 The adapted implementation in the previous section is based on maths
@@ -397,7 +400,21 @@ and for completeness we explain how the original implementation maps
 to slightly different rearrangements of the maths we covered throughout
 the rest of the article.
 
+TODO:
 
+The equation is formulated as 
+
+$$
+F(u) = -\frac{\partial^2 u}{\partial x^2} + \rho \sqrt u,
+$$
+
+and the corresponding implemented discretization by finite differences is 
+
+$$
+F(u) \approx F(u_i) = F_i = -u_{i+1} + 2 u_i - u_{i-1} - h^2 \rho \sqrt u + f,
+$$
+
+though \\(f = 0\\) in this problem.
 
 # References
 
