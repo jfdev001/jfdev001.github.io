@@ -224,7 +224,7 @@ care about discretizing the coefficients of \\(\delta u\\). That is, we
 want the discrete form of the continuous linear operator 
 
 $$
-F'(u) = \frac{\partial}{\partial x^2} - \frac{\rho}{2 \sqrt u},
+F'(u) = \frac{\partial}{\partial x^2} + \frac{dR}{du} = \frac{\partial}{\partial x^2} - \frac{\rho}{2 \sqrt u}, \tag{9}
 $$ 
 
 since \\(F'(u)\\) acts on \\(\delta u\\) as represented by 
@@ -233,16 +233,17 @@ difference scheme to discretize the second derivative operator on
 \\(\delta u\\), we have 
 
 $$
-\frac{\partial}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{9}
+\frac{\partial}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{10}
 $$
 
 Moreover, \\(u\\) in \\(\frac{\rho}{2 \sqrt u}\\) corresponds simply to 
 \\(u_i^{k}\\). 
 
 If you're paying attention, you'll notice that the discrete 
-form of the second derivative operator---a linear operator---acting on \\(\delta u\\)
+form of the second derivative operator---a linear operator---in equation (10) 
+acting on \\(\delta u\\)
 is the same as the discrete form of the second derivative operator when it acts 
-on \\(u\\). This may seem like a rather silly thing to note; however, it's 
+on \\(u\\) in equation (8). This may seem like a rather silly or obvious thing to note; however, it's 
 surprisingly important for the [efficient solution of nonlinear equations](https://docs.sciml.ai/NonlinearSolve/stable/tutorials/large_systems/#Choosing-Jacobian-Types)
 since the discrete form of the linear operator is completely independent of
 the values of \\(u_i^k\\)---which is *changing* at every iteration.
@@ -267,7 +268,7 @@ $$
 F'(u^k)(\delta u) &= J_F(u^k) \delta u \\
 &= \left[ \frac{1}{h^2} \right] \delta u_{i-1} + \left[ \frac{-2}{h^2} \right] \delta u_i + \left[ \frac{1}{h^2} \right] \delta u_{i+1} + \left[\frac{-\rho}{2 \sqrt{u^k_i}}\right]\delta u_i \\
 &= \left[ \frac{1}{h^2} \right] \delta u_{i-1} + \left[ \frac{-2}{h^2} - \frac{\rho}{2 \sqrt{u^k_i}} \right] \delta u_i + \left[ \frac{1}{h^2} \right] \delta u_{i+1}.
-\end{aligned} \\ \tag{10}
+\end{aligned} \\ \tag{11}
 $$
 
 With the components of the Jacobian explicitly specified, we can now propose
@@ -318,7 +319,7 @@ PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
         // point on right boundary
         } else if (i == info->mx-1) {
             FF[i] = u[i] - user->beta;
-        // handle interior points 
+        // interior 
         } else {
             // stencil includes left boundary
             if (i == 1) {
@@ -367,23 +368,29 @@ is adapted from [p4pdes/reaction.c:117-114](https://github.com/bueler/p4pdes/blo
 
 {% highlight c linenos %}
 // Compute J_F(u^k) for reaction-diffusion equation
+// Reference: Equation (11)
 PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
                                  Mat J, Mat P, AppCtx *user) {
     PetscInt   i, col[3];
     PetscReal  h = 1.0 / (info->mx-1), dRdu, v[3];
     for (i=info->xs; i<info->xs+info->xm; i++) {
+        // boundary conditions
+        // TODO: why not set the other points?? just setting the one here?
         if ((i == 0) | (i == info->mx-1)) {
             v[0] = 1.0;
             PetscCall(MatSetValues(P,1,&i,1,&i,v,INSERT_VALUES));
+        // interior 
         } else {
             col[0] = i;
-            v[0] = 2.0;
-            if (!user->noRinJ) {
-                dRdu = - (user->rho / 2.0) / PetscSqrtReal(u[i]);
-                v[0] -= h*h * dRdu;
-            }
-            col[1] = i-1;   v[1] = (i > 1) ? - 1.0 : 0.0;
-            col[2] = i+1;   v[2] = (i < info->mx-2) ? - 1.0 : 0.0;
+            dRdu = -user->rho / 2.0 * PetscSqrtReal(u[i]);
+            v[0] = -2.0 / h*h + dRdu;
+
+            col[1] = i-1;   
+            v[1] = (i > 1) ? 1.0 / h*h : 0.0;
+        
+            col[2] = i+1;   
+            v[2] = (i < info->mx-2) ? 1.0 / h*h : 0.0;
+
             PetscCall(MatSetValues(P,1,&i,3,col,v,INSERT_VALUES));
         }
     }
