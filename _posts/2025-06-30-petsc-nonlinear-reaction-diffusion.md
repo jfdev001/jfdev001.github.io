@@ -206,7 +206,10 @@ the nonlinear operator as simply \\(u_i\\), the solution at at grid point i,
 yields
 
 $$
-F(u) \approx F(u_i) = F_i = \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}. \\ \tag{8}
+\begin{aligned}
+F(u) \approx F(u_i) = F_i &= \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} + R(u_i) \\
+                          &= \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}. 
+\end{aligned} \tag{8}
 $$
 
 That's it! If you're unfamiliar with the finite difference method, a clear 
@@ -288,7 +291,7 @@ mathematical equivalent.
     <img src="/images/petsc_user_code.png">
     <figcaption><font size="4">Figure (1): An overview of a full PETSc solution to 
     the reaction-diffusion equations. Critically, the user need only implement
-    two functions. Taken from Bueller 2021.</font></figcaption>
+    two functions. Taken from Bueler 2021.</font></figcaption>
 </figure>
 
 ## Adapted Implementation
@@ -302,7 +305,7 @@ The PETSc function below for \\(F(u)\\) is adapted from
 
 {% highlight c linenos %}
 // Compute F(u) for reaction-diffusion equation
-// Reference: Equation 
+// Reference: Equation (8)
 PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
                                  PetscReal *FF, AppCtx *user) {
     PetscInt   i;
@@ -319,16 +322,16 @@ PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
         } else {
             // stencil includes left boundary
             if (i == 1) {
-                FF[i] = - u[i+1] + 2.0 * u[i] - user->alpha;
+                FF[i] = user->alpha - 2.0 * u[i] + u[i+1]; 
             // stencil includes right boundary
             } else if (i == info->mx-2) {
-                FF[i] = - user->beta + 2.0 * u[i] - u[i-1];
+                FF[i] = u[i-1] - 2.0 * u[i] + user->beta;
             // stencil is purely in interior 
             } else {
-                FF[i] = - u[i+1] + 2.0 * u[i] - u[i-1];
+                FF[i] = u[i-1] - 2.0 * u[i] + u[i+1];
             }
-            R = - user->rho * PetscSqrtReal(u[i]);
-            FF[i] -= h*h * R;
+            R = -user->rho * PetscSqrtReal(u[i]);
+            FF[i] = FF[i] / h*h + R;
         }
     }
     return 0;
@@ -337,7 +340,7 @@ PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
 
 In line 6, the grid spacing `h` is computed as expected. In line, we iterate 
 through the locally owned part of a distributed vector, hence the indices 
-start from `xs` and go until (but excluding) the the local index start 
+start from `xs` and go until (but excluding) the local index start 
 plus the number of points `info->xm` owned by the process. 
 
 There are, of course, two special cases that occur while iterating over the 
@@ -349,7 +352,15 @@ that \\(F_0 = u_0 - \alpha = 0\\), which is exactly the residual form we need.
 Line 11 follows from this reasoning. The same logic applies to line 14
 but for the right boundary condition.
 
-TODO: interior points 
+Lines 18-28 handle the interior points. Line 19 is the discrete second 
+derivative for the second---index `i=1`---grid point in the 1D grid 
+where on the left boundary \\(u_{i-1} = u_{0} = \alpha\\). Line 22 is analagous
+but for the right boundary where \\(u_{i+1} = u_{m_x - 1} = \beta \\). Line
+27 computes the reaction function using its definition. Finally,
+line 28 divides the numerator of equation (8) that was computed in one of the
+branches of lines 18-26 by the square of the grid size accordingly to complete
+the computation of the discrete second derivative of \\(u\\), then the reaction
+function evaluated in line 27 is added also per equation (8).
 
 Next, the PETSc function for the Jacobian 
 is adapted from [p4pdes/reaction.c:117-114](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L117-L144).
@@ -395,7 +406,7 @@ TODO: The J != P line is discussed a bit more here: https://petsc.org/release/ma
 The adapted implementation in the previous section is based on maths
 that we derived in the present article with the intention of making the 
 derivation more clear as well as generally applicable to nonlinear PDE
-problems. However, the basis of the implementation came from Bueller 2021,
+problems. However, the basis of the implementation came from Bueler 2021,
 and for completeness we explain how the original implementation maps
 to slightly different rearrangements of the maths we covered throughout
 the rest of the article.
@@ -414,11 +425,11 @@ $$
 F(u) \approx F(u_i) = F_i = -u_{i+1} + 2 u_i - u_{i-1} - h^2 \rho \sqrt u + f,
 $$
 
-though \\(f = 0\\) in this problem.
+though \\(f = 0\\) in this problem, so that term may be ignored.
 
 # References
 
-[1] : Bueller, E. *Chapter 4: Nonlinear equations by Newton's Method* in PETSc for Partial Differential 
+[1] : Bueler, E. *Chapter 4: Nonlinear equations by Newton's Method* in PETSc for Partial Differential 
 Equations: Numerical Solutions in C and Python. SIAM 2021.
 
 [2] : Logg, A. et. al. *Chapter 1.2: Nonlinear problems* in Automated Solution of Differential
