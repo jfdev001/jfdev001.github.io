@@ -339,7 +339,7 @@ PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
 }
 {% endhighlight %}
 
-In line 6, the grid spacing `h` is computed as expected. In line, we iterate 
+In line 6, the grid spacing `h` is computed as expected. In line 8, we iterate 
 through the locally owned part of a distributed vector, hence the indices 
 start from `xs` and go until (but excluding) the local index start 
 plus the number of points `info->xm` owned by the process. 
@@ -375,7 +375,6 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
     PetscReal  h = 1.0 / (info->mx-1), dRdu, v[3];
     for (i=info->xs; i<info->xs+info->xm; i++) {
         // boundary conditions
-        // TODO: why not set the other points?? just setting the one here?
         if ((i == 0) | (i == info->mx-1)) {
             v[0] = 1.0;
             PetscCall(MatSetValues(P,1,&i,1,&i,v,INSERT_VALUES));
@@ -404,7 +403,65 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
 }
 {% endhighlight %}
 
-TODO: explain line by line the code 
+TODO: 
+
+Line 6 and 8 are essentially the same as in `FormFunctionLocal`.
+
+Once again, we handle the boundary conditions in lines 9 to 13. But why assign a value of 
+`1.0` to the first element of a 3-element vector `v` and then use `v` to set only 
+a single element of the matrix `P`? 
+
+As in `FormFunctionLocal`, at the boundaries we have 
+
+$$
+F_0 = u_0 - \alpha,
+$$
+
+and 
+
+$$
+F_{m_x - 1} = u_{m_x - 1} - \beta,
+$$
+
+in the discrete form. Though since
+we're concerned with using the continuous notation as this is the form
+you are most likely to encounter, we have of course \\(u(0) = \alpha\\), which implies that 
+\\(F(u(0)) = \alpha \\). Given that \\(F(u) = 0\\) from equation (4), it follows that
+
+$$
+ F(u(0)) = u(0) - \alpha = 0. 
+$$
+
+In contrast to equation (4), there is obviously no second derivative operator or 
+reaction operator acting on \\(u\\).
+What this means is that for \\(u(0)\\) and \\(u(1)\\), we can simply compute
+the ordinary derivative such that 
+
+$$
+F'(u(0)) = \frac{d}{du} u(0) - \frac{d}{du} \alpha = 1
+$$
+
+and similarly
+
+$$
+F'(u(1)) = \frac{d}{du} u(1) - \frac{d}{du} \beta = 1. 
+$$
+
+Returning to the discrete form, if \\(F(u) \approx F(u_i) \\) from equation (8), it follows
+that \\(F'(u) \\approx F'(u_i)\\). Therefore, when `i = 0`, we have
+\\(F'(u_0) = 1\\) and when `i = mx-1`, we also have \\(F'(u_{m_x - 1}) = 1\\).
+This means we set only a single element of `P` corresponding to the indices `i`, 
+that is `P[i][i] = 1.0` since no further elements need to be set to satisfy the 
+discretization of the boundary conditions. Note that `&i` is used since the 
+`MatSetValues` expects a pointer. This concludes the discussion of enforcing 
+boundary conditions in the Jacobian.
+
+In lines 13 to 25 we handle the interior points. Lines 14 to 16 define the 
+coefficient of \\(\delta u_i\\) in equation (11). Note that in the 
+`FormJacobianLocal` function, `u` corresponds to the vector of values of the 
+solution `u` at Newton iteration `k`. Therefore, `u[i]` is equivalent to
+\\(u_i^k\\). Lines 18 and 19 define the coefficient of \\(\delta u_{i-1}\\)
+using equation (11) only if 
 
 TODO: The J != P line is discussed a bit more here: https://petsc.org/release/manual/snes/
 
