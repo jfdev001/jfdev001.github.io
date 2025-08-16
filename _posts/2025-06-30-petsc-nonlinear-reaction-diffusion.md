@@ -403,8 +403,6 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
 }
 {% endhighlight %}
 
-TODO: 
-
 Line 6 and 8 are essentially the same as in `FormFunctionLocal`.
 
 Once again, we handle the boundary conditions in lines 9 to 13. But why assign a value of 
@@ -435,16 +433,17 @@ $$
 In contrast to equation (4), there is obviously no second derivative operator or 
 reaction operator acting on \\(u\\).
 What this means is that for \\(u(0)\\) and \\(u(1)\\), we can simply compute
-the ordinary derivative such that 
+the derivative with respect to the unknown at the given boundary
+points such that 
 
 $$
-F'(u(0)) = \frac{d}{du} u(0) - \frac{d}{du} \alpha = 1
+F'(u(0)) = \frac{\partial F(u(0))}{\partial u(0)} = \frac{\partial}{\partial u(0)} u(0) - \frac{\partial}{\partial u(0)} \alpha = 1
 $$
 
 and similarly
 
 $$
-F'(u(1)) = \frac{d}{du} u(1) - \frac{d}{du} \beta = 1. 
+F'(u(1)) = \frac{\partial F(u(1))}{\partial u(1)} = \frac{\partial }{\partial u(1)} u(1) - \frac{\partial }{\partial u(1)} \beta = 1. 
 $$
 
 Returning to the discrete form, if \\(F(u) \approx F(u_i) \\) from equation (8), it follows
@@ -465,13 +464,13 @@ using equation (11) only if
 
 TODO: The J != P line is discussed a bit more here: https://petsc.org/release/manual/snes/
 
-## Original Implementation
+## Brief Comment on Original Implementation
 
 The adapted implementation in the previous section is based on maths
 that we derived in the present article with the intention of making the 
 derivation more clear as well as generally applicable to nonlinear PDE
 problems. However, the basis of the implementation came from Bueler 2021,
-and for completeness we explain how the original implementation maps
+and for completeness we shortly explain how the original implementation maps
 to slightly different rearrangements of the maths we covered throughout
 the rest of the article.
 
