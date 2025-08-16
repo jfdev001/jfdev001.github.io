@@ -350,6 +350,8 @@ tag_archive:
 
 # HTML Compression
 # - http://jch.penibelst.de/
+# ignore both envs required to get codeblocks showing...
+# https://labsyspharm.github.io/just-the-docs-lsp/docs/ui-components/code/line-numbers/
 compress_html:
   clippings: all
   ignore:
