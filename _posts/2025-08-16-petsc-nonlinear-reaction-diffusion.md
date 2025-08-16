@@ -1,5 +1,5 @@
 ---
-title: 'Extra Mathematical Details: The Steady State Reaction-Diffusion Equations and their Solution in PETSc'
+title: 'Extra Mathematical Details: The Steady-State Reaction-Diffusion Equation and their Solution in PETSc'
 date: 2025-08-16
 permalink: /posts/2025/08/petsc-nonlinear-reaction-diffusion-maths/
 tags:
@@ -13,7 +13,7 @@ tags:
 ---
 
 In this article, some extra mathematical details related to the 
-solution of the steady state reaction-diffusion equations using 
+solution of the steady-state reaction-diffusion equation using 
 [PETSc](https://petsc.org/release/) are discussed. First, the simple nonlinear
 governing equation of interest is shown. Then, Newton's method is presented
 at the partial differential equation (PDE) level for generality rather than 
