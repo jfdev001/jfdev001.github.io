@@ -1,7 +1,7 @@
 ---
 title: 'Extra Mathematical Details: The Steady State Reaction-Diffusion Equations and their Solution in PETSc'
-date: 2025-06-30
-permalink: /posts/2025/06/petsc-nonlinear-reaction-diffusion-maths/
+date: 2025-08-16
+permalink: /posts/2025/08/petsc-nonlinear-reaction-diffusion-maths/
 tags:
   - nonlinear
   - pdes
@@ -403,7 +403,7 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
 }
 {% endhighlight %}
 
-Line 6 and 8 are essentially the same as in `FormFunctionLocal`.
+Line 6 and 7 are essentially the same as in `FormFunctionLocal`.
 
 Once again, we handle the boundary conditions in lines 9 to 13. But why assign a value of 
 `1.0` to the first element of a 3-element vector `v` and then use `v` to set only 
@@ -498,9 +498,7 @@ and for completeness we shortly explain how the original implementation maps
 to slightly different rearrangements of the maths we covered throughout
 the rest of the article.
 
-TODO:
-
-The equation is formulated as 
+The governing equation is formulated as 
 
 $$
 F(u) = -\frac{\partial^2 u}{\partial x^2} + \rho \sqrt u,
@@ -509,14 +507,28 @@ $$
 and the corresponding implemented discretization by finite differences is 
 
 $$
-F(u) \approx F(u_i) = F_i = -u_{i+1} + 2 u_i - u_{i-1} - h^2 \rho \sqrt u + f,
+F(u) \approx F(u_i) = F_i = -u_{i+1} + 2 u_i - u_{i-1} - h^2 (\rho \sqrt u + f),
 $$
 
-though \\(f = 0\\) in this problem, so that term may be ignored.
+though \\(f = 0\\) in this problem, so that term may be ignored. In the original
+code, there is also a flag for including the the derivative of the reaction
+function in the Jacobian. If the derivative of the reaction function is excluded
+from the Jacobian, This simplifies the diagonal of the Jacobian, and
+therefore the resulting matrix \\(K \approx J\\) is an approximation for the 
+Jacobian with similar spectral characteristics.
+
+Other than these small changes, the adapted implementation differs very little.
 
 # Conclusion
 
-In this article 
+In this article, we bridge the gap between continuous nonlinear PDE theory and 
+practical implementation. We emphasize Newton’s method, Gateaux derivatives, and 
+finite difference discretization, while providing concrete PETSc code to solve 
+the nonlinear steady-state reaction-diffusion problem. With mathematical and
+implementation details explicitly treated, hopefully the reader 
+can now more confidently reason about low level numerical codes that 
+they read and write. Future articles will show similar step-by-step mathematical
+and implementation details for systems of PDEs as well time dependent PDEs. 
 
 # References
 
