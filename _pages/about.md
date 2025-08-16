@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 I am a Scientific Programmer in the Modelling of Atmospheric Processes 
-department of the [Leibniz Institute for Atmospheric Physics](https://www.iap-kborn.de/en/research/modelling-of-atmospheric-processes/) (IAP). 
+department of the [Leibniz Institute of Atmospheric Physics](https://www.iap-kborn.de/en/research/modelling-of-atmospheric-processes/) (IAP). 
 I previously completed my MSc in Computational Science at the University of 
 Amsterdam (UvA) funded by the 
 [Amsterdam Merit Scholarship](https://www.uva.nl/en/education/fees-and-funding/masters-scholarships-and-loans/faculty-scholarships-science/science.html) 
@@ -28,6 +28,11 @@ German Weather Service (DWD) on refactoring the ICON upper atmosphere codes.
 
 Outside of work, I enjoy language learning (Dutch, German, and Italian), 
 playing guitar, calisthenics, cooking, and hiking. I also enjoy contributing to 
-open-source projects! For example, I am currently working on documentation/tutorials
-for [Ferrite.jl](https://github.com/Ferrite-FEM/Ferrite.jl) 
-(a finite element toolbox) and [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl) (an atmospheric modelling framework). 
+open-source projects as well as [blogging](https://jfdev001.github.io//year-archive/) 
+about different topics in computational science! Regarding open-source, I am currently 
+working on documentation/tutorials for [Ferrite.jl](https://github.com/Ferrite-FEM/Ferrite.jl) 
+(a finite element toolbox) and [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl) 
+(an atmospheric modelling framework). I've also made small contributions to a 
+number of other projects like [PETSc](gitlab.com/petsc/petsc) as well as
+[fortran-lang/fftpack](https://github.com/fortran-lang/fftpack).
+
