@@ -12,7 +12,16 @@ tags:
   - newton's method
 ---
 
-TODO: Table of contents here (see https://stackoverflow.com/questions/11948245/markdown-to-create-pages-and-table-of-contents)
+1. [The Governing Equations](#the-governing-equations)
+2. [Newton's Method at the PDE Level](#newtons-method-at-the-pde-level)
+3. [Discretization by the Finite Difference Method](#discretization-by-the-finite-difference-method)
+    1. [The Residual Form of the PDE](#the-residual-form-of-the-pde)
+    2. [The Jacobian from the Gateaux Derivative](#the-jacobian-from-the-gateaux-derivative)
+4. [Commented Implementation in PETSc](#commented-implementation-in-petsc)
+    1. [Adapted Implementation](#adapted-implementation)
+    2. [Brief Comment on Original Implementation](#brief-comment-on-original-implementation)
+5. [Conclusion](#conclusion)
+6. [References](#references)
 
 In this article, some extra mathematical details related to the 
 solution of the steady state reaction-diffusion equations using 
