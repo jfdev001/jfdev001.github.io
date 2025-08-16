@@ -353,7 +353,7 @@ that \\(F_0 = u_0 - \alpha = 0\\), which is exactly the residual form we need.
 Line 11 follows from this reasoning. The same logic applies to line 14
 but for the right boundary condition.
 
-Lines 18-28 handle the interior points. Line 19 is the discrete second 
+Lines 16-29 handle the interior points. Line 19 is the discrete second 
 derivative for the second---index `i=1`---grid point in the 1D grid 
 where on the left boundary \\(u_{i-1} = u_{0} = \alpha\\). Line 22 is analagous
 but for the right boundary where \\(u_{i+1} = u_{m_x - 1} = \beta \\). Line
@@ -460,9 +460,33 @@ coefficient of \\(\delta u_i\\) in equation (11). Note that in the
 `FormJacobianLocal` function, `u` corresponds to the vector of values of the 
 solution `u` at Newton iteration `k`. Therefore, `u[i]` is equivalent to
 \\(u_i^k\\). Lines 18 and 19 define the coefficient of \\(\delta u_{i-1}\\)
-using equation (11) only if 
+using equation (11) only if `i` does not lie on the boundary, that is enforce
+the PDE on the interior points and eliminate any coupling with boundary 
+points. Lines 21 and 22 are the same principle but for the coefficient
+\\(\delta u_{i+1}\\).
 
-TODO: The J != P line is discussed a bit more here: https://petsc.org/release/manual/snes/
+Lastly, lines 29-32 sets the Jacobian `J` to `P` 
+(see [SNES: Jacobian Evaluation](https://petsc.org/release/manual/snes/#jacobian-evaluation))
+such that `J` is the matrix from which the preconditioner \\(M\\) is built. While
+the Jacobian is usually the same as the matrix from which the preconditioner 
+is built, in principle you could set a different matrix `P` that may have
+more desirable properties (e.g., better conditioned) than `J`. In practice,
+`P` is used in conjunction with the specified preconditioner (e.g., Jacobi,
+ILU, etc.) \\(M\\) that is used to solve a left 
+([default for Krylov solvers in PETSc](https://petsc.org/main/manualpages/KSP/KSPSetPCSide/)) 
+preconditioned system of equations arising from equations (5.2) and (11) such 
+that
+
+$$
+M^{-1} \left [ J_F(u^k) \delta u \right ] = M^{-1}\left[-F(u^k)\right].
+$$
+
+To make the preconditioner discussion concrete, if we were to tell PETSc to
+use a Jacobi preconditioner, then \\(M = \text{diag}(J) = \text{diag}(P)\\).
+Simple, right?
+
+With this, we conclude the discussion of how the adapted implementation for 
+\\(F(u)\\) and \\(J_F(u^k)\\) maps from code to maths.
 
 ## Brief Comment on Original Implementation
 
@@ -489,6 +513,10 @@ F(u) \approx F(u_i) = F_i = -u_{i+1} + 2 u_i - u_{i-1} - h^2 \rho \sqrt u + f,
 $$
 
 though \\(f = 0\\) in this problem, so that term may be ignored.
+
+# Conclusion
+
+In this article 
 
 # References
 
