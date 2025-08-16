@@ -12,7 +12,18 @@ tags:
   - newton's method
 ---
 
-1. [The Governing Equations](#the-governing-equations)
+In this article, some extra mathematical details related to the 
+solution of the steady state reaction-diffusion equations using 
+[PETSc](https://petsc.org/release/) are discussed. First, the simple nonlinear
+governing equation of interest is shown. Then, Newton's method is presented
+at the partial differential equation (PDE) level for generality rather than 
+being presented at the algebraic
+level. Subsequently, the spatial discretization via the finite difference method 
+is shown for completeness. Finally, a commented PETSc implementation of the 
+discretized reaction-diffusion equations is shown to concretely illustrate how 
+the mathematical notation maps to code. 
+
+1. [The Governing Equation](#the-governing-equation)
 2. [Newton's Method at the PDE Level](#newtons-method-at-the-pde-level)
 3. [Discretization by the Finite Difference Method](#discretization-by-the-finite-difference-method)
     1. [The Residual Form of the PDE](#the-residual-form-of-the-pde)
@@ -23,17 +34,7 @@ tags:
 5. [Conclusion](#conclusion)
 6. [References](#references)
 
-In this article, some extra mathematical details related to the 
-solution of the steady state reaction-diffusion equations using 
-[PETSc](https://petsc.org/release/) are discussed. First, the simple nonlinear
-governing equations of interest are shown. Then, Newton's method is presented
-at the PDE level for generality rather than being presented at the algebraic
-level. Subsequently, the spatial discretization via the finite difference method 
-is shown for completeness. Finally, a commented PETSc implementation of the 
-discretized reaction-diffusion equations is shown to concretely illustrate how 
-the mathematical notation maps to code. 
-
-# The Governing Equations
+# The Governing Equation
 
 The general form of the one dimensional, time evolving heat equation 
 can be modelled with diffusion (i.e., \\(\frac{\partial^2 u}{\partial x^2}\\) 
@@ -74,12 +75,14 @@ $$
 L(\theta f) = \theta L(f).
 $$
 
-In this case, the square root term is obviously nonlinear.
+In this case, the square root term is obviously nonlinear. Given this 
+nonlinearity, a nonlinear solver must be used to solve equation (2).
 
 # Newton's Method at the PDE Level
 
-We present here Newton's method at the PDE level to make it as generally 
-applicable as possible. Newton's method is often presented at the algebraic 
+We present here Newton's method for solving nonlinear equations at the PDE level 
+to make it as generally applicable as possible. 
+Newton's method is often presented at the algebraic 
 level since its presentation is paired with the discretization (e.g., via
 finite difference methods, finite element methods, etc.) method of the PDEs. Since 
 there are a large number of techniques to discretize PDEs, it is more general to 
@@ -117,7 +120,7 @@ $$
 \begin{aligned}
 F(u^k + \delta u) &= F(u^k) + F'(u^k)(\delta u), && \text{(5.1)}\\
 F'(u^k)(\delta u) &= -F(u^k), && \text{(5.2)} \\
-u^{k+1} &= u^{k} + \delta u, && \text{(5.3)}
+u^{k+1} &= u^{k} + \delta u. && \text{(5.3)}
 \end{aligned} 
 $$ 
 
@@ -133,8 +136,9 @@ function, naturally \\(F'\\) is the ordinary derivative. Similarly,
 if \\(F\\) were a vector function, \\(F'\\) would be the Jacobian written
 as \\(J_F(u^k)\\). However, \\(F\\) is neither a scalar nor a vector function,
 but rather it is an operator: a map of one function space to another 
-function space. Thus, we need 
-the derivative of an operator. This is given by the 
+function space. That is, \\(F\\) maps the function space of \\(u\\) to another
+function space. Thus, we must define the derivative of an operator. 
+This is given by the 
 [Gateaux derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
 
 $$
@@ -172,11 +176,9 @@ $$
 &= \left . \frac{d}{d \epsilon}\left[\frac{\partial^2}{\partial x^2}u\right] + \frac{d}{d \epsilon}\left[\frac{\partial^2}{\partial x^2}\epsilon \delta u \right] - \frac{d}{d \epsilon} \left[ \rho \sqrt{(u + \epsilon \delta u)} \right] \right\vert_{\epsilon = 0} \\
 &= \left . \frac{\partial^2}{\partial x^2} \delta u - \frac{d}{d \epsilon} \left[ \rho \sqrt{(u + \epsilon \delta u)} \right] \right\vert_{\epsilon = 0} \\
 &= \left . \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2}(u + \epsilon \delta u)^{-\frac{1}{2}} \delta u \right\vert_{\epsilon = 0} \\
-&= \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2 \sqrt u} \delta u,
+&= \frac{\partial^2}{\partial x^2} \delta u - \frac{\rho}{2 \sqrt u} \delta u.
 \end{aligned} \\ \tag{6}
 $$
-
-and in the next section we perform the discretization to recover the Jacobian.
 
 Once we have the Gateaux derivative, equation (5.3) is simply an update of the 
 solution space in the direction "pointing" toward the zero of our nonlinear function. 
@@ -186,7 +188,7 @@ solution space in the direction "pointing" toward the zero of our nonlinear func
 We now have the continuous forms of the reaction-diffusion equation suitable 
 for solution via Newton's method. To provide implementations, these 
 continuous forms have to be discretized as shown in the next sections.
-We require a structured, 1D grid with spacing \\(h\\) between grid 
+We therefore define a structured, 1D grid with spacing \\(h\\) between grid 
 points and indices \\(i \in [0...5] \\) where the full domain is 
 \\(x \in [0, 1]\\). Recall also that \\(u(0) = \alpha\\) and 
 \\(u(1) = \beta\\). Note that the grid spacing can be calculated by 
@@ -209,22 +211,22 @@ i: 0     1     2     3     4     5
 
 ## The Residual Form of the PDE
 
-Here, we discretize the equation (4). The discrete form of the second derivative 
-operator using a centered finite difference as well as writing \\(u\\) in
-the nonlinear operator as simply \\(u_i\\), the solution at at grid point i,
-yields
+Here, we discretize equation (4).  The focus of this article is not on the derivation
+of the finite difference method, so, if you're unfamiliar with it, a clear 
+explanation and derivation can be found at 
+[CFD University's: The Finite Difference Method](https://cfd.university/learn/10-key-concepts-everyone-must-understand-in-cfd/how-to-discretise-the-navier-stokes-equations/#aioseo-the-finite-difference-method-fdm).
+Ignore the bits in that article related to the Navier-Stokes equations, of course.
+In any case, the discrete form of the second derivative operator using a centered 
+finite difference is given by 
 
 $$
 \begin{aligned}
 F(u) \approx F(u_i) = F_i &= \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} + R(u_i) \\
-                          &= \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}. 
+                          &= \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}, 
 \end{aligned} \tag{8}
 $$
 
-That's it! If you're unfamiliar with the finite difference method, a clear 
-explanation and derivation can be found at 
-[CFD University's: The Finite Difference Method](https://cfd.university/learn/10-key-concepts-everyone-must-understand-in-cfd/how-to-discretise-the-navier-stokes-equations/#aioseo-the-finite-difference-method-fdm).
-Ignore the bits in that article related to the Navier-Stokes equations, of course :) 
+where \\(u_i\\) the solution at grid point \\(i\\). That's it!
 
 ## The Jacobian from the Gateaux Derivative
 
@@ -245,8 +247,10 @@ $$
 \frac{\partial}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{10}
 $$
 
-Moreover, \\(u\\) in \\(\frac{\rho}{2 \sqrt u}\\) corresponds simply to 
-\\(u_i^{k}\\). 
+For the derivative of the reaction function given by \\(\frac{dR}{du}\\), 
+\\(u\\) in \\(\frac{\rho}{2 \sqrt u}\\) 
+corresponds simply to \\(u_i^{k}\\) since this is the discrete solution at the 
+grid point \\(i\\) at Newton step \\(k\\). 
 
 If you're paying attention, you'll notice that the discrete 
 form of the second derivative operator---a linear operator---in equation (10) 
@@ -255,7 +259,8 @@ is the same as the discrete form of the second derivative operator when it acts
 on \\(u\\) in equation (8). This may seem like a rather silly or obvious thing to note; however, it's 
 surprisingly important for the [efficient solution of nonlinear equations](https://docs.sciml.ai/NonlinearSolve/stable/tutorials/large_systems/#Choosing-Jacobian-Types)
 since the discrete form of the linear operator is completely independent of
-the values of \\(u_i^k\\)---which is *changing* at every iteration.
+the values of \\(u_i^k\\)---which is *changing* at every iteration as defined by
+equation (5.3).
 This means that a performance-conscious programmer can not only initialize the 
 sparsity pattern of the Jacobian but can also cache those values 
 of the discrete linear operator in the Jacobian---meaning you do not have
@@ -290,7 +295,7 @@ PETSc provides and supports a suite of (non)linear solvers, preconditioners,
 data types for linear algebra, massive scalability through automatic support for
 distributed and shared memory parallelism, and much more.
 The user need only provide a comparatively simple---at least for the
-problem we consider in this blog---set of functions that specify their 
+problem we consider in this article---set of functions that specify their 
 particular problem. Per figure (1), the user needs to implement 
 `FormFunctionLocal`---which is simply \\(F(u)\\)---as well as 
 `FormJacobianLocal`---which is simply \\(J_F(u^k)\\). First the implementation
@@ -362,13 +367,13 @@ that \\(F_0 = u_0 - \alpha = 0\\), which is exactly the residual form we need.
 Line 11 follows from this reasoning. The same logic applies to line 14
 but for the right boundary condition.
 
-Lines 16-29 handle the interior points. Line 19 is the discrete second 
+Lines 16 to 29 handle the interior points. Line 19 is the discrete second 
 derivative for the second---index `i=1`---grid point in the 1D grid 
 where on the left boundary \\(u_{i-1} = u_{0} = \alpha\\). Line 22 is analagous
 but for the right boundary where \\(u_{i+1} = u_{m_x - 1} = \beta \\). Line
 27 computes the reaction function using its definition. Finally,
 line 28 divides the numerator of equation (8) that was computed in one of the
-branches of lines 18-26 by the square of the grid size accordingly to complete
+branches of lines 18 to 26 by the square of the grid size accordingly to complete
 the computation of the discrete second derivative of \\(u\\), then the reaction
 function evaluated in line 27 is added also per equation (8).
 
@@ -446,7 +451,7 @@ the derivative with respect to the unknown at the given boundary
 points such that 
 
 $$
-F'(u(0)) = \frac{\partial F(u(0))}{\partial u(0)} = \frac{\partial}{\partial u(0)} u(0) - \frac{\partial}{\partial u(0)} \alpha = 1
+F'(u(0)) = \frac{\partial F(u(0))}{\partial u(0)} = \frac{\partial}{\partial u(0)} u(0) - \frac{\partial}{\partial u(0)} \alpha = 1,
 $$
 
 and similarly
@@ -474,9 +479,8 @@ the PDE on the interior points and eliminate any coupling with boundary
 points. Lines 21 and 22 are the same principle but for the coefficient
 \\(\delta u_{i+1}\\).
 
-Lastly, lines 29-32 sets the Jacobian `J` to `P` 
-(see [SNES: Jacobian Evaluation](https://petsc.org/release/manual/snes/#jacobian-evaluation))
-such that `J` is the matrix from which the preconditioner \\(M\\) is built. While
+Lastly, lines 29 to 32 sets the Jacobian `J` to `P` 
+(see [SNES: Jacobian Evaluation](https://petsc.org/release/manual/snes/#jacobian-evaluation)), meaning `J` is the matrix from which the preconditioner \\(M\\) is built. While
 the Jacobian is usually the same as the matrix from which the preconditioner 
 is built, in principle you could set a different matrix `P` that may have
 more desirable properties (e.g., better conditioned) than `J`. In practice,
@@ -492,22 +496,22 @@ $$
 
 To make the preconditioner discussion concrete, if we were to tell PETSc to
 use a Jacobi preconditioner, then \\(M = \text{diag}(J) = \text{diag}(P)\\).
-Simple, right?
 
-With this, we conclude the discussion of how the adapted implementation for 
-\\(F(u)\\) and \\(J_F(u^k)\\) maps from code to maths.
+With this, we conclude the discussion of the relationship between the mathematics
+in the first part of the article and the adapted implementation for 
+\\(F(u)\\) and \\(J_F(u^k)\\).
 
 ## Brief Comment on Original Implementation
 
 The adapted implementation in the previous section is based on maths
 that we derived in the present article with the intention of making the 
 derivation more clear as well as generally applicable to nonlinear PDE
-problems. However, the basis of the implementation came from Bueler 2021,
+problems. However, the basis of the implementation is from Bueler 2021,
 and for completeness we shortly explain how the original implementation maps
 to slightly different rearrangements of the maths we covered throughout
 the rest of the article.
 
-The governing equation is formulated as 
+In Bueler 2021, the governing equation is formulated as 
 
 $$
 F(u) = -\frac{\partial^2 u}{\partial x^2} + \rho \sqrt u,
@@ -524,15 +528,18 @@ code, there is also a flag for including the the derivative of the reaction
 function in the Jacobian. If the derivative of the reaction function is excluded
 from the Jacobian, This simplifies the diagonal of the Jacobian, and
 therefore the resulting matrix \\(K \approx J\\) is an approximation for the 
-Jacobian with similar spectral characteristics.
+Jacobian with similar spectral characteristics. For simplicity, we omit
+this flag in the adapted implementation.
 
-Other than these small changes, the adapted implementation differs very little.
+Other than these small changes, the adapted implementation differs very little
+from the original implementation.
 
 # Conclusion
 
 In this article, we bridge the gap between continuous nonlinear PDE theory and 
-practical implementation. We emphasize Newton’s method, Gateaux derivatives, and 
-finite difference discretization, while providing concrete PETSc code to solve 
+practical implementation. We cover Newton’s method, Gateaux derivatives, and 
+an application of the finite difference discretization, while providing 
+concrete PETSc code to solve 
 the nonlinear steady-state reaction-diffusion problem. With mathematical and
 implementation details explicitly treated, hopefully the reader 
 can now more confidently reason about low level numerical codes that 
