@@ -223,7 +223,7 @@ $$
 \begin{aligned}
 F(u) \approx F(u_i) = F_i &= \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} + R(u_i) \\
                           &= \frac{u_{i-1} - 2 u_i + u_{i+1}}{h^2} - \rho \sqrt{u_i}, 
-\end{aligned} \tag{8}
+\end{aligned} \tag{7}
 $$
 
 where \\(u_i\\) the solution at grid point \\(i\\). That's it!
@@ -235,7 +235,7 @@ care about discretizing the coefficients of \\(\delta u\\). That is, we
 want the discrete form of the continuous linear operator 
 
 $$
-F'(u) = \frac{\partial}{\partial x^2} + \frac{dR}{du} = \frac{\partial}{\partial x^2} - \frac{\rho}{2 \sqrt u}, \tag{9}
+F'(u) = \frac{\partial^2}{\partial x^2} + \frac{dR}{du} = \frac{\partial}{\partial x^2} - \frac{\rho}{2 \sqrt u}, \tag{8}
 $$ 
 
 since \\(F'(u)\\) acts on \\(\delta u\\) as represented by 
@@ -244,7 +244,7 @@ difference scheme to discretize the second derivative operator on
 \\(\delta u\\), we have 
 
 $$
-\frac{\partial}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{10}
+\frac{\partial}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{9}
 $$
 
 For the derivative of the reaction function given by \\(\frac{dR}{du}\\), 
@@ -253,10 +253,10 @@ corresponds simply to \\(u_i^{k}\\) since this is the discrete solution at the
 grid point \\(i\\) at Newton step \\(k\\). 
 
 If you're paying attention, you'll notice that the discrete 
-form of the second derivative operator---a linear operator---in equation (10) 
+form of the second derivative operator---a linear operator---in equation (9) 
 acting on \\(\delta u\\)
 is the same as the discrete form of the second derivative operator when it acts 
-on \\(u\\) in equation (8). This may seem like a rather silly or obvious thing to note; however, it's 
+on \\(u\\) in equation (7). This may seem like a rather silly or obvious thing to note; however, it's 
 surprisingly important for the [efficient solution of nonlinear equations](https://docs.sciml.ai/NonlinearSolve/stable/tutorials/large_systems/#Choosing-Jacobian-Types)
 since the discrete form of the linear operator is completely independent of
 the values of \\(u_i^k\\)---which is *changing* at every iteration as defined by
@@ -282,7 +282,7 @@ $$
 F'(u^k)(\delta u) &= J_F(u^k) \delta u \\
 &= \left[ \frac{1}{h^2} \right] \delta u_{i-1} + \left[ \frac{-2}{h^2} \right] \delta u_i + \left[ \frac{1}{h^2} \right] \delta u_{i+1} + \left[\frac{-\rho}{2 \sqrt{u^k_i}}\right]\delta u_i \\
 &= \left[ \frac{1}{h^2} \right] \delta u_{i-1} + \left[ \frac{-2}{h^2} - \frac{\rho}{2 \sqrt{u^k_i}} \right] \delta u_i + \left[ \frac{1}{h^2} \right] \delta u_{i+1}.
-\end{aligned} \\ \tag{11}
+\end{aligned} \\ \tag{10}
 $$
 
 With the components of the Jacobian explicitly specified, we can now propose
@@ -320,7 +320,7 @@ The PETSc function below for \\(F(u)\\) is adapted from
 
 {% highlight c linenos %}
 // Compute F(u) for reaction-diffusion equation
-// Reference: Equation (8)
+// Reference: Equation (7)
 PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
                                  PetscReal *FF, AppCtx *user) {
     PetscInt   i;
@@ -346,7 +346,7 @@ PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
                 FF[i] = u[i-1] - 2.0 * u[i] + u[i+1];
             }
             R = -user->rho * PetscSqrtReal(u[i]);
-            FF[i] = FF[i] / h*h + R;
+            FF[i] = FF[i] / (h*h) + R;
         }
     }
     return 0;
@@ -361,7 +361,7 @@ plus the number of points `info->xm` owned by the process.
 There are, of course, two special cases that occur while iterating over the 
 grid points: the left boundary (i.e., \\(u(0) \equiv u_0 = \alpha\\)) and the 
 right boundary (i.e., \\(u(1) \equiv u_{m_x - 1} = \beta\\)) conditions. From 
-equation (4) and equation (8), we know that \\(F_i = 0\\), and if we recognize the 
+equation (4) and equation (7), we know that \\(F_i = 0\\), and if we recognize the 
 fact that the boundary conditions demand that \\(u_0 = \alpha \\), then we can infer
 that \\(F_0 = u_0 - \alpha = 0\\), which is exactly the residual form we need.
 Line 11 follows from this reasoning. The same logic applies to line 14
@@ -372,37 +372,37 @@ derivative for the second---index `i=1`---grid point in the 1D grid
 where on the left boundary \\(u_{i-1} = u_{0} = \alpha\\). Line 22 is analagous
 but for the right boundary where \\(u_{i+1} = u_{m_x - 1} = \beta \\). Line
 27 computes the reaction function using its definition. Finally,
-line 28 divides the numerator of equation (8) that was computed in one of the
+line 28 divides the numerator of equation (7) that was computed in one of the
 branches of lines 18 to 26 by the square of the grid size accordingly to complete
 the computation of the discrete second derivative of \\(u\\), then the reaction
-function evaluated in line 27 is added also per equation (8).
+function evaluated in line 27 is added also per equation (7).
 
 Next, the PETSc function for the Jacobian 
 is adapted from [p4pdes/reaction.c:117-114](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L117-L144).
 
 {% highlight c linenos %}
 // Compute J_F(u^k) for reaction-diffusion equation
-// Reference: Equation (11)
+// Reference: Equation (10)
 PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
                                  Mat J, Mat P, AppCtx *user) {
     PetscInt   i, col[3];
     PetscReal  h = 1.0 / (info->mx-1), dRdu, v[3];
     for (i=info->xs; i<info->xs+info->xm; i++) {
         // boundary conditions
-        if ((i == 0) | (i == info->mx-1)) {
+        if ((i == 0) || (i == info->mx-1)) {
             v[0] = 1.0;
             PetscCall(MatSetValues(P,1,&i,1,&i,v,INSERT_VALUES));
         // interior 
         } else {
             col[0] = i;
-            dRdu = -user->rho / 2.0 * PetscSqrtReal(u[i]);
-            v[0] = -2.0 / h*h + dRdu;
+            dRdu = -user->rho / (2.0 * PetscSqrtReal(u[i]));
+            v[0] = -2.0 / (h*h) + dRdu;
 
             col[1] = i-1;   
-            v[1] = (i > 1) ? 1.0 / h*h : 0.0;
+            v[1] = (i > 1) ? 1.0 / (h*h) : 0.0;
         
             col[2] = i+1;   
-            v[2] = (i < info->mx-2) ? 1.0 / h*h : 0.0;
+            v[2] = (i < info->mx-2) ? 1.0 / (h*h) : 0.0;
 
             PetscCall(MatSetValues(P,1,&i,3,col,v,INSERT_VALUES));
         }
@@ -460,7 +460,7 @@ $$
 F'(u(1)) = \frac{\partial F(u(1))}{\partial u(1)} = \frac{\partial }{\partial u(1)} u(1) - \frac{\partial }{\partial u(1)} \beta = 1. 
 $$
 
-Returning to the discrete form, if \\(F(u) \approx F(u_i) \\) from equation (8), it follows
+Returning to the discrete form, if \\(F(u) \approx F(u_i) \\) from equation (7), it follows
 that \\(F'(u) \\approx F'(u_i)\\). Therefore, when `i = 0`, we have
 \\(F'(u_0) = 1\\) and when `i = mx-1`, we also have \\(F'(u_{m_x - 1}) = 1\\).
 This means we set only a single element of `P` corresponding to the indices `i`, 
@@ -470,11 +470,11 @@ discretization of the boundary conditions. Note that `&i` is used since the
 boundary conditions in the Jacobian.
 
 In lines 13 to 25 we handle the interior points. Lines 14 to 16 define the 
-coefficient of \\(\delta u_i\\) in equation (11). Note that in the 
+coefficient of \\(\delta u_i\\) in equation (10). Note that in the 
 `FormJacobianLocal` function, `u` corresponds to the vector of values of the 
 solution `u` at Newton iteration `k`. Therefore, `u[i]` is equivalent to
 \\(u_i^k\\). Lines 18 and 19 define the coefficient of \\(\delta u_{i-1}\\)
-using equation (11) only if `i` does not lie on the boundary, that is enforce
+using equation (10) only if `i` does not lie on the boundary, that is enforce
 the PDE on the interior points and eliminate any coupling with boundary 
 points. Lines 21 and 22 are the same principle but for the coefficient
 \\(\delta u_{i+1}\\).
@@ -487,7 +487,7 @@ more desirable properties (e.g., better conditioned) than `J`. In practice,
 `P` is used in conjunction with the specified preconditioner (e.g., Jacobi,
 ILU, etc.) \\(M\\) that is used to solve a left 
 ([default for Krylov solvers in PETSc](https://petsc.org/main/manualpages/KSP/KSPSetPCSide/)) 
-preconditioned system of equations arising from equations (5.2) and (11) such 
+preconditioned system of equations arising from equations (5.2) and (10) such 
 that
 
 $$
