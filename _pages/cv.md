@@ -17,7 +17,7 @@ redirect_from:
 ---
 
 ## Career Interests
-I am a budding specialist in HPC with performance optimization and DevOps skills honed during my time as a Scientific Programmer at the Leibniz Institute for Atmospheric Physics. I am eager to contribute my diverse skills in scientific modeling, finite 
+I am a budding specialist in HPC with performance optimization and DevOps skills honed during my time as a Scientific Programmer at the Leibniz Institute of Atmospheric Physics. I am eager to contribute my diverse skills in scientific modeling, finite 
 element methods, fundamentals of fluid and atmospheric modelling, and more to a 
 software engineering role.
 
