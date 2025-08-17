@@ -1,5 +1,5 @@
 ---
-title: 'Extra Mathematical Details: The Steady-State Reaction-Diffusion Equation and their Solution in PETSc'
+title: 'Extra Mathematical Details: The Steady-State Reaction-Diffusion Equation and its Solution in PETSc'
 date: 2025-08-16
 permalink: /posts/2025/08/petsc-nonlinear-reaction-diffusion-maths/
 tags:
