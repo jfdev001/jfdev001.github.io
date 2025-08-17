@@ -20,7 +20,7 @@ at the partial differential equation (PDE) level for generality rather than
 being presented at the algebraic
 level. Subsequently, the spatial discretization via the finite difference method 
 is shown for completeness. Finally, a commented PETSc implementation of the 
-discretized reaction-diffusion equations is shown to concretely illustrate how 
+discretized reaction-diffusion equation is shown to concretely illustrate how 
 the mathematical notation maps to code. 
 
 1. [The Governing Equation](#the-governing-equation)
