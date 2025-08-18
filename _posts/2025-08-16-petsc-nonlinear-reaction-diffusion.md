@@ -526,7 +526,7 @@ $$
 though \\(f = 0\\) in this problem, so that term may be ignored. In the original
 code, there is also a flag for including the the derivative of the reaction
 function in the Jacobian. If the derivative of the reaction function is excluded
-from the Jacobian, This simplifies the diagonal of the Jacobian, and
+from the Jacobian, this simplifies the diagonal of the Jacobian, and
 therefore the resulting matrix \\(K \approx J\\) is an approximation for the 
 Jacobian with similar spectral characteristics. For simplicity, we omit
 this flag in the adapted implementation.
