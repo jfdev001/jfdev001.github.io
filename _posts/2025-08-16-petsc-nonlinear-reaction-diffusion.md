@@ -244,7 +244,7 @@ difference scheme to discretize the second derivative operator on
 \\(\delta u\\), we have 
 
 $$
-\frac{\partial}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{9}
+\frac{\partial^2}{\partial x^2} \delta u \approx \frac{\delta u_{i-1} - 2 \delta u_i + \delta u_{i+1}}{h^2}. \\ \tag{9}
 $$
 
 For the derivative of the reaction function given by \\(\frac{dR}{du}\\), 
