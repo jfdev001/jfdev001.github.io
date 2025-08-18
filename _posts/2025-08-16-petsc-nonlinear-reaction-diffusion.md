@@ -286,7 +286,7 @@ F'(u^k)(\delta u) &= J_F(u^k) \delta u \\
 $$
 
 With the components of the Jacobian explicitly specified, we can now propose
-functions for implementing the solution of the reaction-diffusion equations
+functions for implementing the solution of the reaction-diffusion equation
 using PETSc. 
 
 # Commented Implementation in PETSc
@@ -305,14 +305,14 @@ mathematical equivalent.
 <figure>
     <img src="/images/petsc_user_code.png">
     <figcaption><font size="4">Figure (1): An overview of a full PETSc solution to 
-    the reaction-diffusion equations. Critically, the user need only implement
+    the reaction-diffusion equation. Critically, the user need only implement
     two functions. Taken from Bueler 2021.</font></figcaption>
 </figure>
 
 ## Adapted Implementation
 
 In this section we implement the necessary PETSc functions for the solution
-of the reaction-diffusion equations. These implementations correspond directly
+of the reaction-diffusion equation. These implementations correspond directly
 to the maths introduced in the present article. 
 
 The PETSc function below for \\(F(u)\\) is adapted from 
