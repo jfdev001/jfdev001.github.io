@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default"
-title                    : "jfdev001.github.io"
+title                    : "Jared Frazier"
 title_separator          : "-"
 name                     : &name "Jared Frazier"
 description              : &description "Scientific Programmer at Leibniz Institute of Atmospheric Physics"
@@ -29,7 +29,7 @@ author:
   location         : "Germany"
   employer         : # employer 
   uri              : # URL
-  email            : "cscidev001@gmail.com" 
+  email            : #
 
   # Academic websites
   academia         : # URL
@@ -60,7 +60,7 @@ author:
   keybase          : # Username
   instagram        : # Username
   lastfm           : # Username
-  linkedin         : # Username
+  linkedin         : jared-frazier-797590188
   mastodon         : # URL
   medium           : # URL
   pinterest        : # Username
