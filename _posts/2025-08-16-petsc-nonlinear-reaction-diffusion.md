@@ -465,9 +465,14 @@ that \\(F'(u) \\approx F'(u_i)\\). Therefore, when `i = 0`, we have
 \\(F'(u_0) = 1\\) and when `i = mx-1`, we also have \\(F'(u_{m_x - 1}) = 1\\).
 This means we set only a single element of `P` corresponding to the indices `i`, 
 that is `P[i][i] = 1.0` since no further elements need to be set to satisfy the 
-discretization of the boundary conditions. Note that `&i` is used since the 
-`MatSetValues` expects a pointer. This concludes the discussion of enforcing 
-boundary conditions in the Jacobian.
+discretization of the boundary conditions. Note that `&i` in line 11 is a 1-element array
+and is used since `MatSetValues` expects an expression that can be treated as 
+an array since one usually assigns the values corresponding to arrays of row
+and column indices. Since we are only assigning one value, we need only a 
+1-element array. See [PETSc: MatSetValues](https://petsc.org/release/manualpages/Mat/MatSetValues/)
+and note that `idxm[]` and `idxn[]` in the function parameters [automatically decays to a pointer](https://www.geeksforgeeks.org/cpp/array-decay-in-c/)
+by the C language implementation. 
+This concludes the discussion of enforcing boundary conditions in the Jacobian.
 
 In lines 13 to 25 we handle the interior points. Lines 14 to 16 define the 
 coefficient of \\(\delta u_i\\) in equation (10). Note that in the 
