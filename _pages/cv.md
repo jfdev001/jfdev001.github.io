@@ -11,7 +11,7 @@ redirect_from:
 
 # Jared Frazier
 
-📧 [jaredfrazierapplications@gmail.com](mailto:jaredfrazierapplications@gmail.com)  
+📧 [jaredfrazierapplications [at] gmail [dot] com](mailto:jaredfrazierapplications [at] gmail [dot] com)  
 💻 [github.com/jfdev001](https://github.com/jfdev001)
 
 ---
