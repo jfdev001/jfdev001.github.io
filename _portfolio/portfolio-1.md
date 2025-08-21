@@ -1,6 +1,7 @@
 ---
 title: "Algebraic Multigrid from Scratch in C++"
 excerpt: "Code at [github.com/jfdev001/algebraic-multigrid](https://github.com/jfdev001/algebraic-multigrid). Figure below from [Pawar 2019](https://www.mdpi.com/2311-5521/4/3/159).<br/><img src='/images/amg_with_vcycle.png'>"
+date: 2025-08-16
 collection: portfolio
 ---
 

@@ -2,6 +2,7 @@
 title: "Modelling the Immune System: ODE Model of Terminal Differentiation of
 B Cells in Julia"
 excerpt: "Code at [github.com/jfdev001/PlasmaCellDiff](https://github.com/jfdev001/PlasmaCellDiff).<br/><img src='/images/plasma_cell_diff_white_bg.png'>"
+date: 2025-08-16
 collection: portfolio
 ---
 

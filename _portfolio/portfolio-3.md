@@ -1,6 +1,7 @@
 ---
 title: "N-Body Simulation in C with MPI and OpenMP"
 excerpt: "Code at [github.com/jfdev001/parallel-nbody](https://github.com/jfdev001/parallel-nbody).<br/><img src='/images/simulation_world.png'>"
+date: 2025-08-16
 collection: portfolio
 ---
 
