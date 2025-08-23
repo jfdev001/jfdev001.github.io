@@ -26,7 +26,7 @@ author:
   name             : "Jared Frazier"
   pronouns         : # example: "she/her"  
   bio              : "Scientific programmer at Leibniz Institute of Atmospheric Physics"
-  location         : "Germany"
+  location         : #
   employer         : # employer 
   uri              : # URL
   email            : jaredfrazierapplications [at] gmail [dot] com
