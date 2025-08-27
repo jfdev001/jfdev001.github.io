@@ -46,7 +46,7 @@ $$
 \frac{\partial u}{\partial t} = \frac{\partial^2 u}{\partial x^2} + R(u) + f. \\ \tag{1}
 $$
 
-In this post, we focus on the time independent (aka steady state) form of 
+In this post, we focus on the time independent (aka steady-state) form of 
 equation (1)
 
 $$
