@@ -57,5 +57,5 @@ and then call
 pdftk ~/Downloads/cmes.2005.010.113-2.pdf update_info_utf8 ~/Downloads/cmes.2005.utf output ~/Downloads/cmes_updated.pdf 
 ```
 
-then your PDF now has the correct metadata and ready is for reading on an
+then your PDF now has the correct metadata and is ready for reading on an
 eReader!
