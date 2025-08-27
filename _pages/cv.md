@@ -81,10 +81,11 @@ Middle Tennessee State University (MTSU)
 
 **Ferrite.jl: Finite Element Toolbox in Julia**
 - Documentation and contributions to tutorial on simulating incompressible
-  Navier-Stokes equations.
+  Navier-Stokes equations. (In Progress)
 
 **SpeedyWeather.jl: Global Atmospheric Model in Julia**
-- Adding reproducible gallery code for demonstrating library's capabilities.
+- Adding reproducible gallery code for demonstrating library's capabilities. (In
+  Progress)
 
 **Miscellaneous Issues/Small Contributions**
 - PETSc
