@@ -55,7 +55,7 @@ $$
 
 We define also \\(R(u) = -\rho \sqrt u\\) and \\(f(x) = 0\\) as well as the 
 Dirichlet boundary conditions \\(u(0) = \alpha\\) and \\(u(1) = \beta\\) for our 
-domain \\(\Omega \in [0, 1] \\).
+domain \\(\Omega = [0, 1] \\).
 
 Clearly, the
 square root function in \\(R(u)\\) introduces a nonlinear term into
