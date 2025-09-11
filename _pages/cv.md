@@ -96,7 +96,7 @@ Middle Tennessee State University (MTSU)
 
 ## Skills
 - **Coding:** Python\*, C\*, Bash\*, Julia\*, C++\*\*, Fortran\*\*, R\*\*\*, Mathematica\*\*\*
-- **Other:** MPI, OpenMP, (Some) OpenACC/CUDA, SLURM, Git, GitHub, GitLab, CMake, Valgrind, Docker, CI/CD, gcc, gfortran, ifx/ifort, NetCDF, xarray, TensorFlow, PyTorch, Linux (Ubuntu, Red Hat), Windows, VS Code, (neo)vim, tmux, Using LLMs (e.g., ChatGPT)
+- **Technologies:** MPI, OpenMP, (Some) OpenACC/CUDA, SLURM, Git, GitHub, GitLab, CMake, Valgrind, Docker, CI/CD, gcc, gfortran, ifx/ifort, NetCDF, xarray, TensorFlow, PyTorch, Linux (Ubuntu, Red Hat), Windows, VS Code, (neo)vim, tmux, Using LLMs (e.g., ChatGPT)
 - **Languages:** English (native), German (~B2.1), Dutch (~B2.1), Italian (~A2.2) 
 
 \*Proficient, \*\*Somewhat Proficient, \*\*\*Limited Proficiency
