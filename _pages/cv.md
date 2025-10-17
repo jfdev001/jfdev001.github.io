@@ -79,15 +79,13 @@ Middle Tennessee State University (MTSU)
 
 ## Open Source Software
 
-**Ferrite.jl: Finite Element Toolbox in Julia**
-- Documentation and contributions to tutorial on simulating incompressible
-  Navier-Stokes equations. (In Progress)
-
-**SpeedyWeather.jl: Global Atmospheric Model in Julia**
-- Adding reproducible gallery code for demonstrating library's capabilities. (In
-  Progress)
+**FTorch: A library for directly calling PyTorch ML models from Fortran**
+- Added CI for Intel compilers (PR: [#438](https://github.com/Cambridge-ICCS/FTorch/pull/438)).
+- Improved installation and testing stability (PRs: [#431](https://github.com/Cambridge-ICCS/FTorch/pull/431), [#434](https://github.com/Cambridge-ICCS/FTorch/pull/434), [#437](https://github.com/Cambridge-ICCS/FTorch/pull/437)).
 
 **Miscellaneous Issues/Small Contributions**
+- Ferrite.jl 
+- SpeedyWeather.jl 
 - PETSc
 - fortran-lang/fftpack
 - Goddard-Fortran-Ecosystem/pFUnit
@@ -97,7 +95,7 @@ Middle Tennessee State University (MTSU)
 ## Skills
 - **Coding:** Python\*, C\*, Bash\*, Julia\*, C++\*\*, Fortran\*\*, R\*\*\*, Mathematica\*\*\*
 - **Technologies:** MPI, OpenMP, (Some) OpenACC/CUDA, SLURM, Git, GitHub, GitLab, CMake, Valgrind, Docker, CI/CD, gcc, gfortran, ifx/ifort, NetCDF, xarray, TensorFlow, PyTorch, Linux (Ubuntu, Red Hat), Windows, VS Code, (neo)vim, tmux, Using LLMs (e.g., ChatGPT)
-- **Languages:** English (native), German (~B2.1), Dutch (~B2.1), Italian (~A2.2) 
+- **Languages:** English (native), German (B2.1), Dutch (B1.2), Italian (A2.2) 
 
 \*Proficient, \*\*Somewhat Proficient, \*\*\*Limited Proficiency
 

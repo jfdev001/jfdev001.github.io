@@ -26,13 +26,11 @@ I also develop in-house software to support the scientists at the IAP
 and collaborate with the German Climate Computing Center (DKRZ) and the 
 German Weather Service (DWD) on refactoring the ICON upper atmosphere codes. 
 
-Outside of work, I enjoy language learning (Dutch, German, and Italian), 
-playing guitar, calisthenics, cooking, and hiking. I also enjoy contributing to 
-open-source projects as well as [blogging](https://jfdev001.github.io//year-archive/) 
-about different topics in computational science! Regarding open-source, I am currently 
-working on documentation/tutorials for [Ferrite.jl](https://github.com/Ferrite-FEM/Ferrite.jl) 
-(a finite element toolbox) and [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl) 
-(an atmospheric modelling framework). I've also made small contributions to a 
-number of other projects like [PETSc](gitlab.com/petsc/petsc) as well as
-[fortran-lang/fftpack](https://github.com/fortran-lang/fftpack).
-
+Outside of work, I enjoy language learning (Dutch, German, and Italian),
+playing guitar, calisthenics, cooking, and hiking. I also enjoy contributing to
+open-source projects as well as
+[blogging](https://jfdev001.github.io//year-archive/) about topics in
+computational science as well as miscellaneous software topics! Some 
+open source software contributions I've made of varying depth are to projects
+such as 
+[FTorch](https://github.com/Cambridge-ICCS/FTorch), [Ferrite.jl](https://github.com/Ferrite-FEM/Ferrite.jl), [SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl), [PETSc](https://gitlab.com/petsc/petsc), and others.
