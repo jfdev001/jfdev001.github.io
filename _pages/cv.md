@@ -77,11 +77,12 @@ Middle Tennessee State University (MTSU)
 
 ---
 
-## Open Source Software
+## Free and Open Source Software (FOSS) Contributions
 
 **FTorch: A library for directly calling PyTorch ML models from Fortran**
-- Added CI for Intel compilers (PR: [#438](https://github.com/Cambridge-ICCS/FTorch/pull/438)).
-- Improved installation and testing stability (PRs: [#431](https://github.com/Cambridge-ICCS/FTorch/pull/431), [#434](https://github.com/Cambridge-ICCS/FTorch/pull/434), [#437](https://github.com/Cambridge-ICCS/FTorch/pull/437)).
+- Added support for building as static library (relevant for use with climate models like ICON or WRF) (PR: [#448](https://github.com/Cambridge-ICCS/FTorch/pull/448)).
+- Added CI for Intel compilers (PRs: [#438](https://github.com/Cambridge-ICCS/FTorch/pull/438), [#449](https://github.com/Cambridge-ICCS/FTorch/pull/449)).
+- Improved installation and testing stability (PRs: [#431](https://github.com/Cambridge-ICCS/FTorch/pull/431), [#434](https://github.com/Cambridge-ICCS/FTorch/pull/434), [#437](https://github.com/Cambridge-ICCS/FTorch/pull/437), [#450](https://github.com/Cambridge-ICCS/FTorch/pull/450)).
 
 **Miscellaneous Issues/Small Contributions**
 - Ferrite.jl 
