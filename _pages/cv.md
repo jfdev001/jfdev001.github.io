@@ -59,7 +59,8 @@ Middle Tennessee State University (MTSU)
 **Intern for Imaging Biomarkers and Computer-Aided Diagnosis – National Institutes of Health**  
 *Jun 2022 – Aug 2022*  
 - Conducted full-time machine learning research funded by NIH.  
-- Developed state-of-the-art computer vision models for 3D universal lesion detection in CT scans using the MMDetection framework.  
+- Developed state-of-the-art computer vision models for 3D universal lesion detection in CT scans using the MMDetection framework.
+- Wrote and submitted [conference paper](https://ui.adsabs.harvard.edu/abs/2023SPIE12465E..38F/abstract) describing improvement over state-of-the-art.
 
 **B.S. Thesis: Machine Learning in Atmospheric Science**  
 *Aug 2021 – Mar 2022*  
