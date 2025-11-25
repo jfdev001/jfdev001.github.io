@@ -32,7 +32,7 @@ As an example, take [Tsunami Propagation from a Finite Source (Carrier 2005)](ht
 the metadata contents with:
 
 ```shell
-pdftk ~/Downloads/cmes.2005.010.113-2.pdf dump_data_ut8 output ~/Downloads/cmes.2005.utf 
+pdftk ~/Downloads/cmes.2005.010.113-2.pdf dump_data_utf8 output ~/Downloads/cmes.2005.utf 
 ```
 
 Opening `~/Downloads/cmes.2005.utf`, you'll see a number of fields, one of which
