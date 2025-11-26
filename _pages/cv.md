@@ -99,7 +99,9 @@ Middle Tennessee State University (MTSU)
     - Working Knowledge: Python, C, Fortran, Bash, Julia
     - Basic Knowledge: C++, R, Mathematica, MATLAB
 - **Technologies:** MPI, OpenMP, (Some) OpenACC/CUDA, SLURM, Git, GitHub, GitLab, CMake, Make, GNU Autotools, Valgrind, Docker, CI/CD, gcc, gfortran, ifx/ifort, NetCDF, xarray, TensorFlow, PyTorch, Linux (Ubuntu, Red Hat), Windows, (neo)vim, tmux, Using LLMs (e.g., ChatGPT)
-- **Languages:** English (native), German (B2.1), Dutch (B1.2), Italian (A2.2) 
+- **Languages:** English (native), German (B2\*), Dutch (B1\*), Italian (A2\*) 
+
+\*Estimated CEFR Proficiency
 
 ---
 
