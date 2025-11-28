@@ -148,6 +148,18 @@ $$
 It turns out that by definition, \\(F'\\) in 
 \\(dF(u; \delta u) = F'(u)(\delta u)\\) is just the continuous linear operator
 represented by the Jacobian matrix (see [Rall 1971](https://www.sciencedirect.com/science/article/abs/pii/B9780125763509500059)).
+Note, there are *technically* some subtleties here for the mathematically rigorous
+reader---I am no formal mathematician myself, of course. The Gateaux derivative,
+by definition, is *not* necessarily linear or continuous, but if we put
+the linear and continuous constraints on the Gateaux derivative, then we
+define the [Frechet derivative](https://nhigham.com/2020/06/23/what-is-a-frechet-derivative/).
+In the context of PDEs for which one is likely to perform numerical simulation,
+it is *reasonable* to assume the linearity and continuity requirement.
+Experts will still call the derivative for operators the Gateaux 
+derivative (see [Bangerth: Lecture 31.55](https://youtu.be/oVvIWMDctlE?si=hrM1kXJpmuR7vy2D&t=773))
+even when the term Frechet derivative might be more appropriate. I am only
+mentioning this distinction since you might encounter the Gateaux or 
+Frechet derivative in your own study of numerical PDEs.
 Thus, to solve nonlinear PDE problems via Newton's method, we must do one of
 the following:
 
