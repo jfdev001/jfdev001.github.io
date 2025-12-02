@@ -124,22 +124,22 @@ u^{k+1} &= u^{k} + \delta u. && \text{(5.3)}
 \end{aligned} 
 $$ 
 
-The "linearization" is equation (5.1): it is a truncated 
-[Taylor series](https://en.wikipedia.org/wiki/Taylor_series) that is a linear
-function of \\(\delta u\\) that approximates \\(F\\) near \\(u^k\\) at
-iteration \\(k\\), therefore we have replaced our nonlinear function with a 
-linear one. We seek the zero of this function, that is 
-\\(F(u^k + \delta u) = 0\\) and rearrange to get equation (5.2). 
-The term \\(F'(u)(\delta u)\\) may look a little suspicious, but
-consider for a moment what \\(F\\) actually is. If \\(F\\) were a scalar
-function, naturally \\(F'\\) is the ordinary derivative. Similarly, 
-if \\(F\\) were a vector function, \\(F'\\) would be the Jacobian written
-as \\(J_F(u^k)\\). However, \\(F\\) is neither a scalar nor a vector function,
-but rather it is an operator: a map of one function space to another 
-function space. That is, \\(F\\) maps the function space of \\(u\\) to another
-function space. Thus, we must define the derivative of an operator. 
-This is given by the 
-[Gateaux derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
+The "linearization" is equation (5.1): it is a truncated [Taylor
+series](https://en.wikipedia.org/wiki/Taylor_series) that is a linear function
+of \\(\delta u\\) that approximates \\(F\\) near \\(u^k\\) at iteration
+\\(k\\), therefore we have replaced our nonlinear function with a linear one.
+We seek the zero of this function, that is \\(F(u^k + \delta u) = 0\\) and
+rearrange to get equation (5.2). The term \\(F'(u)(\delta u)\\) may look a
+little suspicious, but consider for a moment what \\(F\\) actually is. If
+\\(F\\) were a scalar function, naturally \\(F'\\) is the ordinary derivative.
+Similarly, if \\(F\\) were a vector function, \\(F'\\) would be the Jacobian
+written as \\(J_F(u^k)\\). However, \\(F\\) is neither a scalar nor a vector
+function, but rather it is an
+[operator](https://en.wikipedia.org/wiki/Operator_(mathematics)): a map of one
+function space to another function space. That is, \\(F\\) maps the function
+space of \\(u\\) to another function space. Thus, we must define the derivative
+of an operator. This is given by the [Gateaux
+derivative](https://en.wikipedia.org/wiki/Gateaux_derivative)
 
 $$
 dF(u; \delta u) = \lim_{\epsilon \rightarrow 0} \frac{F(u + \epsilon \delta u) - F(u)}{\epsilon} = \left . \frac{d}{d\epsilon} F(u + \epsilon \delta u) \right\vert_{\epsilon = 0}.
