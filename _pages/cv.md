@@ -26,11 +26,11 @@ role.
 ---
 
 ## Education
-**M.Sc. Computational Science**  
+**Master of Science (M.Sc.): Computational Science**  
 University of Amsterdam (UvA) / Vrije Universiteit (VU)  
 *2024*
 
-**B.S. Computer Science**  
+**Bachelor of Science (B.S.): Computer Science**  
 Middle Tennessee State University (MTSU)  
 *2022*
 
@@ -44,10 +44,11 @@ Middle Tennessee State University (MTSU)
 - Developing in-house tools for visualizations used in scientific publications.
 - Facilitating code collaboration and sustainability by instructing scientists 
   and establishing use of standard code development tools such as GitLab.
-- Providing debugging, documentation, and support for use of [ICON](https://www.dwd.de/EN/research/weatherforecasting/num_modelling/01_num_weather_prediction_modells/icon_description.html) model at
-  the IAP.
+- Providing debugging, documentation, and support for use of the
+[ICON](https://www.dwd.de/EN/research/weatherforecasting/num_modelling/01_num_weather_prediction_modells/icon_description.html)
+model at the IAP.
 - Collaborating with German Weather Service (DWD) and German Climate Computing
-  Center (DKRZ) on refactoring upper atmosphere physics of ICON model.
+  Center (DKRZ) on refactoring upper atmosphere physics of the ICON model.
 - Mentoring high school interns in climate data analysis and visualization.
 
 **M.Sc. Thesis: Discretization of Mechanical Metamaterials on Large-Scale Parallel Computers**  
