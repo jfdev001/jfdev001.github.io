@@ -7,8 +7,9 @@ author_profile: true
 
 {% include base_path %}
 
-
-{% for post in site.portfolio %}
+<!-- https://talk.jekyllrb.com/t/sort-posts-by-updated-and-published-date/6789/3 -->
+{% assign posts = site.portfolio | reverse %}
+{% for post in posts %}
   {% include archive-single.html %}
 {% endfor %}
 
