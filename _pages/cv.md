@@ -89,11 +89,11 @@ prediction model at the IAP.
 - Improved installation and testing stability (PRs: [#431](https://github.com/Cambridge-ICCS/FTorch/pull/431), [#434](https://github.com/Cambridge-ICCS/FTorch/pull/434), [#437](https://github.com/Cambridge-ICCS/FTorch/pull/437), [#450](https://github.com/Cambridge-ICCS/FTorch/pull/450)).
 
 **Minor Contributions**
-- Ferrite.jl ([Merged PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [Issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001))
-- PETSc ([Merged PRs](https://gitlab.com/petsc/petsc/-/merge_requests/?sort=created_date&state=merged&author_username=jfdev001&first_page_size=20))
-- fortran-lang/fftpack ([Merged PRs](https://github.com/fortran-lang/fftpack/pulls?q=is%3Apr+author%3Ajfdev001+review%3Aapproved))
-- Goddard-Fortran-Ecosystem/pFUnit ([Issues](https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues?q=is%3Aissue%20author%3Ajfdev001))
-- SpeedyWeather.jl ([Issues](https://github.com/SpeedyWeather/SpeedyWeather.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001))
+- Ferrite.jl ([Merged PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [Issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
+- PETSc ([Merged PRs](https://gitlab.com/petsc/petsc/-/merge_requests/?sort=created_date&state=merged&author_username=jfdev001&first_page_size=20)).
+- fortran-lang/fftpack ([Merged PRs](https://github.com/fortran-lang/fftpack/pulls?q=is%3Apr+author%3Ajfdev001+review%3Aapproved)).
+- Goddard-Fortran-Ecosystem/pFUnit ([Issues](https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues?q=is%3Aissue%20author%3Ajfdev001)).
+- SpeedyWeather.jl ([Issues](https://github.com/SpeedyWeather/SpeedyWeather.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
 
 ---
 
