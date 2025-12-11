@@ -45,8 +45,8 @@ Middle Tennessee State University (MTSU)
 - Facilitating code collaboration and sustainability by instructing scientists 
   and establishing use of standard code development tools such as GitLab.
 - Providing debugging, documentation, and support for use of the
-[ICON](https://www.dwd.de/EN/research/weatherforecasting/num_modelling/01_num_weather_prediction_modells/icon_description.html)
-model at the IAP.
+[ICON](https://www.icon-model.org/) weather, climate, and environmental
+prediction model at the IAP.
 - Collaborating with German Weather Service (DWD) and German Climate Computing
   Center (DKRZ) on refactoring upper atmosphere physics of the ICON model.
 - Mentoring high school interns in climate data analysis and visualization.
@@ -80,17 +80,20 @@ model at the IAP.
 
 ## Free and Open Source Software (FOSS) Contributions
 
-**FTorch: A library for directly calling PyTorch ML models from Fortran**
-- Added support for building as static library (relevant for use with climate models like ICON or WRF) (PR: [#448](https://github.com/Cambridge-ICCS/FTorch/pull/448)).
+**Major Contributions**
+
+*[FTorch](https://github.com/Cambridge-ICCS/FTorch): A library for directly calling PyTorch ML models from Fortran*
+- Added support for automatically generating a pkg config file for the library (relevant for including FTorch as a dependency in legacy build systems) (PR: [#464](https://github.com/Cambridge-ICCS/FTorch/pull/464)).
+- Added support for building as static library (relevant for use with operational numerical weather prediction models like the [German Weather Service's ICON fork](https://www.dwd.de/EN/research/weatherforecasting/num_modelling/01_num_weather_prediction_modells/icon_description.html?nn=484268)) (PR: [#448](https://github.com/Cambridge-ICCS/FTorch/pull/448)).
 - Added CI for Intel compilers (PRs: [#438](https://github.com/Cambridge-ICCS/FTorch/pull/438), [#449](https://github.com/Cambridge-ICCS/FTorch/pull/449)).
 - Improved installation and testing stability (PRs: [#431](https://github.com/Cambridge-ICCS/FTorch/pull/431), [#434](https://github.com/Cambridge-ICCS/FTorch/pull/434), [#437](https://github.com/Cambridge-ICCS/FTorch/pull/437), [#450](https://github.com/Cambridge-ICCS/FTorch/pull/450)).
 
-**Miscellaneous Issues/Small Contributions**
-- Ferrite.jl 
-- SpeedyWeather.jl 
-- PETSc
-- fortran-lang/fftpack
-- Goddard-Fortran-Ecosystem/pFUnit
+**Minor Contributions**
+- Ferrite.jl ([Merged PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [Issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001))
+- PETSc ([Merged PRs](https://gitlab.com/petsc/petsc/-/merge_requests/?sort=created_date&state=merged&author_username=jfdev001&first_page_size=20))
+- fortran-lang/fftpack ([Merged PRs](https://github.com/fortran-lang/fftpack/pulls?q=is%3Apr+author%3Ajfdev001+review%3Aapproved))
+- Goddard-Fortran-Ecosystem/pFUnit ([Issues](https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues?q=is%3Aissue%20author%3Ajfdev001))
+- SpeedyWeather.jl ([Issues](https://github.com/SpeedyWeather/SpeedyWeather.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001))
 
 ---
 
@@ -98,10 +101,22 @@ model at the IAP.
 - **Coding:** 
     - Working Knowledge: Python, C, Fortran, Bash, Julia
     - Basic Knowledge: C++, R, Mathematica, MATLAB
-- **Technologies:** MPI, OpenMP, (Some) OpenACC/CUDA, SLURM, Git, GitHub, GitLab, CMake, Make, GNU Autotools, Valgrind, Docker, CI/CD, gcc, gfortran, ifx/ifort, NetCDF, xarray, TensorFlow, PyTorch, Linux (Ubuntu, Red Hat), Windows, (neo)vim, tmux, Using LLMs (e.g., ChatGPT)
-- **Languages:** English (native), German (B2\*), Dutch (B1\*), Italian (A2\*) 
 
-\*Estimated CEFR Proficiency
+- **Technologies:** 
+    - HPC: MPI, OpenMP, OpenACC\*, CUDA\*, Slurm
+    - Version Control: Git
+    - Code Collaboration: GitHub, GitLab
+    - Build: CMake, Make, GNU Autotools
+    - Compilers: gcc, gfortran, ifx/ifort
+    - Debuggers and Analysis: gdb, pdb, valgrind
+    - Libraries: TensorFlow, PyTorch, NumPy, Pandas, xarray, NetCDF, Matplotlib, Eigen3
+    - OS: Linux (e.g., Ubuntu, Red Hat), Windows
+    - Containerization: Docker
+    - Miscellaneous: CI/CD (e.g., GitHub Actions), Prompting LLMs (e.g., ChatGPT), nvim, tmux
+
+- **Languages:** English (native), German (B2\*\*), Dutch (B1\*\*), Italian (A2\*\*) 
+
+\*Basic Knowledge, \*\*Estimated CEFR Proficiency
 
 ---
 
