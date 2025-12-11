@@ -78,7 +78,7 @@ prediction model at the IAP.
 
 ---
 
-## Free and Open Source Software (FOSS) Contributions
+## Free and Open-Source Software (FOSS) Contributions
 
 **Major Contributions**
 
