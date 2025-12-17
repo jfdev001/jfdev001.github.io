@@ -70,6 +70,7 @@ prediction model at the IAP.
 *Jun 2021 – Aug 2021*  
 - Implemented variational autoencoders for mapping discrete molecular representations to continuous representations.  
 
+<span id="foss"></span>
 **Nano/Forensic Chemistry Research Assistant – MTSU**  
 *Jan 2019 – Aug 2020*  
 - Designed experiments and collected data using direct analysis in real time (DART) ambient ionization with mass spectrometry.  

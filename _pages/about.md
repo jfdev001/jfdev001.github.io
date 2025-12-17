@@ -28,10 +28,9 @@ German Weather Service (DWD) on refactoring the ICON upper atmosphere codes.
 
 Outside of work, I enjoy language learning (Dutch, German, and Italian),
 playing guitar, calisthenics, cooking, and hiking. I also enjoy contributing to
-open-source projects and [blogging](https://jfdev001.github.io//year-archive/)
-about topics in computational science as well as miscellaneous software topics!
-Some open source software contributions I've made of varying depth are to
-projects such as [FTorch](https://github.com/Cambridge-ICCS/FTorch),
-[Ferrite.jl](https://github.com/Ferrite-FEM/Ferrite.jl),
-[SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl),
-[PETSc](https://gitlab.com/petsc/petsc), and others.
+open-source projects (see [my
+contributions](https://jfdev001.github.io/cv#foss))
+and [blogging](https://jfdev001.github.io//year-archive/) about topics in
+computational science as well as miscellaneous software topics! 
+
+Feel free to connect with me on LinkedIn or reach out via email :)
