@@ -88,6 +88,7 @@ prediction model at the IAP.
 - Added support for building as static library (relevant for use with operational numerical weather prediction models like the [German Weather Service's ICON fork](https://www.dwd.de/EN/research/weatherforecasting/num_modelling/01_num_weather_prediction_modells/icon_description.html?nn=484268)) (PR: [#448](https://github.com/Cambridge-ICCS/FTorch/pull/448)).
 - Added CI for Intel compilers (PRs: [#438](https://github.com/Cambridge-ICCS/FTorch/pull/438), [#449](https://github.com/Cambridge-ICCS/FTorch/pull/449)).
 - Improved installation and testing stability (PRs: [#431](https://github.com/Cambridge-ICCS/FTorch/pull/431), [#434](https://github.com/Cambridge-ICCS/FTorch/pull/434), [#437](https://github.com/Cambridge-ICCS/FTorch/pull/437), [#450](https://github.com/Cambridge-ICCS/FTorch/pull/450)).
+- [All merged PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me) and [issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)
 
 **Minor Contributions (Documentation, Bug Fixes, etc.)**
 - Ferrite.jl ([Merged PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [Issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
