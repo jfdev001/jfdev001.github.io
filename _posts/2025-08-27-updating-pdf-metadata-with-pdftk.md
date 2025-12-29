@@ -13,6 +13,7 @@ Unfortunately, the metadata in the PDFs for such journal articles may lack title
 information. This means that the searchable title that appears for the article
 once loaded onto the eReader is something very ugly like an uninterpretable
 string of digits. An easy way to fix this is using the open-source tool `pdftk`.
+In this short article, I show how to use `pdftk` for this purpose.
 
 A look at the man pages for `pdftk` via `man pdftk` tells us everything we
 need to know:
