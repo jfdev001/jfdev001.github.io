@@ -116,7 +116,7 @@ prediction model at the IAP.
     - Containerization: Docker
     - Miscellaneous: CI/CD (e.g., GitHub Actions), Prompting LLMs (e.g., ChatGPT), nvim, tmux
 
-- **Languages:** English (native), German (B2\*\*), Dutch (B1\*\*), Italian (A2\*\*) 
+- **Languages:** English (native), German (B1.2\*\*), Dutch (B1.2\*\*), Italian (A2\*\*) 
 
 \*Basic Knowledge, \*\*Estimated CEFR Proficiency
 
