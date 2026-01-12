@@ -1,5 +1,5 @@
 ---
-title: 'How-to: Enable nvim color schemes in tmux windows'
+title: 'How-to: Enable nvim Color Schemes in tmux Windows'
 date: 2025-12-29
 permalink: /posts/2025/12/tmux-and-nvim/
 tags:
