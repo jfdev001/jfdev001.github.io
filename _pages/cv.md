@@ -20,7 +20,7 @@ redirect_from:
 I am an early career specialist in HPC with performance optimization,
 automation, and DevOps competencies honed during my time as a Scientific
 Programmer at the Leibniz Institute of Atmospheric Physics. I am eager to
-contribute these plus diverse skills in scientific modeling and simulation to a
+contribute these plus diverse skills in scientific modelling and simulation to a
 software engineering role.
 
 ---
@@ -116,7 +116,7 @@ prediction model at the IAP.
     - Containerization: Docker
     - Miscellaneous: CI/CD (e.g., GitHub Actions), Prompting LLMs (e.g., ChatGPT), nvim, tmux
 
-- **Languages:** English (native), German (B2\*\*), Dutch (B1\*\*), Italian (A2\*\*) 
+- **Languages:** English (native), German (B1.2\*\*), Dutch (B1.2\*\*), Italian (A2\*\*) 
 
 \*Basic Knowledge, \*\*Estimated CEFR Proficiency
 
@@ -142,7 +142,7 @@ prediction model at the IAP.
 
 ## Key Graduate-Level Coursework
 - Uncertainty Quantification – 8.5/10  
-- Bioinformatics I (Dynamical Systems Modeling) – 8.5/10  
+- Bioinformatics I (Dynamical Systems modelling) – 8.5/10  
 - Data Mining Techniques – 9/10  
 - Programming Multi-Core & Many-Core Systems – 7.5/10  
 - Parallel Programming Practical – 8.0/10  

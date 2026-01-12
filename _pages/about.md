@@ -9,13 +9,13 @@ redirect_from:
 
 I am a Scientific Programmer in the Modelling of Atmospheric Processes 
 department of the [Leibniz Institute of Atmospheric Physics](https://www.iap-kborn.de/en/research/modelling-of-atmospheric-processes/) (IAP). 
-I previously completed my MSc in Computational Science at the University of 
+I previously completed a M.Sc. in Computational Science at the University of 
 Amsterdam (UvA) funded by the 
 [Amsterdam Merit Scholarship](https://www.uva.nl/en/education/fees-and-funding/masters-scholarships-and-loans/faculty-scholarships-science/science.html) 
 and specialized in high performance computing with a particular interest in 
 distributed discretization methods (see [GalerkinToolkit.jl](https://github.com/GalerkinToolkit/GalerkinToolkit.jl)) 
-and numerical methods for partial differential equations. Before UvA, I completed 
-my B.S. in Computer Science at Middle Tennessee State University and was the 
+and numerical methods for partial differential equations. Before the UvA, I completed 
+a B.S. in Computer Science at Middle Tennessee State University and was the 
 recipient of the [Goldwater Scholarship](https://goldwaterscholarship.gov/2020-goldwater-scholars-by-institution-state/).
 
 My work now is centered around DevOps, automation, visualization, and code 
