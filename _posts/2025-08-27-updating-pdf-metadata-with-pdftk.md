@@ -155,7 +155,7 @@ EOF
 )
 title_metadata="${title_metadata}"$'\n'
 new_metadata="${title_metadata}${cur_metadata}"
-output_pdf_path="${PDF}_updated"
+output_pdf_path="$(dirname $(realpath ${PDF}))/updated_$(basename ${PDF})"
 tmp_new_metdata="/tmp/new_metadata"
 echo "${new_metadata}" > "${tmp_new_metdata}"
 
