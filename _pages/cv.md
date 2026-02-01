@@ -87,7 +87,8 @@ prediction model at the IAP.
 - Added automatic generation of pkg-config files to simplify integration into legacy build systems ([PR](https://github.com/Cambridge-ICCS/FTorch/pull/464)).
 - Enabled building FTorch as a static library, supporting integration with operational NWP models like the German Weather Service's ([PR](https://github.com/Cambridge-ICCS/FTorch/pull/448)).
 - Implemented GitHub Actions CI workflows for Intel compilers, improving cross-platform build reliability ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+438+449)).
-- All additional PRs and issue contributions for ongoing maintenance and community support ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me), [issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)).
+- Patched subtle compilation errors and improved test-suite stability ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is\%3Apr+author\%3Ajfdev001+is\%3Aclosed+431+434+437+450))
+- Ongoing maintenance and community support ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me), [issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)).
 
 ---
 
