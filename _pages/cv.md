@@ -79,7 +79,7 @@ prediction model at the IAP.
 
 ---
 
-## Free and Open-Source Software (FOSS) Contributions
+## Free and Open Source Software (FOSS) Contributions
 
 ### FTorch | Major contributions to a library for calling PyTorch models from Fortran
 
