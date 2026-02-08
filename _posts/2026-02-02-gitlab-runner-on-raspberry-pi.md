@@ -73,53 +73,58 @@ stage.
 Continuous Integration (CI) and Continuous Deployment/Delivery (CD) are
 practices that automate the process of:
 
-building code,
-
-running tests,
-
-performing static analysis,
-
-and deploying artifacts
-
-whenever changes are pushed to a repository.
+* building code,
+* running tests,
+* performing static analysis,
+* and deploying artifacts whenever changes are pushed to a repository.
 
 The goal is to catch issues early, reduce manual steps, and make software
 delivery repeatable and reliable.
 
+Static analysis is of particular interest since it is essentially the automated
+scanning of code in order to find and report vulnerabilities and errors. For
+example, consider the following C code snippet:
+
+{% highlight c linenos %}
+#include <stdlib.h>                                             
+int main() {
+
+    return 0;
+}
+{% endhighlight %}
+
 ## What is GitLab?
 
-GitLab is a web-based DevOps platform that combines:
+GitLab is a web-based DevOps platform that combines (non-exhaustively):
 
-Git repository hosting
-
-issue tracking
-
-CI/CD pipelines
-
-container registries
-
-and more
+* Git repository hosting,
+* issue tracking,
+* CI/CD pipelines,
+* container registries,
 
 into a single application. One of GitLab’s strengths is how tightly integrated
-CI/CD is with the repository itself: pipelines are defined declaratively via
-.gitlab-ci.yml.
+CI/CD is with the project (or using GitHub's terms a "repository") itself. That
+is, pipelines are defined declaratively via a `.gitlab-ci.yml` file in a 
+a project's root directory. The feature of GitLab that facilitates CI/CD
+pipelines is known as GitLab runners. These are analagous to GitHub actions.
+However, the type of GitLab runners that you have access to 
 
-Why runners matter for self-managed GitLab
+## Why runners matter for self-managed GitLab
 
-GitLab CI pipelines are executed by GitLab runners, agents that poll GitLab for
-jobs and execute them.
+GitLab CI pipelines are executed by GitLab runners. These are daemons (i.e.,
+background processes) that run on either public (aka shared) servers or 
+are configured to run on on-prem infrastructure. The [runner execution
+flow](https://docs.gitlab.com/runner/#runner-execution-flow) is highly intuitive,
+and involves (1) initial registration of the runner with the GitLab instance
 
-If you use:
+* GitLab.com → shared runners are available
+* GitLab Dedicated → shared runners are available
+* Self-managed GitLab → ❌ no shared runners
 
-GitLab.com → shared runners are available
-
-GitLab Dedicated → shared runners are available
-
-Self-managed GitLab → ❌ no shared runners
-
-As documented in GitLab’s runner documentation (see here), shared runners are
-not available to self-managed instances unless you are on the Dedicated
-offering. In our case, we’re not, so self-hosted runners are mandatory.
+Per the GitLab runner [documentation](see
+[here](https://docs.gitlab.com/ci/runners/)), shared runners are not available
+to self-managed instances unless you are on the Dedicated offering. In our
+case, we’re not, so self-hosted runners are mandatory.
 
 # Bootstrapping the Raspberry Pi 3B+
 
