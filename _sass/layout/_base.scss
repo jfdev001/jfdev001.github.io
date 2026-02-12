@@ -126,13 +126,19 @@ a {
 }
 
 /* code */
-
+/* https://talk.jekyllrb.com/t/how-to-change-code-snippet-background-in-jekyll-blog/2117 */
 tt, code, kbd, samp, pre {
   font-family: $monospace;
+  font-size: 1.20em;
 }
 
 pre {
   overflow-x: auto; /* add scrollbars to wide code blocks*/
+}
+
+// sets static width of first column for rouge code blocks
+td.rouge-gutter.gl {
+  width: 10px
 }
 
 a > code,
