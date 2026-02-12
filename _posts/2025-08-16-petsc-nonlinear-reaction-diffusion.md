@@ -330,7 +330,7 @@ to the maths introduced in the present article.
 The PETSc function below for \\(F(u)\\) is adapted from 
 [p4pdes/reaction.c:92-115](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L92-L115).
 
-{% highlight c linenos %}
+```c
 // Compute F(u) for reaction-diffusion equation
 // Reference: Equation (7)
 PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
@@ -363,7 +363,7 @@ PetscErrorCode FormFunctionLocal(DMDALocalInfo *info, PetscReal *u,
     }
     return 0;
 }
-{% endhighlight %}
+```
 
 In line 6, the grid spacing `h` is computed as expected. In line 8, we iterate 
 through the locally owned part of a distributed vector, hence the indices 
@@ -392,7 +392,7 @@ function evaluated in line 27 is added also per equation (7).
 Next, the PETSc function for the Jacobian 
 is adapted from [p4pdes/reaction.c:117-114](https://github.com/bueler/p4pdes/blob/3b222cf360dad9062f895b810b37a6e2fd0876a1/c/ch4/reaction.c#L117-L144).
 
-{% highlight c linenos %}
+```c
 // Compute J_F(u^k) for reaction-diffusion equation
 // Reference: Equation (10)
 PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
@@ -427,7 +427,7 @@ PetscErrorCode FormJacobianLocal(DMDALocalInfo *info, PetscReal *u,
     }
     return 0;
 }
-{% endhighlight %}
+```
 
 Line 6 and 7 are essentially the same as in `FormFunctionLocal`.
 

@@ -21,7 +21,7 @@ need to know:
 <figure>
     <img src="/images/man_pdftk.png">
     <figcaption><font size="4">
-        Figure (1): Manual for <code>pdftk</code>. 
+        Figure (1): Manual for <i>pdftk</i>. 
     </font></figcaption>
 </figure>
 
