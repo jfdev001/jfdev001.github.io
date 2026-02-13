@@ -23,7 +23,7 @@ worth handling correctly if you care about long-term stability and
 recoverability.
 
 1. [CI/CD and GitLab](#cicd-and-gitlab)
-    1. [What is CI/CD?](#what-is-cicd)
+    1. [What is CI/CD](#what-is-cicd)
     2. [The Importance of Static Code Analysis](#the-importance-of-static-code-analysis)
     3. [What is GitLab](#what-is-gitlab)
 2. [The Raspberry Pi 3B+](#the-raspberry-pi-3b)
@@ -43,7 +43,7 @@ recoverability.
 
 Before diving into hardware, it’s worth briefly setting the stage.
 
-## What is CI/CD?
+## What is CI/CD
 
 Continuous Integration (CI) and Continuous Deployment/Delivery (CD) are
 practices that automate the process of:
