@@ -89,8 +89,6 @@ prediction model at the IAP.
 - Patched subtle compilation errors and improved test-suite stability ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is\%3Apr+author\%3Ajfdev001+is\%3Aclosed+431+434+437+450))
 - Ongoing maintenance and community support ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me), [issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)).
 
----
-
 ### Other Open Source Contributions
 
 - **Ferrite.jl**: Improved documentation and fixed deadlinks ([PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
