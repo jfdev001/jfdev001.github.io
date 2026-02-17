@@ -38,7 +38,7 @@ Middle Tennessee State University (MTSU)
 
 ## Experience
 
-**Scientific Programmer – Leibniz Institute of Atmospheric Physics (IAP)**  
+**Research Software Engineer – Leibniz Institute of Atmospheric Physics (IAP)**  
 *October 2024 – Present*  
 - Improving speed and efficiency of climate data processing pipelines.
 - Developing in-house tools for visualizations used in scientific publications.
@@ -159,7 +159,7 @@ prediction model at the IAP.
 ---
 
 ## Media Coverage
-- **MTSU Alumni Spotlight** (July 2025) [An Atmosphere of Change – Feature on Involvement as Scientific Programmer at Leibniz Institute of Atmospheric Physics](https://issuu.com/mtsumag/docs/mtsuresearch2025/s/88674928).
+- **MTSU Alumni Spotlight** (July 2025) [An Atmosphere of Change – Feature on Involvement as Research Software Engineer at Leibniz Institute of Atmospheric Physics](https://issuu.com/mtsumag/docs/mtsuresearch2025/s/88674928).
 - **MTSU True Blue Mars Magazine Feature** (July 2021) – [Feature on Machine Learning Research for Martian Colonization](https://mtsunews.com/blue-mars/).
 - **MTSU Out of the Blue Interview – Blue Mars Initiative** (July 2021) – [Interview with VP for Marketing and Communications](https://www.youtube.com/watch?v=qKyci68yUVc).
 - **Goldwater Scholar Coverage by MTSU News & Rutherford Source** (Apr 2020) – [Local news coverage of Goldwater Scholarship Achievements](https://rutherfordsource.com/mtsu-rising-junior-earns-prestigious-barry-m-goldwater-scholarship/).

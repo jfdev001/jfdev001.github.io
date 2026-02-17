@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-I am a Scientific Programmer in the Modelling of Atmospheric Processes 
+I am a Research Software Engineer in the Modelling of Atmospheric Processes 
 department of the [Leibniz Institute of Atmospheric Physics](https://www.iap-kborn.de/en/research/modelling-of-atmospheric-processes/) (IAP). 
 I previously completed a M.Sc. in Computational Science at the University of 
 Amsterdam (UvA) funded by the 
