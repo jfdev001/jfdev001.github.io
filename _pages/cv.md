@@ -16,12 +16,9 @@ redirect_from:
 
 ---
 
-## Career Interests
-I am an early career specialist in HPC with performance optimization,
-automation, and DevOps competencies honed during my time as a Scientific
-Programmer at the Leibniz Institute of Atmospheric Physics. I am eager to
-contribute these plus diverse skills in scientific modelling and simulation to a
-software engineering role.
+## Profile
+Software engineer with 2 years of experience in high performance computing (HPC) environments, working on large-scale simulation software such as
+the ICON climate/weather model. Experienced in performance optimization, automation, and DevOps
 
 ---
 
