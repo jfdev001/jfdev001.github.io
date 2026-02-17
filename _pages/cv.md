@@ -40,16 +40,12 @@ Middle Tennessee State University (MTSU)
 
 **Research Software Engineer – Leibniz Institute of Atmospheric Physics (IAP)**  
 *October 2024 – Present*  
-- Improving speed and efficiency of climate data processing pipelines.
-- Developing in-house tools for visualizations used in scientific publications.
-- Facilitating code collaboration and sustainability by instructing scientists 
-  and establishing use of standard code development tools such as GitLab.
-- Providing debugging, documentation, and support for use of the
-[ICON](https://www.icon-model.org/) weather, climate, and environmental
-prediction model at the IAP.
-- Collaborating with German Weather Service (DWD) and German Climate Computing
-  Center (DKRZ) on refactoring upper atmosphere physics of the ICON model.
-- Mentoring high school interns in climate data analysis and visualization.
+- Improved performance and efficiency of internal terabyte-scale climate data processing pipelines (e.g., cut runtimes from 4 hours to 30 minutes with 8x speedup).
+- Implemented significant build system and CI improvements in leading open source scientific machine learning library (FTorch) to support integration of PyTorch-based machine learning models into ICON weather and climate model ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me)).
+- Standardized internal development workflows by introducing GitLab-based version control as well as CI by deploying a lightweight GitLab runner on a Raspberry Pi to support internal static analysis and automation workflows ([blog](https://jfdev001.github.io/posts/2026/02/gitlab-runner-on-raspberry-pi/)).
+- Developed and maintained in-house visualization tools for scientific analysis and publications, generating figures from processing terabytes of climate data using software I built with GNU Parallel ([journal article](https://link.springer.com/article/10.1007/s10712-025-09915-6#Ack1)).
+- Provided engineering support for the ICON weather and climate model, including debugging, extensive documentation, and user support for a complex, production-grade HPC codebase.
+- Supervised high school interns in climate data analysis and visualization.
 
 **M.Sc. Thesis: Discretization of Mechanical Metamaterials on Large-Scale Parallel Computers**  
 *Nov 2023 – Aug 2024*  
