@@ -34,3 +34,7 @@ to upload it and make it an official package
 * Check the professional cmake 
 * Refer to representative large scale projects uses evanlib github: opencv (syntax),
 claude desktop (devops for auto deploy), and keepassxc (syntax)
+* You can test the package in a docker container or a virtual machine...
+* make sure you have debian build tools
+* make sure you have rpm build tools
+
