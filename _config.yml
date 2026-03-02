@@ -22,7 +22,7 @@ repository               : #
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "superman_highres_headshot.png"
+  avatar           : "superman_512x512_headshot.png"
   name             : "Jared Frazier"
   pronouns         : # example: "she/her"  
   bio              : "Research Software Engineer at the Leibniz Institute of Atmospheric Physics"
