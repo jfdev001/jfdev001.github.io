@@ -37,12 +37,11 @@ Middle Tennessee State University (MTSU)
 
 **Research Software Engineer – Leibniz Institute of Atmospheric Physics (IAP)**  
 *October 2024 – Present*  
-- Improved performance and efficiency of internal terabyte-scale climate data processing pipelines (e.g., cut runtimes from 4 hours to 30 minutes with 8x speedup).
-- Implemented significant build system and CI improvements in leading open source scientific machine learning library (FTorch) to support integration of PyTorch-based machine learning models into ICON weather and climate model ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me)).
-- Standardized internal development workflows by introducing GitLab-based version control as well as CI by deploying a lightweight GitLab runner on a Raspberry Pi to support internal static analysis and automation workflows ([blog](https://jfdev001.github.io/posts/2026/02/gitlab-runner-on-raspberry-pi/)).
-- Developed and maintained in-house visualization tools for scientific analysis and publications, generating figures from processing terabytes of climate data using software I built with GNU Parallel ([journal article](https://link.springer.com/article/10.1007/s10712-025-09915-6#Ack1)).
-- Provided engineering support for the ICON weather and climate model, including debugging, extensive documentation, and user support for a complex, production-grade HPC codebase.
-- Supervised high school interns in climate data analysis and visualization.
+- Improved efficiency of terabyte-scale climate data processing pipelines (e.g., reduced 4-hour runtime to minutes).
+- Implemented significant build system and CI improvements (e.g., reduced runtime by 50%) in **FTorch**, a leading open source scientific machine learning library, and supported subsequent integration of PyTorch-based machine learning models into the ICON weather and climate model ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me)).
+- Standardized internal development processes by introducing GitLab-based version control and deployed a lightweight GitLab runner on a Raspberry Pi to support static analyses (e.g., executes in seconds on production-grade HPC codebases with 500k+ lines of code) and internal automation workflows ([blog](https://jfdev001.github.io/posts/2026/02/gitlab-runner-on-raspberry-pi/)).
+- Designed and implemented parallelized data-processing and visualization pipelines for terabyte-scale climate datasets, leveraging GNU Parallel on Linux-based HPC systems to automate analysis and generate [publication-ready figures](https://link.springer.com/article/10.1007/s10712-025-09915-6#Ack1).
+- Authored 8,000+ words of structured onboarding documentation for scientific developers, covering HPC workflows, ICON compilation/debugging, SLURM scheduling, data management, and Linux-based development practices.
 
 **M.Sc. Thesis: Discretization of Mechanical Metamaterials on Large-Scale Parallel Computers**  
 *Nov 2023 – Aug 2024*  
@@ -74,21 +73,21 @@ Middle Tennessee State University (MTSU)
 
 ## Free and Open Source Software (FOSS) Contributions
 
-### FTorch | Major contributions to a library for calling PyTorch models from Fortran
+### FTorch | 10+ merged pull-requests to one of the most popular production-grade Fortran/PyTorch interoperability libraries 
 
-- Added automatic generation of pkg-config files to simplify integration into legacy build systems ([PR](https://github.com/Cambridge-ICCS/FTorch/pull/464)).
-- Enabled building FTorch as a static library, supporting integration with operational NWP models like the German Weather Service's ([PR](https://github.com/Cambridge-ICCS/FTorch/pull/448)).
-- Implemented GitHub Actions CI workflows for Intel compilers, improving cross-platform build reliability ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+438+449)).
-- Patched subtle compilation errors and improved test-suite stability ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is\%3Apr+author\%3Ajfdev001+is\%3Aclosed+431+434+437+450))
-- Ongoing maintenance and community support ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me), [issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)).
+- Designed and deployed GitHub Actions CI/CD pipelines for Intel oneAPI and GCC toolchains, expanding multi-compiler support and improving cross-platform build reliability ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+438+449)).
+- Implemented automatic pkg-config file generation, simplifying library integration into legacy build systems ([PR](https://github.com/Cambridge-ICCS/FTorch/pull/464)).
+- Enabled static library builds, allowing deployment in operational models where dynamic linking is restricted ([PR](https://github.com/Cambridge-ICCS/FTorch/pull/448)).
+- Diagnosed and resolved subtle compilation issues, improving test-suite stability and build reproducibility ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+431+434+437+450)).
+- Provided ongoing maintenance and community support ([all PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3A%40me+is%3Aclosed), [all issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)).
 
-### Other Open Source Contributions
+### Other Open Source Contributions | 10+ merged pull-requests and issues to scientific computing projects in C, Fortran, and Julia
 
-- **Ferrite.jl**: Improved documentation and fixed deadlinks ([PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
-- **PETSc**: Fixed function signature documentation and tutorial code ([PRs](https://gitlab.com/petsc/petsc/-/merge_requests/?sort=created_date&state=merged&author_username=jfdev001&first_page_size=20)).
-- **fftpack**: Sanitized CMake files ([PR](https://github.com/fortran-lang/fftpack/pulls?q=is%3Apr+author%3Ajfdev001+review%3Aapproved)).
-- **pFUnit**: Reported edge-case failure when using pFUnit as a dependency ([issues](https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues?q=is%3Aissue%20author%3Ajfdev001)).
-- **SpeedyWeather.jl**: Identified reproducibility issues with library-documented examples ([issues](https://github.com/SpeedyWeather/SpeedyWeather.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
+- **Ferrite.jl**: Improved developer documentation and resolved broken links, enhancing library usability ([PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
+- **PETSc**: Corrected API documentation and tutorial examples for the world's most widely used parallel numerical software library ([PRs](https://gitlab.com/petsc/petsc/-/merge_requests/?sort=created_date&state=merged&author_username=jfdev001&first_page_size=20)).
+- **fftpack**: Refactored CMake-based build system to remove unused configuration logic ([PR](https://github.com/fortran-lang/fftpack/pulls?q=is%3Apr+author%3Ajfdev001+review%3Aapproved)).
+- **pFUnit**: Identified and reported dependency edge-case failures affecting downstream HPC projects ([issues](https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues?q=is%3Aissue%20author%3Ajfdev001)).
+- **SpeedyWeather.jl**: Identified 5 reproducibility issues in documented examples, improving scientific correctness ([issues](https://github.com/SpeedyWeather/SpeedyWeather.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
 
 ---
 
