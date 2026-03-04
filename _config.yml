@@ -80,6 +80,8 @@ author:
 publication_category:
   books:
     title: 'Books'
+  software_and_data_products:
+    title: 'Software and Data Products'
   manuscripts:
     title: 'Journal Articles'    
   conferences:
