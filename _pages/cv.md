@@ -81,7 +81,7 @@ Middle Tennessee State University (MTSU)
 - Diagnosed and resolved subtle compilation issues, improving test-suite stability and build reproducibility ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+431+434+437+450)).
 - Provided ongoing maintenance and community support ([all PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3A%40me+is%3Aclosed), [all issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)).
 
-### Other Open Source Contributions | 10+ merged pull-requests and issues to scientific computing projects in C, Fortran, and Julia
+### Other Open-Source Contributions | 10+ merged pull-requests and issues to scientific computing projects in C, Fortran, and Julia
 
 - **Ferrite.jl**: Improved developer documentation and resolved broken links, enhancing library usability ([PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
 - **PETSc**: Corrected API documentation and tutorial examples for the world's most widely used parallel numerical software library ([PRs](https://gitlab.com/petsc/petsc/-/merge_requests/?sort=created_date&state=merged&author_username=jfdev001&first_page_size=20)).
