@@ -71,7 +71,7 @@ Middle Tennessee State University (MTSU)
 
 ---
 
-## Free and Open Source Software (FOSS) Contributions
+## Free and Open-Source Software (FOSS) Contributions
 
 ### FTorch | 10+ merged pull-requests to one of the most popular production-grade Fortran/PyTorch interoperability libraries 
 
