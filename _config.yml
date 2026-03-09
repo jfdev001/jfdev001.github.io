@@ -80,8 +80,10 @@ author:
 publication_category:
   books:
     title: 'Books'
+  talks:
+    title: "Talks"
   software_and_data_products:
-    title: 'Software and Data Products'
+    title: 'Software & Data Products'
   manuscripts:
     title: 'Journal Articles'    
   conferences:
