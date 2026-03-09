@@ -40,6 +40,8 @@
 
         {% if post.collection == 'teaching' %}
           <p> {{ post.type }}, <i>{{ post.venue }}</i>, {{ post.date | default: "1900-01-01" | date: "%Y" }} </p>
+        {% elsif post.category == 'talks' %}
+          <p>Presented at <i>{{ post.venue }}</i>, {{ post.date | default: "1900-01-01" | date: "%Y" }} </p>
         {% elsif post.collection == 'publications' %}
           <p>Published in <i>{{ post.venue }}</i>, {{ post.date | default: "1900-01-01" | date: "%Y" }} </p>
         {% elsif post.date %}
@@ -53,29 +55,31 @@
     {% endif %}
     
     {% if post.citation and post.paperurl and post.slidesurl and post.bibtexurl %}
-      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Go to Publication</a> | <a href="{{ post.slidesurl }}">Download Slides</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Go to Publication</a> | <a href="{{ post.slidesurl }}">Go to Slides</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
     {% elsif post.citation and post.paperurl and post.slidesurl %}
-      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Go to Publication</a> | <a href="{{ post.slidesurl }}">Download Slides</a></p>
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Go to Publication</a> | <a href="{{ post.slidesurl }}">Go to Slides</a></p>
     {% elsif post.citation and post.paperurl and post.bibtexurl %}
       <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Go to Publication</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
     {% elsif post.citation and post.paperurl %}
       <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.paperurl }}">Go to Publication</a></p>
     {% elsif post.citation and post.slidesurl and post.bibtexurl %}
-      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.slidesurl }}">Download Slides</a> | <a href="{{ post.bibtexurl}}">Download Bibtex</a></p>
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.slidesurl }}">Go to Slides</a> | <a href="{{ post.bibtexurl}}">Download Bibtex</a></p>
     {% elsif post.citation and post.slidesurl %}
-      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.slidesurl }}">Download Slides</a></p>
+      <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.slidesurl }}">Go to Slides</a></p>
     {% elsif post.citation and post.bibtexurl %}
       <p>Recommended citation: {{ post.citation }}<br /><a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
     {% elsif post.citation %}
       <p>Recommended citation: {{ post.citation }}</p>
+    {% elsif post.talkurl %}
+      <p><a href=" {{ post.slidesurl }} ">Go to Slides</a></p>
     {% elsif post.paperurl and post.bibtexurl %}
       <p><a href=" {{ post.paperurl }} ">Go to Publication</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
     {% elsif post.paperurl %}
       <p><a href=" {{ post.paperurl }} ">Go to Publication</a></p>
     {% elsif post.slidesurl and post.bibtexurl %}
-      <p><a href="{{ post.slidesurl }}">Download Slides</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+      <p><a href="{{ post.slidesurl }}">Go to Slides</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
     {% elsif post.slidesurl %}
-      <p><a href="{{ post.slidesurl }}">Download Slides</a></p>
+      <p><a href="{{ post.slidesurl }}">Go to Slides</a></p>
     {% elsif post.bibtexurl %}
       <p><a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
     {% endif %}
