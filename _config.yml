@@ -163,7 +163,7 @@ include:
   - _pages
   - files
 exclude:
-  - talks/   # stops complaints about quarto slides
+  - talks/**/*.qmd   # stops complaints about quarto slides
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache
