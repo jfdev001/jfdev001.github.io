@@ -1,0 +1,18 @@
+#!/usr/bin/bash
+# @brief Add license information to all md and qmd files
+HEADER='<!-- 
+Derived from work by Jack Atkinson
+Original Source:  https://github.com/jatkinson1000/rse-skills-workshop
+Licensed under GNU General Public License v3.0 
+-->'
+mdfiles=$(find . \( -name "*.md" -o -name "*.qmd" \) -type f)
+for f in ${mdfiles}
+do 
+    if [[ -z $(grep "Jack Atkinson" "${f}") ]]
+    then
+        echo "[SUCCESS] Adding license to ${f}"
+        printf "%s\n\n" "${HEADER}" | cat - "${f}" > "$f.tmp" && mv "$f.tmp" "$f"
+    else
+        echo "[WARNING] Skipping ${f} since license already added"
+    fi
+done
