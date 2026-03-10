@@ -1,0 +1,10 @@
+<!-- 
+Derived from work by Jack Atkinson
+Original Source:  https://github.com/jatkinson1000/rse-skills-workshop
+Licensed under GNU General Public License v3.0 
+-->
+
+## Documentation
+
+- Take the time now, it'll pay dividends later.
+- The docstring payoff.
