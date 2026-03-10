@@ -14,7 +14,7 @@ format:
     highlight-style: a11y
     code-overflow: wrap
     code-line-numbers: false
-    logo: 
+    logo: images/iap_logo_en-1920px_white.png
     theme: [dark, custom.scss]
 revealjs-plugins:
   - attribution
