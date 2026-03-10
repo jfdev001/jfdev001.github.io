@@ -31,3 +31,41 @@ affiliations:
 date: "2026-03-18"
 # bibliography: references.bib
 ---
+
+## Precursors {.smaller .nostretch}
+
+:::: {.columns}
+::: {.column width="65%"}
+#### Slides and Materials
+
+<!-- TODO: change local host here... -->
+
+To access links or follow on your own device these slides can be found at:  
+[https://jfdev001.github.io/talks/git-for-everyone/](http://localhost:4000/talks/git-for-everyone/)
+
+\
+
+All source code is available at:
+
+::: {.column style="font-size: 95%;"}
+
+- [github.com/jatkinson1000/rse-skills-workshop](https://github.com/jatkinson1000/rse-skills-workshop)
+- [gitlab.com/jatkinson1000/rse-skills-workshop](https://gitlab.com/jatkinson1000/rse-skills-workshop)
+:::
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="30%"}
+
+{{< fa solid person-chalkboard >}}:
+{{< qrcode https://github.com/jatkinson1000/rse-skills-workshop fkrycvbsgt width=150 height=150 >}}
+
+\
+
+{{< fa brands github >}}:
+{{< qrcode https://github.com/jatkinson1000/rse-skills-workshop qr7dekity9 width=150 height=150 >}}
+
+:::
+::::
+
+
