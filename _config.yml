@@ -163,8 +163,17 @@ include:
   - _pages
   - files
 exclude:
-  - talks/**/*.qmd   # stops complaints about quarto slides
+  # TODO: this is still getting regenerated....
+  - talks/**/*_files/
+  - talks/**/*.qmd
   - talks/**/*.ipynb
+  - talks/**/*.js*
+  - talks/**/*.css
+  - talks/**/*.yml
+  - talks/**/*.eot
+  - talks/**/*.woff
+  - talks/**/*.ttf
+  - talks/**/libs/
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache

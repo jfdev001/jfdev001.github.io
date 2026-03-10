@@ -26,7 +26,7 @@ authors:
       - ref: iap
 affiliations:
   - id: iap
-    name: Leibniz Institute of Atmospheric Physics 
+    name: Modelling of Atmospheric Processes Department <br> Leibniz Institute of Atmospheric Physics 
 
 date: "2026-03-18"
 # bibliography: references.bib
