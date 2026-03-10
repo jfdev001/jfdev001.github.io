@@ -80,8 +80,10 @@ author:
 publication_category:
   books:
     title: 'Books'
+  talks:
+    title: "Talks"
   software_and_data_products:
-    title: 'Software and Data Products'
+    title: 'Software & Data Products'
   manuscripts:
     title: 'Journal Articles'    
   conferences:
@@ -161,6 +163,17 @@ include:
   - _pages
   - files
 exclude:
+  # TODO: this is still getting regenerated....
+  - talks/**/*_files/
+  - talks/**/*.qmd
+  - talks/**/*.ipynb
+  - talks/**/*.js*
+  - talks/**/*.css
+  - talks/**/*.yml
+  - talks/**/*.eot
+  - talks/**/*.woff
+  - talks/**/*.ttf
+  - talks/**/libs/
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache

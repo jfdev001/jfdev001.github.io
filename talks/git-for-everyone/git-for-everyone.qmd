@@ -1,0 +1,107 @@
+---
+title: "Git for Everyone"
+subtitle: "An Introduction to Version Control and GitHub"
+
+output-file: index
+
+format:
+  revealjs:
+    slide-number: c/t
+    embed-resources: true
+    chalkboard: false
+    preview-links: auto
+    history: false
+    highlight-style: a11y
+    code-overflow: wrap
+    code-line-numbers: true
+    logo: images/iap_logo_en-1920px_white.png
+    theme: [dark, custom.scss]
+revealjs-plugins:
+  - attribution
+
+authors:
+  - name: Jared Frazier
+    orcid: 0000-0001-8221-7972
+    affiliations:
+      - ref: iap
+affiliations:
+  - id: iap
+    name: Modelling of Atmospheric Processes Department <br> Leibniz Institute of Atmospheric Physics 
+
+date: "2026-03-18"
+# bibliography: references.bib
+---
+
+## Precursors 
+
+#### Slides
+
+<!-- TODO: change local host here... -->
+
+- [jfdev001.github.io/talks/git-for-everyone/index.html](http://localhost:4000/talks/git-for-everyone/)
+
+
+#### Hands-On Materials
+
+- [github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
+
+#### Behavior
+
+- Be nice :)
+- Ask questions whenever they arise
+- I will make mistakes, though I'll try my best not to
+
+## Structure
+
+#### Objectives 
+
+::: {.incremental}
+- Motivate version control and code collaboration tools
+- Introduce the basic `git` commands (mental models)
+- Introduce GitHub (branches, issues, pull requests, etc.)
+- Cover Intermediate `git` + GitHub (real world usage)
+:::
+
+#### Style
+
+::: {.incremental}
+- Mix teaching and practical exercises
+- Keep a text editor/IDE, terminal, and browser open
+:::
+
+## TODO Planning Practical Exercises {.smaller}
+
+* Add requirements.txt for the matplotlib dependency
+* Tell the user how to build and test using the cmake test script
+* Add a documentation at the top of the docker file to tell
+what it is 
+* If you know that pnetcdf is a dependency, do you need to worry
+about potentially large files being generated in the repo? .gitignore
+would be nice here...
+* there's a script described in the readme that has other dependencies... what about those? can that be moved into an actual scrit??
+* i need to force a merge conflict 
+
+## Thanks!
+
+:::: {.columns}
+::: {.column width="20%"}
+Get in touch:
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="75%"}
+{{< fa pencil >}} \ Jared Frazier 
+
+{{< fa brands github >}} \ [jfdev001](https://github.com/jfdev001)
+
+{{< fa solid globe >}} \ [jfdev001.github.io](https://jfdev001.github.io/)
+
+{{< fa brands linkedin>}} \ [jared-frazier-797590188](https://www.linkedin.com/in/jared-frazier-797590188/)
+
+{{< fa solid envelope >}} \ [jaredfrazierapplications@gmail.com](mailto:jaredfrazierapplications@gmail.com)
+
+
+:::
+::::

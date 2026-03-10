@@ -13,17 +13,17 @@ main:
   - title: "CV"
     url: /cv/
 
-  - title: "Publications"
+  - title: "Publications & Talks"
     url: /publications/
 
   - title: "Blog Posts"
     url: /year-archive/
 
+  # - title: "Talks"
+  #   url: /talks/    
+
   - title: "Portfolio"
     url: /portfolio/
-
-  #- title: "Talks"
-    #url: /talks/    
 
   #- title: "Teaching"
     #url: /teaching/    
