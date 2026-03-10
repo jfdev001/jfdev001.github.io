@@ -9,24 +9,6 @@ tags:
     - broken drivers
 ---
 
-<!-- This does not actually fix your issue long term.... even walking back to kernel -->
-<!-- 6.14 and using driver 580 fails... you might considering upgrading to ubuntu... -->
-<!-- furthermore... once suspend occurs... fall back to missing device due  -->
-<!-- to no nvidia drivers (since removing nvidia cuda fixes the connect to -->
-<!-- external display problems in the interim) causes issue during suspend...  -->
-<!-- trying  -->
-<!---->
-<!-- ``` -->
-<!-- gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing' -->
-
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
-gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0
-<!-- ``` -->
-<!---->
-<!-- at the moment to prevent going into the suspend state  -->
-
 Recently my Ubuntu installation ended up in a broken state after a reboot:
 external displays stopped working, `nvidia-smi` failed inside the desktop
 environment (DE), and the system would hang while stopping `gdm` during
