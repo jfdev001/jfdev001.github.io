@@ -18,6 +18,11 @@ tags:
 <!---->
 <!-- ``` -->
 <!-- gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing' -->
+
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'nothing'
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 0
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
+gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 0
 <!-- ``` -->
 <!---->
 <!-- at the moment to prevent going into the suspend state  -->
@@ -112,3 +117,50 @@ hang was gone. While perhaps not the most elegant solution, completely
 resetting both the GPU drivers and the desktop environment turned out to be the
 fastest path to a clean state.
 
+**Update (2026-03-10)**
+
+Interestingly, this solution worked only temporarily. I did not dig into
+system logs; however, it turns out that by default `ubuntu-drivers` will try
+and install the most recent stable driver available. In this, on my Ubuntu 24.04
+system with v6.17 kernel, the automatically installed driver was
+nvidia-driver-590. Oddly, this is actually *not* the driver version that is
+recommended if you list the available devices for which drivers are available
+with
+
+```shell
+ubuntu-drivers devices
+```
+
+The output was 
+
+```text
+driver   : nvidia-driver-580-open - distro non-free recommended
+```
+
+So, in order to properly fix my problem, I did the following:
+
+```shell
+# 1. Purge all NVIDIA leftovers
+sudo apt purge '*nvidia*' '*cuda*'
+sudo apt autoremove
+
+# 2. Update package lists
+sudo apt update
+
+# 3. Install NVIDIA driver 580
+sudo apt install nvidia-driver-580 nvidia-settings nvidia-prime
+
+# 5. Reboot
+sudo reboot
+```
+
+I ended up doing this for v6.14 kernel, which I set to the default kernel
+loaded during boot by modifying `/etc/default/grub` with
+
+```text
+GRUB_DEFAULT="Advanced options for Ubuntu>Ubuntu, with Linux 6.14.0-37-generic"
+```
+
+and then `sudo update-grub`.
+
+I have since had no issues with my drivers or display manager :))
