@@ -89,6 +89,11 @@ $link-color: $linkcolour !default;
   max-height: 10% !important;
 }
 
+/* -- slide number -- */
+.reveal .slide-number {
+  font-size: 1em !important;
+}
+
 /*-- Get rid of column margins - quarto revealjs has strange behaviour --*/
 .reveal .columns > {
   .column,  .column:last-child  {

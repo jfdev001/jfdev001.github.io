@@ -13,7 +13,7 @@ format:
     history: false
     highlight-style: a11y
     code-overflow: wrap
-    code-line-numbers: false
+    code-line-numbers: true
     logo: images/iap_logo_en-1920px_white.png
     theme: [dark, custom.scss]
 revealjs-plugins:
@@ -32,40 +32,58 @@ date: "2026-03-18"
 # bibliography: references.bib
 ---
 
-## Precursors {.smaller .nostretch}
+## Precursors 
 
-:::: {.columns}
-::: {.column width="65%"}
-#### Slides and Materials
+#### Slides
 
 <!-- TODO: change local host here... -->
 
-To access links or follow on your own device these slides can be found at:  
-[https://jfdev001.github.io/talks/git-for-everyone/](http://localhost:4000/talks/git-for-everyone/)
+- [jfdev001.github.io/talks/git-for-everyone/index.html](http://localhost:4000/talks/git-for-everyone/)
 
-\
 
-All source code is available at:
+#### Hands-On Materials
 
-::: {.column style="font-size: 95%;"}
+<!-- change this to a simpler example repository -->
+- [Example Repository (miniWeather)](https://github.com/jfdev001/miniWeather)
 
-- [github.com/jatkinson1000/rse-skills-workshop](https://github.com/jatkinson1000/rse-skills-workshop)
-- [gitlab.com/jatkinson1000/rse-skills-workshop](https://gitlab.com/jatkinson1000/rse-skills-workshop)
+
+#### Behavior
+
+- Be nice :)
+- Ask questions whenever they arise
+- I will make mistakes, though I'll do my best not to
+
+## Structure & Objectives
+
+::: {.incremental}
+- Motivate version control and code collaboration tools
+- Introduce the basic `git` commands (mental models)
+- Introduce GitHub (branches, issues, pull requests, code review)
+- Intermediate `git` + GitHub (real world usage)
+- Mix teaching and practical exercises
 :::
+
+## Thanks!
+
+:::: {.columns}
+::: {.column width="20%"}
+Get in touch:
 :::
+
 ::: {.column width="5%"}
 :::
-::: {.column width="30%"}
 
-{{< fa solid person-chalkboard >}}:
-{{< qrcode https://github.com/jatkinson1000/rse-skills-workshop fkrycvbsgt width=150 height=150 >}}
+::: {.column width="75%"}
+{{< fa pencil >}} \ Jared Frazier 
 
-\
+{{< fa brands github >}} \ [jfdev001](https://github.com/jfdev001)
 
-{{< fa brands github >}}:
-{{< qrcode https://github.com/jatkinson1000/rse-skills-workshop qr7dekity9 width=150 height=150 >}}
+{{< fa solid globe >}} \ [jfdev001.github.io](https://jfdev001.github.io/)
+
+{{< fa brands linkedin>}} \ [jared-frazier-797590188](https://www.linkedin.com/in/jared-frazier-797590188/)
+
+{{< fa solid envelope >}} \ [jaredfrazierapplications@gmail.com](mailto:jaredfrazierapplications@gmail.com)
+
 
 :::
 ::::
-
-
