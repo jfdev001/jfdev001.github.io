@@ -43,25 +43,43 @@ date: "2026-03-18"
 
 #### Hands-On Materials
 
-<!-- change this to a simpler example repository -->
-- [Example Repository (miniWeather)](https://github.com/jfdev001/miniWeather)
-
+- [github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
 
 #### Behavior
 
 - Be nice :)
 - Ask questions whenever they arise
-- I will make mistakes, though I'll do my best not to
+- I will make mistakes, though I'll try my best not to
 
-## Structure & Objectives
+## Structure
+
+#### Objectives 
 
 ::: {.incremental}
 - Motivate version control and code collaboration tools
 - Introduce the basic `git` commands (mental models)
-- Introduce GitHub (branches, issues, pull requests, code review)
-- Intermediate `git` + GitHub (real world usage)
-- Mix teaching and practical exercises
+- Introduce GitHub (branches, issues, pull requests, etc.)
+- Cover Intermediate `git` + GitHub (real world usage)
 :::
+
+#### Style
+
+::: {.incremental}
+- Mix teaching and practical exercises
+- Keep a text editor/IDE, terminal, and browser open
+:::
+
+## TODO Planning Practical Exercises {.smaller}
+
+* Add requirements.txt for the matplotlib dependency
+* Tell the user how to build and test using the cmake test script
+* Add a documentation at the top of the docker file to tell
+what it is 
+* If you know that pnetcdf is a dependency, do you need to worry
+about potentially large files being generated in the repo? .gitignore
+would be nice here...
+* there's a script described in the readme that has other dependencies... what about those? can that be moved into an actual scrit??
+* i need to force a merge conflict 
 
 ## Thanks!
 
