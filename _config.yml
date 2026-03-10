@@ -164,6 +164,7 @@ include:
   - files
 exclude:
   - talks/**/*.qmd   # stops complaints about quarto slides
+  - talks/**/*.ipynb
   - "*.sublime-project"
   - "*.sublime-workspace"
   - .asset-cache

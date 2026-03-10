@@ -1,0 +1,33 @@
+---
+title: "Git for Everyone"
+subtitle: "An Introduction to Version Control and GitHub"
+
+output-file: index
+
+format:
+  revealjs:
+    slide-number: c/t
+    embed-resources: true
+    chalkboard: false
+    preview-links: auto
+    history: false
+    highlight-style: a11y
+    code-overflow: wrap
+    code-line-numbers: false
+    logo: 
+    theme: [dark, custom.scss]
+revealjs-plugins:
+  - attribution
+
+authors:
+  - name: Jared Frazier
+    orcid: 0000-0001-8221-7972
+    affiliations:
+      - ref: iap
+affiliations:
+  - id: iap
+    name: Leibniz Institute of Atmospheric Physics 
+
+date: "2026-03-18"
+# bibliography: references.bib
+---
