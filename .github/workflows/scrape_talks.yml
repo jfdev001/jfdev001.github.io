@@ -1,10 +1,10 @@
-# name: Scrape Talk Locations
-#
-# on:
-#   push:
-#     paths:
-#       - 'talks/**'
-#       - 'talkmap.ipynb'
+name: Scrape Talk Locations
+
+on:
+  push:
+    paths:
+      - 'ignoretalks/**'
+      - 'talkmap.ipynb'
 #
 # jobs:
 #   build:
