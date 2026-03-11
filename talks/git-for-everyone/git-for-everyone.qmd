@@ -47,27 +47,35 @@ date: "2026-03-18"
 
 #### Behavior
 
-- Be nice :)
-- Ask questions whenever they arise
-- I will make mistakes, though I'll try my best not to
+- Be nice! :)
+- Ask questions whenever they arise.
+- I will make mistakes, though I'll try my best not to.
 
 ## Structure
 
 #### Objectives 
 
 ::: {.incremental}
-- Motivate version control and code collaboration tools
-- Introduce the basic `git` commands (mental models)
-- Introduce GitHub (branches, issues, pull requests, etc.)
-- Cover Intermediate `git` + GitHub (real world usage)
+- Motivate version control and code collaboration tools.
+- Introduce the basic `git` commands (mental models).
+- Introduce GitHub (branches, issues, pull requests, etc.).
+- Cover Intermediate `git` + GitHub (real world usage).
 :::
 
 #### Style
 
 ::: {.incremental}
-- Mix teaching and practical exercises
-- Keep a text editor/IDE, terminal, and browser open
+- Mix teaching and practical exercises.
+- Keep a text editor/IDE, terminal, and browser open.
 :::
+
+## Setup
+
+- Git comes preinstalled on most Linux distributions and macOS.
+    - Check to see if `which git` returns a path, otherwise see [install on linux](https://git-scm.com/install/linux)
+    or [install on macOS](https://git-scm.com/install/mac), respectively.
+- If you are Windows, select one of the standalone installers (most likely x64)
+from [install on Windows](https://git-scm.com/install/mac)
 
 ## TODO Planning Practical Exercises {.smaller}
 
