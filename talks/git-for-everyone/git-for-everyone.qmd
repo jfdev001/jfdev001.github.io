@@ -32,56 +32,83 @@ date: "2026-03-18"
 # bibliography: references.bib
 ---
 
-## Precursors 
+## Precursors
 
 #### Slides
 
+<!-- TODO: QR codes here would be really cool -->
 <!-- TODO: change local host here... -->
 
-- [jfdev001.github.io/talks/git-for-everyone/index.html](http://localhost:4000/talks/git-for-everyone/)
-
+- Go to the slides since there are lots of clickable links:
+\
+[jfdev001.github.io/talks/git-for-everyone/index.html](http://localhost:4000/talks/git-for-everyone/)
 
 #### Hands-On Materials
 
-- [github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
+- We'll use this repository for the exercises:
+\
+[github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
 
 #### Behavior
 
-- Be nice :)
-- Ask questions whenever they arise
-- I will make mistakes, though I'll try my best not to
+- Ask questions whenever they arise!
+- I will make mistakes, though I'll try my best not to.
 
 ## Structure
 
 #### Objectives 
 
 ::: {.incremental}
-- Motivate version control and code collaboration tools
-- Introduce the basic `git` commands (mental models)
-- Introduce GitHub (branches, issues, pull requests, etc.)
-- Cover Intermediate `git` + GitHub (real world usage)
+- Motivate version control and code collaboration tools.
+- Introduce Git commands (plus mental models).
+- Introduce GitHub (branches, issues, pull requests/merging).
 :::
 
 #### Style
 
 ::: {.incremental}
-- Mix teaching and practical exercises
-- Keep a text editor/IDE, terminal, and browser open
+- Mix teaching and practical exercises.
+- Ideally, you should have a computer with a text editor/IDE, terminal, and browser open.
 :::
 
-## TODO Planning Practical Exercises {.smaller}
+## Setup {.smaller}
+### Git 
 
-* Add requirements.txt for the matplotlib dependency
-* Tell the user how to build and test using the cmake test script
-* Add a documentation at the top of the docker file to tell
-what it is 
-* If you know that pnetcdf is a dependency, do you need to worry
-about potentially large files being generated in the repo? .gitignore
-would be nice here...
-* there's a script described in the readme that has other dependencies... what about those? can that be moved into an actual scrit??
-* i need to force a merge conflict 
+#### Windows
+- If you are on Windows, select one of the standalone installers (most likely x64)
+from [install on Windows](https://git-scm.com/install/mac). The default settings are fine.
 
-## Thanks!
+
+#### Linux + macOS
+- In a terminal, check that `which git` returns a path, otherwise see
+    [install on Linux](https://git-scm.com/install/linux) or [install on
+    macOS](https://git-scm.com/install/mac), respectively.
+
+### GitHub
+- If you don't already have an account, go to [Sign up for GitHub](https://github.com/signup) and go to [Appendix: SSH Keys with GitHub](#ssh-keys-with-github) if you want to be able to `push` to your repositories.
+- Go to the workshop repository and star/fork (top right corner) it: \
+[github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
+
+{{< include _intro_to_git.qmd >}}
+
+{{< include _intro_to_github.qmd >}}
+
+# Summary {.smaller}
+
+- Git is not just a series of backups, it facilitates collaborativesoftware development and clean version tracking.
+- Inspect the status and commit history of a repository.
+- Use branches for each additional feature/improvement you work on.
+- GitHub (and GitLab) provide complementary features to Git:
+    - Remote copy of your local Git repository.
+    - Issues.
+    - Pull requests.
+    - Graphical branch merging.
+
+# A Warning
+
+![](images/losing-your-work.png)
+
+# Thanks!
 
 :::: {.columns}
 ::: {.column width="20%"}
@@ -92,6 +119,7 @@ Get in touch:
 :::
 
 ::: {.column width="75%"}
+<!-- TODO: commented out to avoid querying google api (reduce bandwidth) -->
 {{< fa pencil >}} \ Jared Frazier 
 
 {{< fa brands github >}} \ [jfdev001](https://github.com/jfdev001)
@@ -102,6 +130,32 @@ Get in touch:
 
 {{< fa solid envelope >}} \ [jaredfrazierapplications@gmail.com](mailto:jaredfrazierapplications@gmail.com)
 
-
 :::
 ::::
+
+# Appendix 
+
+## SSH Keys with GitHub {.smaller}
+
+- This allows you to clone URLs that look like `git@github.com[<repo>].git`
+- It also allows you to push to your own repositories.
+- In *Git Bash* on Windows or a terminal on Linux/macOS:
+
+```shell
+# It's more secure to passphrase protect your SSH key, but up to you...
+# for an empty passphrase, just hit enter after calling ssh-keygen
+ssh-keygen -t ed25519 -f ~/.ssh/id_github_ed25519
+
+cat ~/.ssh/id_github_ed25519.pub
+# ^^ copy and paste the above public key
+# GitHub.com > Top Right Corner > Settings > SSH & GPG Keys > New SSH key
+# then paste the public key above into the form on GitHub
+
+# there are cleaner ways to do this, but activate your ssh agent like so:
+echo 'eval $(ssh-agent -s)' >> ~/.bash_profile
+echo "ssh-add ~/.ssh/id_github_ed25519" >> ~/.bash_profile
+source ~/.bash_profile
+
+# verify that you can connect to GitHub
+ssh -T git@github.com
+```

@@ -1,13 +1,21 @@
-# name: Scrape Talk Locations
+name: Scrape Talk Locations
+
+on:
+  push:
+    paths:
+      - 'ignoretalks/**'
+      - 'talkmap.ipynb'
 #
-# on:
-#   push:
-#     paths:
-#       - 'talks/**'
-#       - 'talkmap.ipynb'
-#
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Say hello
+        run: echo "Hello, world!"
 # jobs:
 #   build:
+#
 #     runs-on: ubuntu-latest
 #
 #     steps:
