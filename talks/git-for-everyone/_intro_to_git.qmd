@@ -29,8 +29,7 @@ and <ins><b>why</b></ins>.
 
 ## Git Workflow: A Primer
 
-![Sections of a Git project (adapted from [Pro Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)).](images/git_overview.png)
-
+{{< include _git_workflow.qmd >}}
 
 ## Basic Commands {.smaller}
 
@@ -244,5 +243,4 @@ index e69de29..10ee18b 100644
 
 ## Git Workflow: Revisited
 
-![Sections of a Git project (adapted from [Pro Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)).](images/git_overview.png)
-
+{{< include _git_workflow.qmd >}}

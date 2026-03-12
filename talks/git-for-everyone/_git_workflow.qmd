@@ -1,0 +1,1 @@
+![Sections of a Git project (adapted from [Pro Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)).](images/git_overview.png)

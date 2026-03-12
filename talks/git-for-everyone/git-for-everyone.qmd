@@ -93,10 +93,20 @@ from [install on Windows](https://git-scm.com/install/mac). The default settings
 
 {{< include _intro_to_github.qmd >}}
 
+# Summary {.smaller}
+
+- Git is not just a series of backups, it facilitates collaborativesoftware development and clean version tracking.
+- Inspect the status and commit history of a repository.
+- Use branches for each additional feature/improvement you work on.
+- GitHub (and GitLab) provide complementary features to Git:
+    - Remote copy of your local Git repository.
+    - Issues.
+    - Pull requests.
+    - Graphical branch merging.
+
 # A Warning
 
 ![](images/losing-your-work.png)
-
 
 # Thanks!
 
@@ -119,7 +129,6 @@ Get in touch:
 {{< fa brands linkedin>}} \ [jared-frazier-797590188](https://www.linkedin.com/in/jared-frazier-797590188/)
 
 {{< fa solid envelope >}} \ [jaredfrazierapplications@gmail.com](mailto:jaredfrazierapplications@gmail.com)
-
 
 :::
 ::::
@@ -147,6 +156,6 @@ echo 'eval $(ssh-agent -s)' >> ~/.bash_profile
 echo "ssh-add ~/.ssh/id_github_ed25519" >> ~/.bash_profile
 source ~/.bash_profile
 
-# verify that you can connect GitHub
+# verify that you can connect to GitHub
 ssh -T git@github.com
 ```
