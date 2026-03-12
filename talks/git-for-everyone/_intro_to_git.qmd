@@ -10,7 +10,7 @@
 <ins><b>Who</b></ins> changed <ins><b>what</b></ins>, <ins><b>when</b></ins>,
 and <ins><b>why</b></ins>.
 - Intended for text files and <ins><b>small</b></ins> datasets (<100 MB).
-- Fundamentally <ins><b>not</b></ins> for large file storage, see [git-lfs](https://git-lfs.com/), [dvc](https://git-lfs.com/), etc instead.
+- Fundamentally <ins><b>not</b></ins> for large file storage, see [git-lfs](https://git-lfs.com/), [dvc](https://doc.dvc.org/), etc instead.
 :::
 
 ## Why You Should Use Git {.smaller}

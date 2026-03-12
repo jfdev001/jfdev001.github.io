@@ -76,7 +76,7 @@ date: "2026-03-18"
 
 #### Windows
 - If you are on Windows, select one of the standalone installers (most likely x64)
-from [install on Windows](https://git-scm.com/install/mac). The default settings are fine.
+from [install on Windows](https://git-scm.com/install/windows). The default settings are fine.
 
 
 #### Linux + macOS
