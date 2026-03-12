@@ -41,7 +41,7 @@ date: "2026-03-18"
 
 - Go to the slides since there are lots of clickable links:
 \
-[jfdev001.github.io/talks/git-for-everyone/index.html](http://localhost:4000/talks/git-for-everyone/)
+[jfdev001.github.io/talks/git-for-everyone/index.html](https://jfdev001.github.io/talks/git-for-everyone/index.html#/title-slide)
 
 #### Hands-On Materials
 
