@@ -147,7 +147,7 @@ Get in touch:
 ssh-keygen -t ed25519 -f ~/.ssh/id_github_ed25519
 
 cat ~/.ssh/id_github_ed25519.pub
-# ^^ copy and paste the above public key
+# ^^ copy the above public key
 # GitHub.com > Top Right Corner > Settings > SSH & GPG Keys > New SSH key
 # then paste the public key above into the form on GitHub
 
