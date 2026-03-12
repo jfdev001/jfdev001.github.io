@@ -90,79 +90,14 @@ from [install on Windows](https://git-scm.com/install/mac).
 - Go to the workshop repository and star/fork (top right corner) it: \
 [github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
 
-## TODO Planning Practical Exercises {.smaller}
+{{< include _intro_to_git.qmd >}}
 
-* Add requirements.txt for the matplotlib dependency
-* Tell the user how to build and test using the cmake test script
-* Add a documentation at the top of the docker file to tell
-what it is 
-* If you know that pnetcdf is a dependency, do you need to worry
-about potentially large files being generated in the repo? .gitignore
-would be nice here...
-* there's a script described in the readme that has other dependencies... what about those? can that be moved into an actual scrit??
-* i need to force a merge conflict 
+{{< include _intro_to_github.qmd >}}
 
-# Intro to Git
-
-## What is Git
-
-::: {.incremental}
-- A version control system developed by Linus Torvalds (creator of Linux).
-- Record the history of file changes over time.
-- For each revision/snapshot (aka commit) tell:
-\
-<ins><b>Who</b></ins> changed <ins><b>what</b></ins>, <ins><b>when</b></ins>,
-and <ins><b>why</b></ins>.
-- Intended for text files and <ins><b>small</b></ins> datasets (<100 MB).
-- Fundamentally <ins><b>not</b></ins> for large file storage, see [git-lfs](https://git-lfs.com/), [dvc](https://git-lfs.com/), etc instead.
-:::
-
-## Why You Should Use Git {.smaller}
-
-:::: {.columns}
-::: {.fragment .column width=50%}
-!["Piled Higher and Deeper", [www.phdcomics.com](https://phdcomics.com/comics/archive.php?comicid=1531)](images/phd_version_control.gif){fig-align="left" width=10in height=6in}
-:::
-
-::: {.fragment .column width=50%}
-- Wednesday 22 Jan 2026 11:45 `viz_my_data.py`
-- Thursday  23 Jan 2026 14:23 `viz_my_data_v1.py`
-- Friday    24 Jan 2026 23:45 `viz_my_data_final_v2_stable.py`
-:::
-::::
-
-## Git Workflow: A Primer
-
-![Sections of a Git project (adapted from [Pro Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)).](images/git_overview.png)
-
-{{< include _basic_commands.qmd >}}
-
-## Git Workflow: Revisited
-
-![Sections of a Git project (adapted from [Pro Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)).](images/git_overview.png)
-
-## A Warning
+# A Warning
 
 ![](images/losing-your-work.png)
 
-# Intro to GitHub
-
-## What is GitHub
-
-:::: {.columns}
-::: {.column .incremental width=45%}
-- Stores Git repositories online
-- Helps developers collaborate on code
-- Provides tools for project management
-:::
-
-::: {.column width=5%}
-:::
-
-::: {.column .fragment width=45%}
-![](images/github_repo_screenshot.png){width=10in height=4in}
-:::
-::::
 
 # Thanks!
 

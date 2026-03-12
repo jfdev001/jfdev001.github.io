@@ -1,0 +1,35 @@
+# Intro to GitHub
+
+## What is GitHub
+
+:::: {.columns}
+::: {.column .incremental width=45%}
+- Stores Git repositories online
+- Helps developers collaborate on code
+- Provides tools for project management
+:::
+
+::: {.column width=5%}
+:::
+
+::: {.column .fragment width=45%}
+![](images/github_repo_screenshot.png){width=10in height=4in}
+:::
+::::
+
+## Issues
+
+- something on issues (image here of FTorch issues)
+
+## Exercise 
+
+- What sort of improvements could you think of adding to the `miniweather` simulation?
+- Open an issue in either your fork or in my repository if you don't have a fork!
+- Hints:
+    - Different spatial discretization schemes?
+    - CUDA implementation?
+    - Different governing equations?
+
+## Branches 
+
+## Pull Requests
