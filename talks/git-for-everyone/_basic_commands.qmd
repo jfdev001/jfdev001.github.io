@@ -1,0 +1,188 @@
+## Basic Commands {.smaller}
+
+:::: {.columns}
+::: {.column width=45%}
+<!-- CLONE -->
+- `git init`
+    - Create an empty Git repository.
+:::
+
+::: {.column width=5%}
+:::
+
+::: {.column width=45%}
+
+- <ins>`git clone <repo url> [<dir>]`</ins>
+    - Clone a repo into a new directory.
+:::
+::::
+
+
+```shell
+$ # Alternatively, replace url with your forked url
+$ git clone git@github.com:jfdev001/git-for-everyone-miniweather.git
+Cloning into 'git-for-everyone-miniweather'...
+remote: Enumerating objects: 2200, done.
+remote: Counting objects: 100% (2200/2200), done.
+remote: Compressing objects: 100% (618/618), done.
+remote: Total 2200 (delta 1594), reused 2176 (delta 1574), pack-reused 0 (from 0)
+Receiving objects: 100% (2200/2200), 8.44 MiB | 379.00 KiB/s, done.
+Resolving deltas: 100% (1594/1594), done.
+```
+
+## Basic Commands {.smaller}
+
+:::: {.columns}
+::: {.column width=45%}
+<!-- ADD AND STATUS -->
+- `git init`
+    - Create an empty Git repository.
+- <ins>`git add <filepath>`</ins>
+    - Stage changes you want to record.
+:::
+
+::: {.column width=5%}
+:::
+
+::: {.column width=45%}
+- `git clone <repo url> [<dir>]`
+    - Clone a repo into a new directory.
+- <ins>`git status`</ins>
+    - List files Git has (not) added.
+:::
+::::
+
+```shell
+$ cd git-for-everyone-miniweather
+$ touch NEW_FILE.txt
+$ git add ./
+$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        NEW_FILE.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+## Basic Commands {.smaller}
+
+:::: {.columns}
+::: {.column width=45%}
+<!-- COMMIT AND LOG -->
+- `git init`
+    - Create an empty Git repository.
+- `git add <filepath>`
+    - Stage changes you want to record.
+- <ins>`git commit [-m "short message here"]`</ins>
+    - Commit changes to history with message.
+
+
+```shell
+$ git commit -m "add a new file"
+[main 8f07f0c] add a new file
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 NEW_FILE.txt
+```
+:::
+
+::: {.column width=5%}
+:::
+
+::: {.column width=45%}
+- `git clone <repo url> [<dir>]`
+    - Clone a repo into a new directory.
+- `git status`
+    - List files Git has (not) added.
+- <ins>`git log`</ins>
+    - Show Git history (i.e., commits).
+
+```shell
+$ git log 
+commit 8f07f0cacba3518219d5630d8a95b291ff4ebe3e (HEAD -> main)
+Author: Jared Frazier <cscidev001@gmail.com>
+Date:   Thu Mar 12 10:45:47 2026 +0100
+
+    add a new file
+
+commit 9584a0cf4f360a50e0981debc7e0256d0e39aadb (origin/main, origin/HEAD)
+Author: Jared Frazier <frazier@iap-kborn.de>
+Date:   Wed Mar 11 15:39:32 2026 +0100
+
+    add docker pull instructions
+```
+:::
+::::
+
+## Basic Commands {.smaller}
+
+:::: {.columns}
+::: {.column width=45%}
+<!-- PUSH -->
+- `git init`
+    - Create an empty Git repository.
+- `git add <filepath>`
+    - Stage changes you want to record.
+- `git commit [-m "short message here"]`
+    - Commit changes to history with message.
+- <ins>`git push <remote> <branch>`</ins>
+    - Send local changes to remote repo.
+:::
+
+::: {.column width=5%}
+:::
+
+::: {.column width=45%}
+- `git clone <repo url> [<dir>]`
+    - Clone a repo into a new directory.
+- `git status`
+    - List files Git has (not) added.
+- <ins>`git log`</ins>
+    - Show Git history (i.e., commits).
+
+```shell
+$ git push
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 274 bytes | 274.00 KiB/s, done.
+Total 3 (delta 1), reused 1 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:jfdev001/git-for-everyone-miniweather.git
+   9584a0c..8f07f0c  main -> main
+```
+:::
+::::
+
+## Exercise {.smaller}
+
+A colleague has written a Fortran application that simulates fluid-dynamic flows:
+
+- [github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
+
+If you have an account, then fork (upper right corner) the repository and `clone` your fork.
+
+If you do not have an account, `clone` my repository.
+
+:::: {.columns}
+::: {.column .fragment width=50%}
+<!-- COMMANDS -->
+- `git clone <repo url>`
+- `git add`
+- `git status`
+- `git commit [-m "your message here"]`
+- `git push`
+    - Won't work if you didn't fork
+- `git log`
+:::
+
+::: {.column .fragment width=50%}
+- Are there any `TODO`s anywhere in the repo?
+- If there are Python scripts, are there dependencies? (hint: `requirements.txt`)
+- Is there a script in `README.md` that should be in a different directory?
+- PnetCDF is a dependency, what if this generates large files? (hint: `.gitignore`) 
+:::
+::::

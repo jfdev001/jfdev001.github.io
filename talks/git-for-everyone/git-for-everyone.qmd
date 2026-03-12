@@ -60,9 +60,9 @@ date: "2026-03-18"
 
 ::: {.incremental}
 - Motivate version control and code collaboration tools.
-- Introduce the basic `git` commands (mental models).
-- Relate `git` + GitHub (branches, issues, pull requests, etc.).
-- Cover Intermediate `git` + GitHub (merge, rebase, etc.).
+- Introduce the basic Git commands (mental models).
+- Relate Git + GitHub (branches, issues, pull requests, etc.).
+- Cover Intermediate Git + GitHub (merge, rebase, etc.).
 :::
 
 #### Style
@@ -87,7 +87,7 @@ from [install on Windows](https://git-scm.com/install/mac).
 
 ### GitHub
 - If you don't already have an account, go to [Sign up for GitHub](https://github.com/signup) and go to [Appendix: SSH Keys with GitHub](#ssh-keys-with-github) if you want to be able to `push` to your repositories.
-- Go to the workshop repository and star/`fork` (top right corner) it: \
+- Go to the workshop repository and star/fork (top right corner) it: \
 [github.com/jfdev001/git-for-everyone-miniweather](https://github.com/jfdev001/git-for-everyone-miniweather)
 
 ## TODO Planning Practical Exercises {.smaller}
@@ -135,14 +135,7 @@ and <ins><b>why</b></ins>.
 
 ![Sections of a Git project (adapted from [Pro Git](https://git-scm.com/book/en/v2/Getting-Started-What-is-Git%3F)).](images/git_overview.png)
 
-## Basic Commands 
-
-- `git init`
-- `git clone`
-- `git status`
-- `git log`
-- `git add` 
-- `git commit` 
+{{< include _basic_commands.qmd >}}
 
 ## Git Workflow: Revisited
 
@@ -171,7 +164,7 @@ and <ins><b>why</b></ins>.
 :::
 ::::
 
-## Thanks!
+# Thanks!
 
 :::: {.columns}
 ::: {.column width="20%"}
@@ -182,6 +175,7 @@ Get in touch:
 :::
 
 ::: {.column width="75%"}
+<!-- TODO: commented out to avoid querying google api (reduce bandwidth) -->
 {{< fa pencil >}} \ Jared Frazier 
 
 {{< fa brands github >}} \ [jfdev001](https://github.com/jfdev001)
@@ -223,7 +217,6 @@ $ source rse-venv/bin/activate
 (rse-venv) $ pip install <packagename>
 (rse-venv) $ deactivate
 $
-
 ```
 
 :::
