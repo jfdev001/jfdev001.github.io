@@ -1662,6 +1662,34 @@ Jared Frazier <a href="https://orcid.org/0000-0001-8221-7972" class="quarto-titl
 <span id="cb7-14"><a href></a></span>
 <span id="cb7-15"><a href></a># verify that you can connect to GitHub</span>
 <span id="cb7-16"><a href></a>ssh -T git@github.com</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="gitgithub-contribution-sample-workflow" class="slide level2 smaller">
+<h2>Git/GitHub Contribution Sample Workflow</h2>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource shell number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href></a># Fork the repository on GitHub first (e.g.,</span>
+<span id="cb8-2"><a href></a># git@github.com:mygithubuser/miniWeather.git</span>
+<span id="cb8-3"><a href></a></span>
+<span id="cb8-4"><a href></a># clone your fork locally</span>
+<span id="cb8-5"><a href></a>git clone git@github.com:mygithubuser/miniWeather.git</span>
+<span id="cb8-6"><a href></a>cd miniWeather</span>
+<span id="cb8-7"><a href></a></span>
+<span id="cb8-8"><a href></a># create a new branch for your contribution</span>
+<span id="cb8-9"><a href></a># recommended naming scheme (issue number may not be applicable):</span>
+<span id="cb8-10"><a href></a># &lt;myname&gt;/&lt;issue-number&gt;-&lt;feature-description&gt;</span>
+<span id="cb8-11"><a href></a>git checkout -b myname/42-add-weather-parser</span>
+<span id="cb8-12"><a href></a></span>
+<span id="cb8-13"><a href></a># make your code changes, then stage them</span>
+<span id="cb8-14"><a href></a>git add .</span>
+<span id="cb8-15"><a href></a></span>
+<span id="cb8-16"><a href></a># commit with a clear message</span>
+<span id="cb8-17"><a href></a>git commit -m &quot;Add weather parser for METAR data&quot;</span>
+<span id="cb8-18"><a href></a></span>
+<span id="cb8-19"><a href></a># push the branch to your fork</span>
+<span id="cb8-20"><a href></a>git push -u origin myname/42-add-weather-parser</span>
+<span id="cb8-21"><a href></a></span>
+<span id="cb8-22"><a href></a># go to your fork on GitHub and open a Pull Request (PR)</span>
+<span id="cb8-23"><a href></a># GitHub will usually show a &quot;Compare &amp; pull request&quot; button</span>
+<span id="cb8-24"><a href></a># if your fork goes out of sync with the upstream, just click on &quot;Sync fork&quot; on</span>
+<span id="cb8-25"><a href></a># GitHub, and then do `git pull` locally</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 </section></section>
     </div>

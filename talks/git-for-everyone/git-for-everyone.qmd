@@ -159,3 +159,33 @@ source ~/.bash_profile
 # verify that you can connect to GitHub
 ssh -T git@github.com
 ```
+
+## Git/GitHub Contribution Sample Workflow {.smaller}
+
+```shell
+# Fork the repository on GitHub first (e.g.,
+# git@github.com:mygithubuser/miniWeather.git
+
+# clone your fork locally
+git clone git@github.com:mygithubuser/miniWeather.git
+cd miniWeather
+
+# create a new branch for your contribution
+# recommended naming scheme (issue number may not be applicable):
+# <myname>/<issue-number>-<feature-description>
+git checkout -b myname/42-add-weather-parser
+
+# make your code changes, then stage them
+git add .
+
+# commit with a clear message
+git commit -m "Add weather parser for METAR data"
+
+# push the branch to your fork
+git push -u origin myname/42-add-weather-parser
+
+# go to your fork on GitHub and open a Pull Request (PR)
+# GitHub will usually show a "Compare & pull request" button
+# if your fork goes out of sync with the upstream, just click on "Sync fork" on
+# GitHub, and then do `git pull` locally
+```
