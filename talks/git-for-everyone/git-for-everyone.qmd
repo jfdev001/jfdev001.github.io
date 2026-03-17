@@ -106,16 +106,26 @@ from [install on Windows](https://git-scm.com/install/windows). The default sett
 
 # Git Rabbit Hole {.smaller}
 
-- `git merge` (same thing as GitHub graphical merge, preserve commit history)
-- `git rebase` (similar to merge, graft your commits onto tip of other branch)
-- `git worktree` (have two branches "active" at the same time)
+:::: {.columns}
+::: {.column width=70%}
+- `git merge` (preserve commit history)
+- `git rebase` (graft commit on tip of other branch)
+- `git worktree` (two branches "active" at the same time)
 - `git filter-branch` (for altering history, e.g., remove large files)
 - `git cherry-pick` (take part of other commits)
 - `git commit --amend` (change commit old commit messages)
-- `git reset --soft HEAD~<ncommits>` (can be used to squash commits)
+- `git reset --soft HEAD~<ncommits>` (squash commits)
 - [Code Refinery Lessons](https://coderefinery.org/lessons/), [Pro Git Book](https://git-scm.com/book/en/v2), open source contribution guidelines
 - ...
+:::
 
+::: {.column width=5%}
+:::
+
+::: {.column width=25%}
+![](images/bunny.jpg)
+:::
+::::
 
 # A Warning
 
