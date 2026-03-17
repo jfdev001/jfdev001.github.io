@@ -157,6 +157,9 @@ echo "ssh-add ~/.ssh/id_github_ed25519" >> ~/.bash_profile
 source ~/.bash_profile
 
 # verify that you can connect to GitHub
+# NOTE: The first time you do this, SSH will prompt you to save the fingerprint
+# of the host, just hit yes and ignore the warnings.
+# The result of this command should be "You've successfully authenticated"
 ssh -T git@github.com
 ```
 
