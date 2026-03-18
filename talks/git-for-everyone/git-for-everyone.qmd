@@ -113,7 +113,7 @@ from [install on Windows](https://git-scm.com/install/windows). The default sett
 - `git worktree` (two branches "active" at the same time)
 - `git filter-branch` (for altering history, e.g., remove large files)
 - `git cherry-pick` (take part of other commits)
-- `git commit --amend` (change commit old commit messages)
+- `git commit --amend` (change old commit messages)
 - `git reset --soft HEAD~<ncommits>` (squash commits)
 - [Code Refinery Lessons](https://coderefinery.org/lessons/), [Pro Git Book](https://git-scm.com/book/en/v2), open source contribution guidelines
 - ...
