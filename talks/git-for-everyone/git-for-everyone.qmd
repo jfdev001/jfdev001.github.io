@@ -95,7 +95,8 @@ from [install on Windows](https://git-scm.com/install/windows). The default sett
 
 # Summary {.smaller}
 
-- Git is not just a series of backups, it facilitates collaborativesoftware development and clean version tracking.
+- Git is not just a series of backups, it facilitates collaborative software
+development and clean version tracking.
 - Inspect the status and commit history of a repository.
 - Use branches for each additional feature/improvement you work on.
 - GitHub (and GitLab) provide complementary features to Git:
