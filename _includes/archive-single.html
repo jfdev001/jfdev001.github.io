@@ -78,8 +78,11 @@
       <p><a href=" {{ post.paperurl }} ">Go to Publication</a></p>
     {% elsif post.slidesurl and post.bibtexurl %}
       <p><a href="{{ post.slidesurl }}">Go to Slides</a> | <a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
+    {% elsif post.slidesurl and post.videodownload %}
+        <p><a href="{{ post.slidesurl }}">Go to Slides</a></p>
+        <p><a href="{{ post.videodownload }}" download>Download Presentation Recording</a></p>
     {% elsif post.slidesurl %}
-      <p><a href="{{ post.slidesurl }}">Go to Slides</a></p>
+        <p><a href="{{ post.slidesurl }}">Go to Slides</a></p>
     {% elsif post.bibtexurl %}
       <p><a href="{{ post.bibtexurl }}">Download Bibtex</a></p>
     {% endif %}

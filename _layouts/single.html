@@ -69,6 +69,9 @@ layout: default
           <p style="font-size: smaller">Recommended citation: {{ page.citation }}<br /><a href="{{ page.bibtexurl }}">Download Bibtex</a></p>
         {% elsif page.citation %}
           <p style="font-size: smaller">Recommended citation: {{ page.citation }}</p>
+        {% elsif page.slidesurl and page.videodownload %}
+            <p style="font-size: smaller"><a href="{{ page.slidesurl }}">Go to Slides</a></p>
+            <p style="font-size: smaller"><a href="{{ page.videodownload }}" download>Download Presentation Recording</a></p>
         {% elsif page.slidesurl %}
           <p style="font-size: smaller"><a href="{{ page.slidesurl }}">Go to Slides</a></p>
         {% elsif page.bibtexurl %}
