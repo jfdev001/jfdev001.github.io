@@ -4,7 +4,7 @@ collection: publications
 category: talks
 venue: 'Leibniz Institute of Atmospheric Physics'
 slidesurl: '/talks/git-for-everyone/index.html'
-videodownload: '/talks/git-for-everyone/recording/20260318_git_for_everyone_presentation.mp4'
+videodownload: 'https://github.com/jfdev001/jfdev001.github.io/raw/refs/heads/master/talks/git-for-everyone/recording/20260318_git_for_everyone_presentation.mp4?download='
 ---
 
 Version control is an essential tool for modern software development and
