@@ -112,7 +112,7 @@ development and clean version tracking.
 - `git merge` (preserve commit history)
 - `git rebase` (graft commit on tip of other branch)
 - `git worktree` (two branches "active" at the same time)
-- `git filter-branch` (for altering history, e.g., remove large files)
+- `git filter-repo` (for altering history, e.g., remove large files)
 - `git cherry-pick` (take part of other commits)
 - `git commit --amend` (change old commit messages)
 - `git reset --soft HEAD~<ncommits>` (squash commits)
