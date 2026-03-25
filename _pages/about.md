@@ -19,18 +19,17 @@ a B.S. in Computer Science at Middle Tennessee State University and was the
 recipient of the [Goldwater Scholarship](https://goldwaterscholarship.gov/2020-goldwater-scholars-by-institution-state/).
 
 My work now is centered around DevOps, automation, visualization, and code 
-sustainability for the upper atmosphere codes of the 
+sustainability for the upper atmosphere components of the 
 [Icosahedral Nonhydrostatic (ICON) Model](https://www.dwd.de/EN/research/weatherforecasting/num_modelling/01_num_weather_prediction_modells/icon_description.html), one
 of the world's leading global climate and numerical weather prediction models.
 I also develop in-house software to support the scientists at the IAP
 and collaborate with the German Climate Computing Center (DKRZ) and the 
-German Weather Service (DWD) on refactoring the ICON upper atmosphere codes. 
+German Weather Service (DWD).
 
 Outside of work, I enjoy language learning (Dutch, German, and Italian),
 playing guitar, calisthenics, cooking, and hiking. I also enjoy contributing to
 open-source projects (see [my
-contributions](https://jfdev001.github.io/cv#foss))
-and [blogging](https://jfdev001.github.io//year-archive/) about topics in
-computational science as well as miscellaneous software topics! 
+contributions](https://jfdev001.github.io/cv#foss)) and
+[blogging](https://jfdev001.github.io//year-archive/) about technical topics! 
 
 Feel free to connect with me on LinkedIn or reach out via email :)
