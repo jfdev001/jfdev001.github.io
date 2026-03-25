@@ -41,7 +41,12 @@ Middle Tennessee State University (MTSU)
 - Implemented significant build system and CI improvements (e.g., reduced runtime by 50%) in **FTorch**, a leading open source scientific machine learning library, and supported subsequent integration of PyTorch-based machine learning models into the ICON weather and climate model ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me)).
 - Standardized internal development processes by introducing GitLab-based version control and deployed a lightweight GitLab runner on a Raspberry Pi to support static analyses (e.g., executes in seconds on production-grade HPC codebases with 500k+ lines of code) and internal automation workflows ([blog](https://jfdev001.github.io/posts/2026/02/gitlab-runner-on-raspberry-pi/)).
 - Designed and implemented parallelized data-processing and visualization pipelines for terabyte-scale climate datasets, leveraging GNU Parallel on Linux-based HPC systems to automate analysis and generate [publication-ready figures](https://link.springer.com/article/10.1007/s10712-025-09915-6#Ack1).
-- Authored 8,000+ words of structured onboarding documentation for scientific developers, covering HPC workflows, ICON compilation/debugging, SLURM scheduling, data management, and Linux-based development practices.
+- Authored 8,000+ words of structured onboarding
+[documentation](https://igit.iap-kborn.de/iap-public/aa-dev-wiki-start-here)
+for scientific developers, covering HPC workflows, ICON compilation/debugging,
+SLURM scheduling, data management, and Linux-based development practices and
+led technical training on sustainable scientific software development (e.g.,
+[talk](https://jfdev001.github.io/talks/git-for-everyone/index.html)).
 
 **M.Sc. Thesis: Discretization of Mechanical Metamaterials on Large-Scale Parallel Computers**  
 *Nov 2023 – Aug 2024*  
