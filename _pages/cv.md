@@ -16,23 +16,6 @@ redirect_from:
 
 ---
 
-## Profile
-Software engineer with 2 years of experience in high performance computing (HPC) environments, working on large-scale simulation software such as
-the ICON climate/weather model. Experienced in performance optimization, automation, and DevOps
-
----
-
-## Education
-**Master of Science (M.Sc.): Computational Science**  
-University of Amsterdam (UvA) / Vrije Universiteit (VU)  
-*2024*
-
-**Bachelor of Science (B.S.): Computer Science**  
-Middle Tennessee State University (MTSU)  
-*2022*
-
----
-
 ## Experience
 
 **Research Software Engineer – Leibniz Institute of Atmospheric Physics (IAP)**  
@@ -97,8 +80,8 @@ led technical training on sustainable scientific software development (e.g.,
 ---
 
 ## Skills
-- **Coding:** 
-    - Working Knowledge: Python, C, Fortran, Bash, Julia
+- **Programming Languages:** 
+    - Working Knowledge: Python, C, Fortran, Bash, Julia, JavaScript/HTML/CSS
     - Basic Knowledge: C++, R, Mathematica, MATLAB
 
 - **Technologies:** 
@@ -116,6 +99,17 @@ led technical training on sustainable scientific software development (e.g.,
 - **Languages:** English (native), German (B1+\*\*), Dutch (B1+\*\*), Italian (A2\*\*) 
 
 \*Basic Knowledge, \*\*Estimated CEFR Proficiency
+
+---
+
+## Education
+**Master of Science (M.Sc.): Computational Science**  
+University of Amsterdam (UvA) / Vrije Universiteit (VU)  
+*2024*
+
+**Bachelor of Science (B.S.): Computer Science**  
+Middle Tennessee State University (MTSU)  
+*2022*
 
 ---
 
