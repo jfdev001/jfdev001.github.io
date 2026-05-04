@@ -20,27 +20,52 @@ redirect_from:
 
 **Research Software Engineer – Leibniz Institute of Atmospheric Physics (IAP)**  
 *October 2024 – Present*  
-- Improved efficiency of terabyte-scale climate data processing pipelines (e.g., reduced 4-hour runtime to minutes).
-- Implemented significant build system and CI improvements (e.g., reduced runtime by 50%) in **FTorch**, a leading open source scientific machine learning library, and supported subsequent integration of PyTorch-based machine learning models into the ICON weather and climate model ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me)).
-- Standardized internal development processes by introducing GitLab-based version control and deployed a lightweight GitLab runner on a Raspberry Pi to support static analyses (e.g., executes in seconds on production-grade HPC codebases with 500k+ lines of code) and internal automation workflows ([blog](https://jfdev001.github.io/posts/2026/02/gitlab-runner-on-raspberry-pi/)).
-- Designed and implemented parallelized data-processing and visualization pipelines for terabyte-scale climate datasets, leveraging GNU Parallel on Linux-based HPC systems to automate analysis and generate [publication-ready figures](https://link.springer.com/article/10.1007/s10712-025-09915-6#Ack1).
-- Authored 8,000+ words of structured onboarding
+
+* Automated and parallelized data-processing/visualization pipelines, reducing
+runtimes from 4 hours to minutes for terabyte-scale climate datasets on Linux
+HPC systems, decreasing per-job energy consumption and enabling potential cost
+savings of thousands of euros at scale.
+
+* Refactored and decoupled modules within a large-scale Fortran codebase (e.g.,
+the ICON model), restructuring more than 10k lines-of-code into modular
+components, enabling separation of responsibilities and GPU porting efforts ([PR](https://gitlab.dkrz.de/icon/icon-model/-/commit/74e0f9997f96270a30f1a36d34302051f0c71696)).
+
+* Implemented significant build system and CI improvements in a leading
+open-source scientific machine learning library, reducing runtime by 50% and
+supported integration of PyTorch-based machine learning models into the ICON
+model ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+is%3Aclosed+review%3Aapproved+author%3A%40me)).
+
+* Standardized internal development processes by introducing GitLab-based
+version control and deployed a lightweight GitLab runner on a Raspberry Pi to
+support static analyses (e.g., needs only seconds on production-grade HPC
+codebases with more than 500k lines-of-code) and internal automation workflows ([blog]([blog](https://jfdev001.github.io/posts/2026/02/gitlab-runner-on-raspberry-pi/))).
+
+* Authored 5,000+ words of structured onboarding
 [documentation](https://igit.iap-kborn.de/iap-public/aa-dev-wiki-start-here)
-for scientific developers, covering HPC workflows, ICON compilation/debugging,
-SLURM scheduling, data management, and Linux-based development practices and
-led technical training on sustainable scientific software development (e.g.,
-[talk](https://jfdev001.github.io/talks/git-for-everyone/index.html)).
+covering HPC workflows, operational weather model compilation/debugging, Slurm
+scheduling, data management, Linux-based development practices, and [led
+technical
+training](https://jfdev001.github.io/talks/git-for-everyone/index.html) on
+sustainable scientific software development.
 
 **M.Sc. Thesis: Discretization of Mechanical Metamaterials on Large-Scale Parallel Computers**  
 *Nov 2023 – Aug 2024*  
 - Co-developed distributed meshing algorithms for the simulation of metamaterials via finite element methods and domain decomposition methods.  
 - See: [GalerkinToolkit.jl](https://github.com/)  
 
-**Intern for Imaging Biomarkers and Computer-Aided Diagnosis – National Institutes of Health**  
+**Intern: AI Engineer – National Institutes of Health**  
 *Jun 2022 – Aug 2022*  
-- Conducted full-time machine learning research funded by NIH.  
-- Developed state-of-the-art computer vision models for 3D universal lesion detection in CT scans using the MMDetection framework.
-- Wrote and submitted [conference paper](https://ui.adsabs.harvard.edu/abs/2023SPIE12465E..38F/abstract) describing improvement over state-of-the-art.
+* Developed state-of-the-art computer vision models for tumour detection in CT
+scans using PyTorch and MMDetection.
+
+* Performed distributed model training on massive medical image datasets using
+NVIDIA A100 GPUs.
+
+* Authored a [conference
+paper](https://ui.adsabs.harvard.edu/abs/2023SPIE12465E..38F/abstract)
+reporting improvements over state-of-the-art only 6 weeks after beginning the
+internship.
+
 
 **B.S. Thesis: Machine Learning in Atmospheric Science**  
 *Aug 2021 – Mar 2022*  
@@ -61,7 +86,7 @@ led technical training on sustainable scientific software development (e.g.,
 
 ## Free and Open-Source Software (FOSS) Contributions
 
-### FTorch | 10+ merged pull-requests to one of the most popular production-grade Fortran/PyTorch interoperability libraries 
+### FTorch | University of Cambridge: One of the most widely-used Fortran/PyTorch interoperability libraries
 
 - Designed and deployed GitHub Actions CI/CD pipelines for Intel oneAPI and GCC toolchains, expanding multi-compiler support and improving cross-platform build reliability ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+438+449)).
 - Implemented automatic pkg-config file generation, simplifying library integration into legacy build systems ([PR](https://github.com/Cambridge-ICCS/FTorch/pull/464)).
@@ -69,36 +94,37 @@ led technical training on sustainable scientific software development (e.g.,
 - Diagnosed and resolved subtle compilation issues, improving test-suite stability and build reproducibility ([PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+431+434+437+450)).
 - Provided ongoing maintenance and community support ([all PRs](https://github.com/Cambridge-ICCS/FTorch/pulls?q=is%3Apr+author%3A%40me+is%3Aclosed), [all issues](https://github.com/Cambridge-ICCS/FTorch/issues?q=is%3Aissue%20author%3A%40me)).
 
-### Other Open-Source Contributions | 10+ merged pull-requests and issues to scientific computing projects in C, Fortran, and Julia
+### anemoi-datasets | European Centre for Medium Range Weather Forecasts: ML framework for advanced AI weather models
+* Refactored class-based dataset test suites into parametrized pytest workflows, improving test clarity and coverage ([PR](https://github.com/ecmwf/anemoi-datasets/pull/597)).
+* Replaced legacy testing patterns with modern pytest-native constructs, aligning test suite with current best practices ([PR](https://github.com/ecmwf/anemoi-datasets/pull/598)).
+* Migrated legacy Pydantic configuration models, contributing to Python 3.10+ / Pydantic v3 compatibility ([PR](https://github.com/ecmwf/anemoi-datasets/pull/592)).
+* Improved code correctness and maintainability by removing duplicated logic and simplifying error handling semantics ([PRs](https://github.com/ecmwf/anemoi-datasets/pulls?q=is%3Apr+author%3Ajfdev001+is%3Aclosed+590+605)).
+
+### Other Open-Source Contributions | Scientific computing projects in C, Fortran, and Julia
 
 - **Ferrite.jl**: Improved developer documentation and resolved broken links, enhancing library usability ([PRs](https://github.com/Ferrite-FEM/Ferrite.jl/pulls?q=is%3Apr+is%3Aclosed+author%3Ajfdev001), [issues](https://github.com/Ferrite-FEM/Ferrite.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
 - **PETSc**: Corrected API documentation and tutorial examples for the world's most widely used parallel numerical software library ([PRs](https://gitlab.com/petsc/petsc/-/merge_requests/?sort=created_date&state=merged&author_username=jfdev001&first_page_size=20)).
-- **fftpack**: Refactored CMake-based build system to remove unused configuration logic ([PR](https://github.com/fortran-lang/fftpack/pulls?q=is%3Apr+author%3Ajfdev001+review%3Aapproved)).
+- **fftpack**: Removed unused configuration logic ([PR](https://github.com/fortran-lang/fftpack/pulls?q=is%3Apr+author%3Ajfdev001+review%3Aapproved)).
 - **pFUnit**: Identified and reported dependency edge-case failures affecting downstream HPC projects ([issues](https://github.com/Goddard-Fortran-Ecosystem/pFUnit/issues?q=is%3Aissue%20author%3Ajfdev001)).
 - **SpeedyWeather.jl**: Identified 5 reproducibility issues in documented examples, improving scientific correctness ([issues](https://github.com/SpeedyWeather/SpeedyWeather.jl/issues?q=is%3Aissue%20state%3Aopen%20author%3Ajfdev001)).
 
 ---
 
-## Skills
-- **Programming Languages:** 
-    - Working Knowledge: Python, C, Fortran, Bash, Julia, JavaScript/HTML/CSS
-    - Basic Knowledge: C++, R, Mathematica, MATLAB
+## Technical Skills
+* **Programming Languages**: Python, JavaScript/HTML/CSS, C++, C, Bash, Julia, Fortran
+* **Libraries & Data Formats**: FastAPI, SQLAlchemy, Pytest, NumPy, Pandas, Xarray, Eigen3, PyTorch, NetCDF, GRIB
+* **Databases**: SQLite
+* **Artificial Intelligence**: Pi, OpenCode, OpenClaude, MCP, Ollama, Agentic Workflows
+* **Development Tools**: Git, GitHub, GitHub Actions (CI/CD), GitLab, GitLab Runners (CI/CD), Docker
+* **Build & Compile Tools**: Make, CMake, GNU Autotools, GNU/Intel compilers, gdb, pdb, valgrind
+* **HPC**: Slurm, MPI, OpenMP, OpenACC
+* **Operating Systems**: Linux (e.g., Ubuntu LTS, RHEL), Windows
 
-- **Technologies:** 
-    - HPC: MPI, OpenMP, OpenACC\*, CUDA\*, Slurm
-    - Version Control: Git
-    - Code Collaboration: GitHub, GitLab
-    - Build: CMake, Make, GNU Autotools
-    - Compilers: gcc, gfortran, ifx/ifort
-    - Debuggers and Analysis: gdb, pdb, valgrind
-    - Libraries: TensorFlow, PyTorch, NumPy, Pandas, xarray, NetCDF, Matplotlib, Eigen3
-    - OS: Linux (e.g., Ubuntu, Red Hat), Windows
-    - Containerization: Docker
-    - Miscellaneous: CI/CD (e.g., GitHub Actions), Prompting LLMs (e.g., ChatGPT), nvim, tmux
+## Languages 
 
-- **Languages:** English (native), German (B1+\*\*), Dutch (B1+\*\*), Italian (A2\*\*) 
+* English (native), German (B1+\*\*), Dutch (B1+\*\*), Italian (A2\*\*) 
 
-\*Basic Knowledge, \*\*Estimated CEFR Proficiency
+\*\*Estimated CEFR Proficiency
 
 ---
 
