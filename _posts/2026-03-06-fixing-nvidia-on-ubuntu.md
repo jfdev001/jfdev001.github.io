@@ -132,7 +132,7 @@ sudo apt update
 # 3. Install NVIDIA driver 580
 sudo apt install nvidia-driver-580 nvidia-settings nvidia-prime
 
-# 5. Reboot
+# 4. Reboot
 sudo reboot
 ```
 
