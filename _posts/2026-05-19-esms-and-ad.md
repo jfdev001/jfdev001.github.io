@@ -57,9 +57,9 @@ contain O(10^2) or more free parameters that are traditionally tuned manually.
 In numerical weather prediction and climate modeling, variational data
 assimilation methods (e.g., 4D-Var) rely on gradients of a cost function with
 respect to model states. These gradients are typically computed using adjoint
-models.
-
-TODO: what is meant by adjoint model!
+models, these are models that are explicitly created to avoid repeated
+evaluations of the forward model (i.e., the numerical weather or climate model,
+which is general a very expensive model).
 
 ### Sensitivity analysis and uncertainty quantification
 
@@ -81,7 +81,8 @@ Historically, gradients in large Fortran codebases have been obtained through:
 
 Each approach has limitations:
 
-- manual adjoints are difficult to maintain as models evolve  
+- manual adjoints are difficult to maintain as models evolve (i.e., you now
+need to carefully manage *two* codebases)
 - finite differences are computationally expensive and numerically sensitive  
 - symbolic methods struggle with large, imperative, real-world codebases  
 
