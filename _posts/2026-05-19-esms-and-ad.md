@@ -28,9 +28,9 @@ the context of Fortran codebases as well as its relationship to compiler
 infrastructure.
 
 1. [Why Automatic Differentiation Matters](#why-automatic-differentiation-matters)
-    1. [Parameter estimation and calibration](#parameter-estimation-and-calibration)
-    2. [Data assimilation](#data-assimilation)
-    3. [Sensitivity analysis and uncertainty quantification](#sensitivity-analysis-and-uncertainty-quantification)
+    1. [Parameter Estimation and Calibration](#parameter-estimation-and-calibration)
+    2. [Data Assimilation](#data-assimilation)
+    3. [Sensitivity Analysis and Uncertainty Quantification](#sensitivity-analysis-and-uncertainty-quantification)
     4. [Why Are These Applications Difficult in Legacy Fortran Codes](#why-are-these-applications-difficult-in-legacy-fortran-codes)
 2. [Enzyme and the LLVM Dependency](#enzyme-and-the-llvm-dependency)
     1. [The Fortran to LLVM Ecosystem](#the-fortran-to-llvm-ecosystem)
@@ -58,7 +58,7 @@ phenomena.
 
 This question shows up in several key workflows:
 
-## Parameter estimation and calibration
+## Parameter Estimation and Calibration
 
 Large models often include empirical parameters that must be tuned against
 observational data. Gradient-based optimization methods are significantly more
@@ -68,7 +68,7 @@ of model outputs with respect to inputs.
 In Earth system modeling, this is especially relevant because models often
 contain \\(O(10^2)\\) or more free parameters that are traditionally tuned manually.
 
-## Data assimilation
+## Data Assimilation
 
 In numerical weather prediction and climate modeling, variational data
 assimilation methods (e.g., 4D-Var) rely on gradients of a cost function with
@@ -77,7 +77,7 @@ models, these are models that are explicitly created to avoid repeated
 evaluations of the forward model (i.e., the numerical weather or climate model,
 which is general a very expensive model).
 
-## Sensitivity analysis and uncertainty quantification
+## Sensitivity Analysis and Uncertainty Quantification
 
 Understanding how perturbations in parameters propagate through nonlinear
 systems is essential for assessing model robustness and uncertainty.
