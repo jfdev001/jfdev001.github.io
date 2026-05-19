@@ -50,7 +50,7 @@ efficient than derivative-free approaches, but they require accurate gradients
 of model outputs with respect to inputs.
 
 In Earth system modeling, this is especially relevant because models often
-contain O(10^2) or more free parameters that are traditionally tuned manually.
+contain \\(O(10^2)\\) or more free parameters that are traditionally tuned manually.
 
 ### Data assimilation
 
@@ -103,12 +103,12 @@ optimizations, but introduces a strict requirement:
 > The source program must be lowered into LLVM IR in a form that preserves its semantics.
 
 For C and C++ code, this is generally straightforward due to the maturity of
-compilers that can emit LLVM IR for such codebases. For Fortran, the situation
+compilers that can emit LLVM IR for those languages. For Fortran, the situation
 is more complex due to the diversity and maturity of available LLVM-based
 compiler frontends.
 
 
-## The Fortran --> LLVM Ecosystem
+## The Fortran to LLVM Ecosystem
 
 Several compiler paths exist for lowering Fortran into LLVM IR, each with
 different levels of maturity:
@@ -119,7 +119,7 @@ DragonEgg was a GCC plugin that enabled LLVM IR emission from gfortran. It is
 effectively unmaintained and tied to outdated compiler versions, making it
 impractical for modern use.
 
-### Intel Fortran (LLVM-based variants)
+### Intel Fortran
 
 Some earlier Intel compiler versions supported LLVM IR output, but this
 capability is not consistently available in modern production toolchains.
