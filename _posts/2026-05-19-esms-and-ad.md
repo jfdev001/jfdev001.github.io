@@ -206,20 +206,20 @@ remains as much a compiler infrastructure problem as it is an algorithmic one.
 
 # References
 
-[1] : LLVM Flang is not yet fully functioning https://flang.llvm.org/docs/ and https://github.com/orgs/llvm/projects/12
+[1] : LLVM Flang is not yet fully functioning: [LLVM docs](https://flang.llvm.org/docs/) and [LLVM Flang GitHub Project](https://github.com/orgs/llvm/projects/12)
 
-[2] : LLVM Flang and flang-classic history https://blog.llvm.org/posts/2025-03-11-flang-new/
+[2] : [LLVM Blog: LLVM Flang and flang-classic history](https://blog.llvm.org/posts/2025-03-11-flang-new/)
 
-[3] : LLVM Flang and flang-classic performance relative to GFortran https://www.linaro.org/blog/comparing-llvm-flang-with-other-fortran-compilers/
+[3] : [Linaro Blog: LLVM Flang and flang-classic performance relative to GFortran](https://www.linaro.org/blog/comparing-llvm-flang-with-other-fortran-compilers/)
 
-[4] : The state of flang-classic https://github.com/flang-compiler/flang/wiki
+[4] : [flang-compiler wiki: The state of flang-classic](https://github.com/flang-compiler/flang/wiki)
 
-[5]: GCC to LLVM IR https://dragonegg.llvm.org/
+[5]: [DragonEgg: GCC to LLVM IR](https://dragonegg.llvm.org/)
 
-[6] : IFX doesn't emit LLVM anymore https://community.intel.com/t5/Intel-Fortran-Compiler/ifx-get-LLVM-IR-after-ifx-front-end/m-p/1548292
+[6] : [Intel Forums: IFX doesn't emit LLVM anymore](https://community.intel.com/t5/Intel-Fortran-Compiler/ifx-get-LLVM-IR-after-ifx-front-end/m-p/1548292)
 
-[7] : Cambridge PRs so far to Enzyme https://github.com/EnzymeAD/Enzyme/pulls/joewallwork
+[7] : [Fortran Lang Forums: Community Evaluation of State of LLVM Flang](https://fortran-lang.discourse.group/t/state-of-llvm-flang-development/8174/8)
 
-[8] : Community Evaluation of State of LLVM Flang https://fortran-lang.discourse.group/t/state-of-llvm-flang-development/8174/8
+[8] : [Gelbrecht 2023: Differentiable Programming for Earth System Modeling](https://gmd.copernicus.org/articles/16/3123/2023/)
 
-[9] : [Gelbrecht 2023: Differentiable Programming for Earth System Modeling](https://gmd.copernicus.org/articles/16/3123/2023/)
+[9] : [NASA ECCO: Adjoint Modeling](https://ecco-group.org/adjoint.htm)
