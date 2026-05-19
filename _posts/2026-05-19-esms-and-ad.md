@@ -27,8 +27,24 @@ compiler infrastructure itself. This article discusses autodifferentiation in
 the context of Fortran codebases as well as its relationship to compiler
 infrastructure.
 
+1. [Why Automatic Differentiation Matters](#why-automatic-differentiation-matters)
+    1. [Parameter estimation and calibration](#parameter-estimation-and-calibration)
+    2. [Data assimilation](#data-assimilation)
+    3. [Sensitivity analysis and uncertainty quantification](#sensitivity-analysis-and-uncertainty-quantification)
+    4. [Why Are These Applications Difficult in Legacy Fortran Codes](#why-are-these-applications-difficult-in-legacy-fortran-codes)
+2. [Enzyme and the LLVM Dependency](#enzyme-and-the-llvm-dependency)
+    1. [The Fortran to LLVM Ecosystem](#the-fortran-to-llvm-ecosystem)
+        1. [DragonEgg (legacy)](#dragonegg-legacy)
+        2. [Intel Fortran](#intel-fortran)
+        3. [flang-classic](#flang-classic)
+        4. [LLVM Flang (flang-new)](#llvm-flang-flang-new)
+    2. [Why These Compilers Matter for Automatic Differentiation](#why-these-compilers-matter-for-automatic-differentiation)
+    3. [Why Some HPC Codes Avoid LLVM-Based Toolchains](#why-some-hpc-codes-avoid-llvm-based-toolchains)
+3. [Open Problems and Outlook](#open-problems-and-outlook)
+4. [References](#references)
 
-## Why Automatic Differentiation Matters
+
+# Why Automatic Differentiation Matters
 
 Scientific models are used to "predict the future", but they are also heavily
 concerned with the following question:
@@ -42,7 +58,7 @@ phenomena.
 
 This question shows up in several key workflows:
 
-### Parameter estimation and calibration
+## Parameter estimation and calibration
 
 Large models often include empirical parameters that must be tuned against
 observational data. Gradient-based optimization methods are significantly more
@@ -52,7 +68,7 @@ of model outputs with respect to inputs.
 In Earth system modeling, this is especially relevant because models often
 contain \\(O(10^2)\\) or more free parameters that are traditionally tuned manually.
 
-### Data assimilation
+## Data assimilation
 
 In numerical weather prediction and climate modeling, variational data
 assimilation methods (e.g., 4D-Var) rely on gradients of a cost function with
@@ -61,7 +77,7 @@ models, these are models that are explicitly created to avoid repeated
 evaluations of the forward model (i.e., the numerical weather or climate model,
 which is general a very expensive model).
 
-### Sensitivity analysis and uncertainty quantification
+## Sensitivity analysis and uncertainty quantification
 
 Understanding how perturbations in parameters propagate through nonlinear
 systems is essential for assessing model robustness and uncertainty.
@@ -70,8 +86,7 @@ and optimization.
 
 Across these applications, **derivatives** are a central computational object.
 
-
-## Why This Is Difficult in Legacy Fortran Codes
+## Why Are These Applications Difficult in Legacy Fortran Codes
 
 Historically, gradients in large Fortran codebases have been obtained through:
 
@@ -94,7 +109,7 @@ for many gradient-computation workflows by generating derivatives
 systematically and with machine precision accuracy.
 
 
-## Enzyme and the LLVM Dependency
+# Enzyme and the LLVM Dependency
 
 Enzyme implements AD at the level of LLVM intermediate representation (IR).
 This enables program-level differentiation while preserving compiler
@@ -106,7 +121,6 @@ For C and C++ code, this is generally straightforward due to the maturity of
 compilers that can emit LLVM IR for those languages. For Fortran, the situation
 is more complex due to the diversity and maturity of available LLVM-based
 compiler frontends.
-
 
 ## The Fortran to LLVM Ecosystem
 
@@ -137,8 +151,7 @@ within the LLVM project. It aims to become a full replacement for earlier Flang
 implementations but is still evolving and does not yet fully support all
 real-world Fortran codes.
 
-
-## Why This Matters for Automatic Differentiation
+## Why These Compilers Matter for Automatic Differentiation
 
 The feasibility of AD in large Fortran applications depends less on the AD tool
 itself and more on whether the compiler infrastructure can reliably lower the
@@ -175,19 +188,19 @@ conditions, such as:
 - partial refactoring of legacy code  
 - hybrid compilation pipelines  
 
-## Open Problems and Outlook
+# Open Problems and Outlook
 
 Despite significant progress in both LLVM Flang and AD frameworks such as
 Enzyme, several challenges remain:
 
-- **Frontend completeness:** Full support for modern Fortran standards is still
-in progress.  
+- **Frontend completeness:** Full compiler support for modern Fortran standards
+is still in progress.  
 - **Toolchain stability:** HPC environments require long-term reproducibility
 and stable behavior.  
 - **Performance parity:** LLVM-based Fortran compilers still vary in
-optimization quality compared to mature alternatives.  
+optimization quality compared to mature alternatives like GNU and Intel compilers.  
 - **Integration complexity:** End-to-end AD workflows remain difficult to
-deploy in existing scientific software stacks.  
+deploy in existing, legacy scientific software stacks.
 
 At the same time, the direction of development is strongly supported by recent
 literature in Earth system modeling, which highlights differentiable
@@ -202,8 +215,20 @@ programming as a key enabler for:
 These developments suggest that AD is becoming a central component of
 next-generation scientific modeling workflows.
 
-For now, however, applying automatic differentiation to large Fortran codebases
-remains as much a compiler infrastructure problem as it is an algorithmic one.
+For now applying automatic differentiation to large Fortran codebases remains
+as much a compiler infrastructure problem as it is an algorithmic one.
+
+While not covered in the present article, it is also worth noting that there is
+growing traction in geophysical/atmospheric modeling using languages like Julia
+for which the open-source community is already committed to differentiable
+programming, see [Oceananigans.jl](https://github.com/CliMA/Oceananigans.jl),
+[ClimaAtmos.jl](https://github.com/CliMA/ClimaAtmos.jl), and
+[SpeedyWeather.jl](https://github.com/SpeedyWeather/SpeedyWeather.jl); however,
+operational weather models like [ECMWF
+IFS](https://github.com/ecmwf-ifs/openifs), [NOAA's Transition to
+UFS](https://github.com/ufs-community/ufs-weather-model), and the [DWD's
+ICON](https://gitlab.dkrz.de/icon/icon-model) are all written in Fortran. So
+Fortran is not going anywhere anytime soon.
 
 # References
 
@@ -224,3 +249,5 @@ remains as much a compiler infrastructure problem as it is an algorithmic one.
 [8] : [Gelbrecht 2023: Differentiable Programming for Earth System Modeling](https://gmd.copernicus.org/articles/16/3123/2023/)
 
 [9] : [NASA ECCO: Adjoint Modeling](https://ecco-group.org/adjoint.htm)
+
+[10] : [Cambridge ICCS Blog Post](https://iccs.cam.ac.uk/news/why-automatic-differentiation-important-climate-modelling)
