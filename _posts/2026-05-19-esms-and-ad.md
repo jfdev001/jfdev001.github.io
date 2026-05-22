@@ -142,7 +142,7 @@ longer the main development focus.
 ### Intel Fortran
 
 As of 2021, Intel provides LLVM-based compilers in their oneAPI distribution. 
-These compilers that can emit LLVM bitcode, which is just the binary
+These compilers can emit LLVM bitcode, which is just the binary
 serialization format of LLVM IR. Therefore, Enzyme *can* be used on the LLVM IR
 outputs of Intel compilers, and this is reflected if one inspects the CI/CD 
 of Enzyme. 
@@ -165,8 +165,8 @@ jobs:
         os: [ubuntu-22.04]
         llvm: [15]
         include:
-          - llvm: 15
-            ifx: 2023.0.0
+          - llvm: 15             <---- Using LLVM v15
+            ifx: 2023.0.0        <---- Proof that Intel compilers work with Enzyme!
             mpi: 2021.7.1
 .
 .
@@ -174,7 +174,7 @@ jobs:
 ```
 
 Similarly, one can get a hint about how to emit LLVM IR by looking at the 
-comments with `RUN` in the Fortran test cases in Enzyme:
+comments with `! RUN` in the Fortran test cases in Enzyme:
 
 ```fortran
 ! @file enzyme/test/Fortran/ForwardMode/allocatableArraySimple.f90
@@ -242,12 +242,13 @@ target triple = "x86_64-unknown-linux-gnu"
 ; ...
 ```
 
-It is this LLVM IR that Enzyme performs autodifferentiation on!
+It is in this way that LLVM IR is recovered from the Intel compiler and passed
+to Enzyme so that autodifferentiation can be performed!
 
-While this is promising, many HPC codebases have not yet fully adopted the
-modern Intel compiler toolchain. Rather, they still rely on the legacy
-toolchain (e.g., `ifort`, `icc`, etc.) and therefore cannot exploit the LLVM
-backend of modern Intel compilers yet.
+While modern Intel compilers (e.g., `ifx`) *can* emit LLVM IR, many HPC
+codebases have not yet fully adopted the modern Intel compiler toolchain.
+Rather, they still rely on the legacy toolchain (e.g., `ifort`) and therefore
+cannot exploit the LLVM backend of modern Intel compilers yet.
 
 For reference, this `hello.ll` file was generated on an x86 Ubuntu 24.04 LTS
 machine using LLVM-v15 and `ifx` version 2023.0.0. In case you're interested
@@ -276,8 +277,6 @@ ifx --version
 wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
 sudo apt-add-repository "deb http://apt.llvm.org/`lsb_release -c | cut -f2`/ llvm-toolchain-`lsb_release -c | cut -f2`-15 main"
 ```
-
-In practice, many 
 
 ### LLVM Flang (flang-new)
 
