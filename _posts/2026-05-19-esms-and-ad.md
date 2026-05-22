@@ -244,10 +244,10 @@ target triple = "x86_64-unknown-linux-gnu"
 
 It is this LLVM IR that Enzyme performs autodifferentiation on!
 
-While this is promising, many HPC codebases have not yet fully adopted
-the modern Intel compiler toolchain, and still relies on the legacy toolchain (e.g.,
-`ifort`, `icc`, etc.), and therefore cannot exploit the LLVM backend of modern
-Intel compilers yet.
+While this is promising, many HPC codebases have not yet fully adopted the
+modern Intel compiler toolchain. Rather, they still rely on the legacy
+toolchain (e.g., `ifort`, `icc`, etc.) and therefore cannot exploit the LLVM
+backend of modern Intel compilers yet.
 
 For reference, this `hello.ll` file was generated on an x86 Ubuntu 24.04 LTS
 machine using LLVM-v15 and `ifx` version 2023.0.0. In case you're interested
@@ -407,3 +407,6 @@ compilers](https://www.nas.nasa.gov/hecc/support/kb/introduction-to-intels-llvm-
 LLVM](https://www.intel.com/content/www/us/en/developer/articles/technical/adoption-of-llvm-complete-icx.html)
 
 [14] : [LLVM Docs: Link Time Optimization](https://llvm.org/docs/LinkTimeOptimization.html)
+
+[15] : [Moses 2020: Instead of Rewriting Foreign Code for Machine Learning,
+Automatically Synthesize Fast Gradients](https://arxiv.org/pdf/2010.01709)
