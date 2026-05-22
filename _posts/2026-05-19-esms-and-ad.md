@@ -133,16 +133,151 @@ DragonEgg was a GCC plugin that enabled LLVM IR emission from gfortran. It is
 effectively unmaintained and tied to outdated compiler versions, making it
 impractical for modern use.
 
-### Intel Fortran
-
-Some earlier Intel compiler versions supported LLVM IR output, but this
-capability is not consistently available in modern production toolchains.
-
 ### flang-classic
 
 flang-classic was an early LLVM Fortran frontend supporting a subset of Fortran
 (primarily Fortran 2003/2008). While usable in controlled settings, it is no
 longer the main development focus.
+
+### Intel Fortran
+
+As of 2021, Intel provides LLVM-based compilers in their oneAPI distribution. 
+These compilers that can emit LLVM bitcode, which is just the binary
+serialization format of LLVM IR. Therefore, Enzyme *can* be used on the LLVM IR
+outputs of Intel compilers, and this is reflected if one inspects the CI/CD 
+of Enzyme. 
+
+```yaml
+# @file .github/workflows/fortran.yml 
+# @brief Verify that Intel is tested in Enzyme CI/CD
+# @reference https://github.com/EnzymeAD/Enzyme/blob/ba0c1fa1e5829bb79f0f58896e8bd8053716daa9/.github/workflows/fortran.yml#L39-L51
+.
+.
+.
+jobs:
+  build-and-test-fortran:
+    name: Fortran ${{matrix.build}} ${{matrix.os}}
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        build: ["Release", "Debug"]
+        os: [ubuntu-22.04]
+        llvm: [15]
+        include:
+          - llvm: 15
+            ifx: 2023.0.0
+            mpi: 2021.7.1
+.
+.
+.
+```
+
+Similarly, one can get a hint about how to emit LLVM IR by looking at the 
+comments with `RUN` in the Fortran test cases in Enzyme:
+
+```fortran
+! @file enzyme/test/Fortran/ForwardMode/allocatableArraySimple.f90
+! @brief Show comments that hint Intel --> LLVM IR
+! @reference https://github.com/EnzymeAD/Enzyme/blob/ba0c1fa1e5829bb79f0f58896e8bd8053716daa9/enzyme/test/Fortran/ForwardMode/allocatableArraySimple.f90
+
+! RUN: if [ %llvmver -ge 13 ]; then ifx -flto -O0 -c  %s -o /dev/stdout | %opt %loadEnzyme -enzyme -o %t && ifx -flto -O0 %t -o %t1 && %t1 | FileCheck %s; fi
+! RUN: if [ %llvmver -ge 13 ]; then ifx -flto -O1 -c  %s -o /dev/stdout | %opt %loadEnzyme -enzyme -o %t && ifx -flto -O1 %t -o %t1 && %t1 | FileCheck %s; fi
+! RUN: if [ %llvmver -ge 13 ]; then ifx -flto -O2 -c  %s -o /dev/stdout | %opt %loadEnzyme -enzyme -o %t && ifx -flto -O2 %t -o %t1 && %t1 | FileCheck %s; fi
+! RUN: if [ %llvmver -ge 13 ]; then ifx -flto -O3 -c  %s -o /dev/stdout | %opt %loadEnzyme -enzyme -o %t && ifx -flto -O3 %t -o %t1 && %t1 | FileCheck %s; fi
+
+module AD
+    implicit none
+    interface
+        subroutine selectFirst__enzyme_fwddiff(fnc, x, dx, y, dy)
+            ! ...
+        end subroutine
+    end interface
+end module
+
+program app
+    ! calls to the autodiffed fortran code here...
+end program 
+```
+
+The comments in the above file shows:
+
+```fortran
+! ifx -flto -O0 -c  %s -o /dev/stdout | %opt %loadEnzyme -enzyme -o %t ...
+```
+
+This line is repeated for different optimization levels (i.e., `-O<level>`).
+More importantly, it shows that if we pass `-flto`, we emit LLVM bitcode
+rather than emitting native machine code (i.e., code that has been lowered to
+x86 instructions, ARM instructions, etc.). We can then disassemble this bitcode
+to get human-readable (though already optimized) LLVM IR. Here is what the 
+process of recovering human-readable LLVM IR would look like given a file
+called `hello.f90` below:
+
+```fortran
+! @file  hello.f90
+! @brief Example fortran file to be compiled to LLVM IR
+PROGRAM main
+    WRITE(*,*) "Hello world!"
+END PROGRAM main
+```
+
+Then you can simply call,
+
+```shell
+ifx -flto -c hello.f90 -o /dev/stdout | llvm-dis-15 -o - > hello.ll
+```
+
+and `hello.ll` will contain LLVM IR like:
+
+```llvm
+; ModuleID = '<stdin>'
+source_filename = "hello.f90"
+target datalayout = "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+@strlit = internal unnamed_addr constant [11 x i8] c"hello world", !llfort.type_idx !0
+@anon.68ba48b9c6c80ce889c10c7426f57970.0 = internal unnamed_addr constant i32 65536
+@anon.68ba48b9c6c80ce889c10c7426f57970.1 = internal unnamed_addr constant i32 2
+; ...
+```
+
+It is this LLVM IR that Enzyme performs autodifferentiation on!
+
+While this is promising, many HPC codebases have not yet fully adopted
+the modern Intel compiler toolchain, and still relies on the legacy toolchain (e.g.,
+`ifort`, `icc`, etc.), and therefore cannot exploit the LLVM backend of modern
+Intel compilers yet.
+
+For reference, this `hello.ll` file was generated on an x86 Ubuntu 24.04 LTS
+machine using LLVM-v15 and `ifx` version 2023.0.0. In case you're interested
+in replicating this process, you can get LLVM and Intel compilers as follows:
+
+```shell
+# install spack: https://spack-tutorial.readthedocs.io/en/latest/tutorial_basics.html
+# necessary since i wanted to test with intel@2023.0.0 since Enzyme uses this
+# and Intel does not provide older versions of Intel oneAPI for download through
+# their website directly
+
+# load spack
+. /path/to/spack/share/spack/setup-env.sh
+
+# install intel compilers
+spack install --add intel-oneapi-compilers@2023.0.0
+
+# load intel compilers
+spack load intel-oneapi-compilers@2023.0.0
+
+# verify compiler
+ifx --version
+
+# install llvm-15 
+# reference: https://github.com/EnzymeAD/Enzyme/blob/ba0c1fa1e5829bb79f0f58896e8bd8053716daa9/.github/workflows/fortran.yml#L54-L60
+wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+sudo apt-add-repository "deb http://apt.llvm.org/`lsb_release -c | cut -f2`/ llvm-toolchain-`lsb_release -c | cut -f2`-15 main"
+```
+
+In practice, many 
 
 ### LLVM Flang (flang-new)
 
@@ -232,22 +367,43 @@ Fortran is not going anywhere anytime soon.
 
 # References
 
-[1] : LLVM Flang is not yet fully functioning: [LLVM docs](https://flang.llvm.org/docs/) and [LLVM Flang GitHub Project](https://github.com/orgs/llvm/projects/12)
+[1] : LLVM Flang is not yet fully functioning: [LLVM
+docs](https://flang.llvm.org/docs/) and [LLVM Flang GitHub
+Project](https://github.com/orgs/llvm/projects/12)
 
-[2] : [LLVM Blog: LLVM Flang and flang-classic history](https://blog.llvm.org/posts/2025-03-11-flang-new/)
+[2] : [LLVM Blog: LLVM Flang and flang-classic
+history](https://blog.llvm.org/posts/2025-03-11-flang-new/)
 
-[3] : [Linaro Blog: LLVM Flang and flang-classic performance relative to GFortran](https://www.linaro.org/blog/comparing-llvm-flang-with-other-fortran-compilers/)
+[3] : [Linaro Blog: LLVM Flang and flang-classic performance relative to
+GFortran](https://www.linaro.org/blog/comparing-llvm-flang-with-other-fortran-compilers/)
 
-[4] : [flang-compiler wiki: The state of flang-classic](https://github.com/flang-compiler/flang/wiki)
+[4] : [flang-compiler wiki: The state of
+flang-classic](https://github.com/flang-compiler/flang/wiki)
 
 [5]: [DragonEgg: GCC to LLVM IR](https://dragonegg.llvm.org/)
 
-[6] : [Intel Forums: IFX doesn't emit LLVM anymore](https://community.intel.com/t5/Intel-Fortran-Compiler/ifx-get-LLVM-IR-after-ifx-front-end/m-p/1548292)
+[6] : [Intel Forums: IFX doesn't emit LLVM
+anymore](https://community.intel.com/t5/Intel-Fortran-Compiler/ifx-get-LLVM-IR-after-ifx-front-end/m-p/1548292)
 
-[7] : [Fortran Lang Forums: Community Evaluation of State of LLVM Flang](https://fortran-lang.discourse.group/t/state-of-llvm-flang-development/8174/8)
+[7] : [Fortran Lang Forums: Community Evaluation of State of LLVM
+Flang](https://fortran-lang.discourse.group/t/state-of-llvm-flang-development/8174/8)
 
-[8] : [Gelbrecht 2023: Differentiable Programming for Earth System Modeling](https://gmd.copernicus.org/articles/16/3123/2023/)
+[8] : [Gelbrecht 2023: Differentiable Programming for Earth System
+Modeling](https://gmd.copernicus.org/articles/16/3123/2023/)
 
 [9] : [NASA ECCO: Adjoint Modeling](https://ecco-group.org/adjoint.htm)
 
-[10] : [Cambridge ICCS Blog Post](https://iccs.cam.ac.uk/news/why-automatic-differentiation-important-climate-modelling)
+[10] : [Cambridge ICCS Blog
+Post](https://iccs.cam.ac.uk/news/why-automatic-differentiation-important-climate-modelling)
+
+[11] : [Intel Developer Content: Get to Know
+LLVM](https://www.intel.com/content/www/us/en/developer/archive/case-study/getting-to-know-llvm-based-oneapi-compilers.html)
+
+[12] : [NASA Advanced Supercomputing Division: Introduction to Intel's
+LLVM-based
+compilers](https://www.nas.nasa.gov/hecc/support/kb/introduction-to-intels-llvm-based-compilers_708.html)
+
+[13] : [Intel Developer Content: C/C++ Compilers Complete Adoption of
+LLVM](https://www.intel.com/content/www/us/en/developer/articles/technical/adoption-of-llvm-complete-icx.html)
+
+[14] : [LLVM Docs: Link Time Optimization](https://llvm.org/docs/LinkTimeOptimization.html)
