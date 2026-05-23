@@ -141,11 +141,12 @@ longer the main development focus.
 
 ### Intel Fortran
 
-As of 2021, Intel provides LLVM-based compilers in their oneAPI distribution. 
-These compilers can emit LLVM bitcode, which is just the binary
-serialization format of LLVM IR. Therefore, Enzyme *can* be used on the LLVM IR
-outputs of Intel compilers, and this is reflected if one inspects the CI/CD 
-of Enzyme. 
+As of 2021, Intel provides LLVM-based C/C++ compilers in their oneAPI
+distribution. These compilers can emit LLVM bitcode, which is just the binary
+serialization format of LLVM IR. It was not, however, until 2023 that Intel
+released an LLVM-based Fortran compiler (ifx). Therefore, Enzyme *can* be used
+on the LLVM IR outputs of Intel compilers, and this is reflected if one
+inspects the CI/CD of Enzyme. 
 
 ```yaml
 # @file .github/workflows/fortran.yml 
@@ -381,7 +382,7 @@ flang-classic](https://github.com/flang-compiler/flang/wiki)
 
 [5]: [DragonEgg: GCC to LLVM IR](https://dragonegg.llvm.org/)
 
-[6] : [Intel Forums: IFX doesn't emit LLVM
+[6] : [Intel Forums: IFX doesn't emit LLVM (directly)
 anymore](https://community.intel.com/t5/Intel-Fortran-Compiler/ifx-get-LLVM-IR-after-ifx-front-end/m-p/1548292)
 
 [7] : [Fortran Lang Forums: Community Evaluation of State of LLVM
@@ -392,7 +393,7 @@ Modeling](https://gmd.copernicus.org/articles/16/3123/2023/)
 
 [9] : [NASA ECCO: Adjoint Modeling](https://ecco-group.org/adjoint.htm)
 
-[10] : [Cambridge ICCS Blog
+[10] : [Cambridge ICCS Autodiff Blog
 Post](https://iccs.cam.ac.uk/news/why-automatic-differentiation-important-climate-modelling)
 
 [11] : [Intel Developer Content: Get to Know
@@ -409,3 +410,6 @@ LLVM](https://www.intel.com/content/www/us/en/developer/articles/technical/adopt
 
 [15] : [Moses 2020: Instead of Rewriting Foreign Code for Machine Learning,
 Automatically Synthesize Fast Gradients](https://arxiv.org/pdf/2010.01709)
+
+[16] : [Ruhela 2024: Investigating the Performance of LLVM-Based Intel Fortran
+Compiler (ifx)](https://link.springer.com/chapter/10.1007/978-3-031-73716-9_12)
