@@ -226,7 +226,7 @@ END PROGRAM main
 Then you can simply call,
 
 ```shell
-ifx -flto -c hello.f90 -o /dev/stdout | llvm-dis-15 -o - > hello.ll
+ifx -flto -c hello.f90 -o /dev/stdout | llvm-dis -o - > hello.ll
 ```
 
 and `hello.ll` will contain LLVM IR like:
@@ -274,9 +274,8 @@ spack load intel-oneapi-compilers@2023.0.0
 ifx --version
 
 # install llvm-15 
-# reference: https://github.com/EnzymeAD/Enzyme/blob/ba0c1fa1e5829bb79f0f58896e8bd8053716daa9/.github/workflows/fortran.yml#L54-L60
-wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-sudo apt-add-repository "deb http://apt.llvm.org/`lsb_release -c | cut -f2`/ llvm-toolchain-`lsb_release -c | cut -f2`-15 main"
+spack install --add llvm@15.0.7
+spack load llvm@15.0.7
 ```
 
 ### LLVM Flang (flang-new)
