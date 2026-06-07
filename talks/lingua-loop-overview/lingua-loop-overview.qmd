@@ -1,0 +1,138 @@
+---
+title: "LinguaLoop"
+subtitle: "A Modular, Tested, and Packaged Language Learning App"
+
+output-file: index
+
+format:
+  revealjs:
+    slide-number: c/t
+    embed-resources: true
+    chalkboard: false
+    preview-links: auto
+    history: false
+    highlight-style: a11y
+    code-overflow: wrap
+    code-line-numbers: true
+    theme: [dark, custom.scss]
+revealjs-plugins:
+  - attribution
+
+authors:
+  - name: Jared Frazier
+
+date: "2026-06-07"
+# bibliography: references.bib
+---
+
+## Overview
+
+:::: {.columns}
+
+::: {.column width=50%}
+![](images/lingua-loop.png)
+:::
+
+
+::: {.column width=50% .incremental}
+- Python 3
+- CI/CD
+- Automated Testing
+- [GitHub: lingua-loop](https://github.com/jfdev001/lingua-loop)
+- [Documentation](https://jfdev001.github.io/lingua-loop/)
+- [PyPI: lingua-loop](https://pypi.org/project/lingua-loop/)
+:::
+
+::::
+
+
+## System Architecture 
+
+
+::: {.columns} 
+![](images/system_architecture.svg)
+:::
+
+
+## Testing Strategy {.smaller}
+
+:::: {.columns}
+
+::: {.column width=50%}
+![](images/testing.svg)
+:::
+
+::: {.column width=50% .incremental}
+- Multi-layer testing
+- Extensive use of mocking to isolate dependencies (DB, services, external APIs)
+- Unit tests validate service logic in complete isolation
+- Integration tests run full stack: API → service → database (no mocks)
+- CI/CD on GitHub enforces all tests pass during PR
+:::
+
+::::
+
+
+## Reproducible Engineering
+
+:::: {.columns}
+
+::: {.column width=50%}
+![](images/github_lingua_loop.png){height=500}
+:::
+
+::: {.column width=50%}
+![](images/pypi.png){height=500}
+:::
+
+::::
+
+## Relevance {.smaller}
+
+:::: {.columns}
+
+| Satellite Subsystem            | Verification Goal                                      | LinguaLoop Equivalent                                  |
+|----------------------------------|--------------------------------------------------------|--------------------------------------------------------|
+| Communications                   | Reliable communication between subsystems             | API endpoints and client-server communication          |
+| Payload                          | Correct processing of mission data                    | Language processing and business logic                 |
+| Command & Data Handling          | Commands executed correctly and state managed         | Backend services, database interactions, and state     |
+
+---
+
+::: {.incremental}
+- Mocks emulate subsystem behavior for isolated validation
+- Integration tests verify interactions across components
+- CI pipelines provide automated validation
+- LinguaLoop is small, see [my other open-source contributions (Python, Fortran, C, Julia)](https://jfdev001.github.io/cv#foss) and [work contributions to 500k+ LOC codebase](https://gitlab.dkrz.de/icon/icon-model/-/commit/74e0f9997f96270a30f1a36d34302051f0c71696)
+:::
+
+::::
+
+# Thanks!
+
+:::: {.columns}
+::: {.column width="20%"}
+Get in touch:
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="75%"}
+<!-- TODO: commented out to avoid querying google api (reduce bandwidth) -->
+{{< fa pencil >}} \ Jared Frazier 
+
+{{< fa brands github >}} \ [jfdev001](https://github.com/jfdev001)
+
+{{< fa solid globe >}} \ [jfdev001.github.io](https://jfdev001.github.io/)
+
+{{< fa brands linkedin>}} \ [jared-frazier-797590188](https://www.linkedin.com/in/jared-frazier-797590188/)
+
+{{< fa solid envelope >}} \ [jaredfrazierapplications@gmail.com](mailto:jaredfrazierapplications@gmail.com)
+
+:::
+::::
+
+# References
+
+- Yeman, R., & Malaliya, Y. (2025). *Accelerating Satellite Development: A Comparative Simulation of NASA's Waterfall Process and Agile Process Using Innoslate Lifecycling Modeling Language*. Naval Postgraduate School. [pdf](https://dair.nps.edu/bitstream/123456789/5373/1/SYM-AM-25-336.pdf).
