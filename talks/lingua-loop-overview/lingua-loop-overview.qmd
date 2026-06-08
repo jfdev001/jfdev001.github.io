@@ -26,7 +26,7 @@ date: "2026-06-07"
 # bibliography: references.bib
 ---
 
-## Overview
+## Overview {.smaller}
 
 :::: {.columns}
 
@@ -34,13 +34,25 @@ date: "2026-06-07"
 ![](images/lingua-loop.png)
 :::
 
-::: {.column width=50% .incremental}
-- [GitHub: lingua-loop](https://github.com/jfdev001/lingua-loop)
-- Python (FastAPI)
-- CI/CD (GitHub Actions)
-- Automated Testing (Pytest)
-- [Public Documentation](https://jfdev001.github.io/lingua-loop/)
-- [PyPI: lingua-loop](https://pypi.org/project/lingua-loop/)
+::: {.column width=50%}
+
+
+::: {.incremental}
+- Motivation
+    - Practice language listening skills
+    - Small segment of YouTube video
+    - Your transcript vs reference
+:::
+
+::: {.incremental}
+- Technology
+    - [GitHub: lingua-loop](https://github.com/jfdev001/lingua-loop)
+    - Python (FastAPI)
+    - CI/CD (GitHub Actions)
+    - Automated Testing (Pytest)
+    - [Public Documentation](https://jfdev001.github.io/lingua-loop/)
+    - [PyPI: lingua-loop](https://pypi.org/project/lingua-loop/)
+:::
 
 ::: {.fragment}
 ```shell
@@ -155,7 +167,7 @@ tests/
 
 ::::
 
-# Thanks!
+# Questions?
 
 :::: {.columns}
 ::: {.column width="20%"}
@@ -183,3 +195,18 @@ Get in touch:
 # References
 
 - Yeman, R., & Malaliya, Y. (2025). *Accelerating Satellite Development: A Comparative Simulation of NASA's Waterfall Process and Agile Process Using Innoslate Lifecycling Modeling Language*. Naval Postgraduate School. [pdf](https://dair.nps.edu/bitstream/123456789/5373/1/SYM-AM-25-336.pdf).
+
+# Appendix
+
+## Demo
+
+<div style="display:flex; justify-content:center;">
+
+<video
+  playsinline
+  controls
+  style="max-width:95%; max-height:80vh;">
+  <source src="videos/demo.mp4" type="video/mp4">
+</video>
+
+</div>
