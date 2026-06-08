@@ -13,8 +13,9 @@ format:
     history: false
     highlight-style: a11y
     code-overflow: wrap
-    code-line-numbers: true
-    theme: [dark, custom.scss]
+    code-line-numbers: false
+    # theme: [light, custom.scss]
+    theme: [no_color_custom.scss]
 revealjs-plugins:
   - attribution
 
@@ -33,25 +34,55 @@ date: "2026-06-07"
 ![](images/lingua-loop.png)
 :::
 
-
 ::: {.column width=50% .incremental}
-- Python 3
-- CI/CD
-- Automated Testing
 - [GitHub: lingua-loop](https://github.com/jfdev001/lingua-loop)
-- [Documentation](https://jfdev001.github.io/lingua-loop/)
+- Python (FastAPI)
+- CI/CD (GitHub Actions)
+- Automated Testing (Pytest)
+- [Public Documentation](https://jfdev001.github.io/lingua-loop/)
 - [PyPI: lingua-loop](https://pypi.org/project/lingua-loop/)
+
+::: {.fragment}
+```shell
+docker run -p 49152:49152 lingua-loop
+```
+::: 
 :::
+
 
 ::::
 
 
-## System Architecture 
+## System Architecture {.smaller}
 
 
-::: {.columns} 
-![](images/system_architecture.svg)
+:::: {.columns} 
+::: {.column width=50%}
+![](images/simple_architecture.svg)
 :::
+
+::: {.column width=50%}
+
+::: {.fragment}
+- API/Web Layer
+    - Handle client HTTP requests
+    - Handle web server responses
+:::
+
+::: {.fragment}
+- Business Logic/Services Layer
+    - Parse and normalize user input
+    - Compute scoring metrics for transcription attempt
+:::
+
+::: {.fragment}
+- Data Layer
+    - Use "boundary" (aka integrations) to scrape reference YouTube transcripts
+    - Read/write to SQLite database
+:::
+
+:::
+::::
 
 
 ## Testing Strategy {.smaller}
@@ -59,7 +90,23 @@ date: "2026-06-07"
 :::: {.columns}
 
 ::: {.column width=50%}
-![](images/testing.svg)
+
+![](images/testing.svg){width=200}
+
+::: {.fragment}
+```
+tests/
+├── boundary/
+│   └── test_youtube_transcript_api.py
+├── integration/
+│   └── test_integration.py
+└── unit/
+    ├── api/
+    ├── db/
+    └── services/
+```
+:::
+
 :::
 
 ::: {.column width=50% .incremental}
@@ -103,7 +150,7 @@ date: "2026-06-07"
 - Mocks emulate subsystem behavior for isolated validation
 - Integration tests verify interactions across components
 - CI pipelines provide automated validation
-- LinguaLoop is small, see [my other open-source contributions (Python, Fortran, C, Julia)](https://jfdev001.github.io/cv#foss) and [work contributions to 500k+ LOC codebase](https://gitlab.dkrz.de/icon/icon-model/-/commit/74e0f9997f96270a30f1a36d34302051f0c71696)
+- LinguaLoop is small, see [my other open-source contributions (Python, Fortran, C, Julia)](https://jfdev001.github.io/cv#foss) and [work contributions to codebase with 500k+ lines of code](https://gitlab.dkrz.de/icon/icon-model/-/commit/74e0f9997f96270a30f1a36d34302051f0c71696)
 :::
 
 ::::
