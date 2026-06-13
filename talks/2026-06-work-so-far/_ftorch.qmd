@@ -1,0 +1,33 @@
+# FTorch
+
+Build System and CI/CD Improvements for One of the Most Widely-Used Fortran-PyTorch Interfaces
+
+## Overview
+
+![](images/FTorch_logo.svg)
+
+::: {.incremental}
+- Library for coupling PyTorch ML models directly to Fortran code
+- Used in Community Earth System Model, ICON Model, and UK Atmoic Energy Authority
+- Developed primarily by University of Cambridge 
+:::
+
+
+## Contributions
+
+::: {.incremental}
+- CI/CD pipelines for Intel oneAPI and GCC toolchains — multi-compiler support, cross-platform reliability
+- Automatic `pkg-config` file generation — simplified integration into legacy build systems
+- Static library builds — enabling deployment in environments with dynamic linking restrictions
+- Diagnosed and resolved subtle compilation issues — improved test-suite stability and build reproducibility
+::: 
+
+## Relevance {.smaller}
+
+::: {.incremental}
+- **Build & CI/CD engineering** — automated multi-compiler testing directly maps to DPPS integration/verification needs
+- **Cross-platform reliability** — essential for distributed pipelines running across heterogeneous infrastructure
+- **Legacy system integration** (`pkg-config`, static builds) — relevant for interfacing DPPS with existing telescope software
+- **Distributed, international collaboration** — contributions to an open, community-driven project mirror CTAO's team structure
+- **Scale**: 1k `YAML` (CI/CD), 1k `CMake`, 2.5k `Fortran`, 500 `C++` LOC
+:::

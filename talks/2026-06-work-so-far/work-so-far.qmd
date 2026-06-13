@@ -1,0 +1,82 @@
+---
+title: "Full-Stack Scientific Software Engineering"
+subtitle: "From FastAPI to PyTorch Bindings and Climate Modeling"
+
+output-file: index
+
+format:
+  revealjs:
+    slide-number: c/t
+    embed-resources: true
+    chalkboard: false
+    preview-links: auto
+    history: false
+    highlight-style: a11y
+    code-overflow: wrap
+    code-line-numbers: false
+    # theme: [light, custom.scss]
+    theme: [no_color_custom.scss]
+revealjs-plugins:
+  - attribution
+
+authors:
+  - name: Jared Frazier
+
+date: "2026-06-13"
+# bibliography: references.bib
+---
+
+{{< include _lingua_loop.qmd >}}
+
+{{< include _ftorch.qmd >}}
+
+{{< include _icon.qmd >}}
+
+
+# Summary  {.smaller}
+
+::: {.incremental}
+- **LinguaLoop** — full-stack Python app with CI/CD, packaging (PyPI), containerization, and multi-layer testing
+- **FTorch** — build system engineering with multi-compiler CI/CD pipelines and legacy system integration
+- **ICON** — large-scale Fortran refactoring (10k+ LOC), compiler modernization, and HPC software stewardship
+:::
+
+# Questions?
+
+:::: {.columns}
+::: {.column width="20%"}
+Get in touch:
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="75%"}
+<!-- TODO: commented out to avoid querying google api (reduce bandwidth) -->
+{{< fa pencil >}} \ Jared Frazier 
+
+{{< fa brands github >}} \ [jfdev001](https://github.com/jfdev001)
+
+{{< fa solid globe >}} \ [jfdev001.github.io](https://jfdev001.github.io/)
+
+{{< fa brands linkedin>}} \ [jared-frazier-797590188](https://www.linkedin.com/in/jared-frazier-797590188/)
+
+{{< fa solid envelope >}} \ [jaredfrazierapplications@gmail.com](mailto:jaredfrazierapplications@gmail.com)
+
+:::
+::::
+
+# Appendix
+
+## Demo: LinguaLoop
+
+<div style="display:flex; justify-content:center;">
+
+<video
+  playsinline
+  controls
+  style="max-width:95%; max-height:80vh;">
+  <source src="videos/demo.mp4" type="video/mp4">
+</video>
+
+</div>
