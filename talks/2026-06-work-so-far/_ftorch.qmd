@@ -8,7 +8,7 @@ Build System and CI/CD Improvements for One of the Most Widely-Used Fortran-PyTo
 
 ::: {.incremental}
 - Library for coupling PyTorch ML models directly to Fortran code
-- Used in Community Earth System Model, ICON Model, and UK Atmoic Energy Authority
+- Used in Community Earth System Model, ICON Model, and UK Atomic Energy Authority
 - Developed primarily by University of Cambridge 
 :::
 
