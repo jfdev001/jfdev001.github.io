@@ -35,6 +35,7 @@ https://github.com/orgs/community/discussions/169535#discussioncomment-14077926
 
 https://github.com/copilot/share/42470228-0ae4-88e3-8003-9a0cc41a605b
 
+
 ## jfrazier/support-ifx-2025-3
 
 **Failed CI initial**
@@ -42,5 +43,9 @@ https://github.com/copilot/share/42470228-0ae4-88e3-8003-9a0cc41a605b
 * 7d72c4a2acc9fe85b18eec916052d12eb9167f21
 * `logs/20260713_github_29230989723_ifx_2025-3_llvm_21/`
 
-**Skip -O2**
+Both local spack 2025.3.2 and GH Action 2025.3.3 have the same failing tests
+(.e., 4/6 tests) fail... makes sense also given that there are no release notes
+for IFX 2025.3.3 and we know already that minor version shouldn't really make
+a difference
 
+https://community.intel.com/t5/Intel-Fortran-Compiler/Where-are-the-release-notes-for-2025-3-3/m-p/1742315#M178614

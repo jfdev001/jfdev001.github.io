@@ -1,10 +1,12 @@
 #!/usr/bin/bash
 # @brief Run all ifx CI 
 . $HOME/dev/spack/share/spack/setup-env.sh
-enzyme_src=${HOME}/dev/Enzyme/enzyme/
-function config_build_test() {
+
+
+function f_config_build_test() {
     local ifx_version=${1}
     local llvm_version=${2}
+    local enzyme_src=${HOME}/dev/Enzyme/enzyme/
     (
     mkdir -p build/build-${ifx_version}
     cd  build/build-${ifx_version}
@@ -38,8 +40,26 @@ function config_build_test() {
     )
 }
 
+
 # run CI tests locally with different versions of ifx and llvm
-set -x
-config_build_test 2023.0.0 15.0.7
-config_build_test 2023.2.0 17.0.6
-config_build_test 2025.3.2 21.1.8
+echo "[INFO]: Run local IFX CI"
+f_config_build_test 2023.0.0 15.0.7 > logs/test_2023_0_0.log 2>&1 & 
+f_config_build_test 2023.2.0 17.0.6 > logs/test_2023_2_0.log 2>&1 &
+f_config_build_test 2025.3.2 21.1.8 > logs/test_2025_3_2.log 2>&1 &
+wait 
+echo "[SUCCESS]: Local IFX CI Complete"
+echo
+
+
+function echo_test_results() {
+    local logfile=${1}
+    test_results=$(grep -i "passed" ${logfile})
+    ifx_version_info=$(grep -i --perl-regexp "ifx \((IFX|IFORT)\) \d{4}\.\d\.\d" ${logfile})
+    echo "[${ifx_version_info}]: ${test_results}"
+}
+
+
+echo "[INFO]: Analysis of passed tests:"
+echo_test_results logs/test_2023_0_0.log
+echo_test_results logs/test_2023_2_0.log
+echo_test_results logs/test_2025_3_2.log
