@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+set -eu
+REQUIRED="REQUIRED"
+ifx_version="${1:-$REQUIRED}"
+llvm_version="${2:-$REQUIRED}"
+
+[[ ${ifx_version} == "${REQUIRED}" ]] && echo "missing pos arg IFX_VERSION" && exit 1 
+[[ ${llvm_version} == "${REQUIRED}" ]] && echo "missing pos arg LLVM_VERSION" && exit 1 
+
+if [[ -z $(which spack) ]]
+then
+    echo "[ERROR]: spack not found. Spack is required for loading IFX and LLVM."
+    exit 1 
+fi
+
+(
+rm -rf build && mkdir build && cd build
+
+spack load intel-oneapi-compilers@${ifx_version} llvm@${llvm_version}
+echo "$(ifx --version)"
+echo "$(llvm-dis --version)"
+
+llvm_dir="$(dirname $(dirname $(which llvm-dis)))"
+llvm_cmake_dir="${llvm_dir}/lib/cmake/llvm"
+
+# configure 
+cmake ../enzyme -GNinja -DCMAKE_BUILD_TYPE=Release\
+    -DLLVM_DIR=${llvm_cmake_dir}\
+    -DLLVM_EXTERNAL_LIT=`which lit` \
+    -DENZYME_FORTRAN=ON \
+    -DCMAKE_Fortran_COMPILER=ifx
+
+# compile·
+llvm_major_version=$(llvm-dis --version | grep version | grep --perl-regexp -o "\d{2}")   
+ninja LLVMEnzyme-${llvm_major_version}                                                    
+
+# run tests
+llvm_libexec_dir="${llvm_dir}/libexec/llvm"                   
+export PATH=${llvm_libexec_dir}:${PATH}                       
+ninja check-enzyme-fortran
+)

@@ -1,0 +1,68 @@
+#!/usr/bin/bash
+# @brief Replicate fortran workflows install for use in container
+# @examples
+# ```
+# docker build -t enzyme-fortran -f Dockerfile .
+#
+# docker run -it -v /tmp:/home/user/tmp -v $(pwd):/home/user/Enzyme enzyme-fortran
+# cd Enzyme
+# ./container_depinstall_config_build_test 2023.0.0 15
+#
+# docker run -it -v /tmp:/home/user/tmp -v $(pwd):/home/user/Enzyme enzyme-fortran
+# cd Enzyme
+# ./container_depinstall_config_build_test 2025.3 21 2>&1 | tee ~/tmp/log.out
+# ```
+set -e
+
+DEFAULT_IS_CONTAINER=${IS_CONTAINER:-"FALSE"}
+IS_CONTAINER=${IS_CONTAINER:-$DEFAULT_IS_CONTAINER}
+if [[ ! ${IS_CONTAINER} == "TRUE" ]] 
+then
+    echo "[ERROR]: You must be in a docker container to run this script"
+    exit 1 
+fi
+
+required="required"
+matrix_ifx_version="${1:-$required}"
+matrix_llvm="${2:-$required}"
+
+if [[ ${matrix_ifx_version} == ${required} ]] 
+then
+    echo "[ERROR]: missing positional argument MATRIX_IFX_VERSION"
+    exit 1 
+fi
+
+if [[ ${matrix_llvm} == ${required} ]] 
+then
+    echo "[ERROR]: missing positional argument MATRIX_LLVM"
+    exit 1 
+fi
+
+# install llvm
+if [[ -z $(which llvm-dis-${matrix_llvm}) ]]
+then
+    wget --no-check-certificate -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
+    # NOTE: this fails for ubuntu 24.04 LTS but works with 22.04 
+    sudo apt-add-repository -y "deb http://apt.llvm.org/`lsb_release -c \
+        | cut -f2`/ llvm-toolchain-`lsb_release -c | cut -f2`-${matrix_llvm} main"
+    sudo apt-get update && sudo apt-get install -y llvm-${matrix_llvm}-dev
+fi 
+
+# install intel compilers
+sudo apt-get install -y intel-oneapi-compiler-fortran-${matrix_ifx_version}
+source /opt/intel/oneapi/setvars.sh
+echo $(ifx --version)
+echo $(llvm-dis-${matrix_llvm} --version)
+
+# configure build
+rm -rf ~/Enzyme-container
+cp -r ./ ~/Enzyme-container
+cd ~/Enzyme-container
+rm -rf build && mkdir build && cd build
+cmake ../enzyme -GNinja -DCMAKE_BUILD_TYPE=Release -DLLVM_DIR=/usr/lib/llvm-${matrix_llvm}/lib/cmake/llvm -DLLVM_EXTERNAL_LIT=`which lit` -DENZYME_FORTRAN=ON -DCMAKE_Fortran_COMPILER=ifx
+
+# build
+ninja LLVMEnzyme-${matrix_llvm}
+
+# test
+ninja check-enzyme-fortran
