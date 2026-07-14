@@ -1,13 +1,60 @@
 #!/usr/bin/bash
-# @brief Run all ifx CI 
+# @brief Run all ifx CI
 . $HOME/dev/spack/share/spack/setup-env.sh
 
+usage=$(cat << EOF
+usage: $0 [-h] [-c] [-o] [-n]
+
+arguments:
+    -h      Print usage document and exit.
+    -c      Clean slate. If flag passed, deletes the build dir if it exists so
+            that configuration occurs in a fresh directory. By default, false.
+    -o      Skip old CI tests (e.g., ifx 2023). By default false.
+    -n      Skip new CI tests (e.g., ifx 2025). By default false.
+
+examples:
+    $0                              Run all CI tests
+    $0 -c                           Clean build dirs before configuring
+    $0 -o                           Skip old CI tests (ifx 2023)
+    $0 -n                           Skip new CI tests (ifx 2025)
+    $0 -o -n                        Skip all CI tests
+EOF
+)
+
+clean=0
+skip_old=0
+skip_new=0
+
+while getopts "hcon" opt; do
+    case $opt in
+        h)
+            echo "$usage"
+            exit 0
+            ;;
+        c)
+            clean=1
+            ;;
+        o)
+            skip_old=1
+            ;;
+        n)
+            skip_new=1
+            ;;
+        *)
+            echo "$usage"
+            exit 1
+            ;;
+    esac
+done
 
 function f_config_build_test() {
     local ifx_version=${1}
     local llvm_version=${2}
     local enzyme_src=${HOME}/dev/Enzyme/enzyme/
     (
+    if [ ${clean} -eq 1 ]; then
+        rm -rf build/build-${ifx_version}
+    fi
     mkdir -p build/build-${ifx_version}
     cd  build/build-${ifx_version}
     spack load intel-oneapi-compilers@${ifx_version}
@@ -43,9 +90,20 @@ function f_config_build_test() {
 
 # run CI tests locally with different versions of ifx and llvm
 echo "[INFO]: Run local IFX CI"
-f_config_build_test 2023.0.0 15.0.7 > logs/test_2023_0_0.log 2>&1 & 
-f_config_build_test 2023.2.0 17.0.6 > logs/test_2023_2_0.log 2>&1 &
-f_config_build_test 2025.3.2 21.1.8 > logs/test_2025_3_2.log 2>&1 &
+if [ ${skip_old} -eq 0 ]; then
+    echo "[INFO]: Run ifx 2023 tests"
+    f_config_build_test 2023.0.0 15.0.7 > logs/test_2023_0_0.log 2>&1 & 
+    x-terminal-emulator "ifx 2023.0.0" -e "tail -f logs/test_2023_0_0.log" &
+
+    f_config_build_test 2023.2.0 17.0.6 > logs/test_2023_2_0.log 2>&1 &
+    x-terminal-emulator "ifx 2023.2.0" -e "tail -f logs/test_2023_2_0.log" &
+fi
+
+if [ ${skip_new} -eq 0 ]; then
+    echo "[INFO]: Run ifx 2025 tests"
+    f_config_build_test 2025.3.2 21.1.8 > logs/test_2025_3_2.log 2>&1 &
+    x-terminal-emulator "ifx 2025.3.2" -e "tail -f logs/test_2025_3_2.log" &
+fi
 wait 
 echo "[SUCCESS]: Local IFX CI Complete"
 echo
@@ -60,6 +118,11 @@ function echo_test_results() {
 
 
 echo "[INFO]: Analysis of passed tests:"
-echo_test_results logs/test_2023_0_0.log
-echo_test_results logs/test_2023_2_0.log
-echo_test_results logs/test_2025_3_2.log
+if [ ${skip_old} -eq 0 ]; then
+    echo_test_results logs/test_2023_0_0.log
+    echo_test_results logs/test_2023_2_0.log
+fi
+
+if [ ${skip_new} -eq 0 ]; then
+    echo_test_results logs/test_2025_3_2.log
+fi
