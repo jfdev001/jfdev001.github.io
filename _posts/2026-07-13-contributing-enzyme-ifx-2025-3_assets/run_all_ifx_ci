@@ -3,29 +3,35 @@
 . $HOME/dev/spack/share/spack/setup-env.sh
 
 usage=$(cat << EOF
-usage: $0 [-h] [-c] [-o] [-n]
+usage: $0 [-h] [-p] [-c] [-o] [-n] [-S]
 
 arguments:
     -h      Print usage document and exit.
+    -p      Show progress. Opens terminal windows tailing log output. By default, false.
     -c      Clean slate. If flag passed, deletes the build dir if it exists so
             that configuration occurs in a fresh directory. By default, false.
     -o      Skip old CI tests (e.g., ifx 2023). By default false.
     -n      Skip new CI tests (e.g., ifx 2025). By default false.
+    -S      Skip configuration (cmake + ninja build), run tests only. By default false.
 
 examples:
     $0                              Run all CI tests
+    $0 -p                           Run all CI tests with progress windows
     $0 -c                           Clean build dirs before configuring
     $0 -o                           Skip old CI tests (ifx 2023)
     $0 -n                           Skip new CI tests (ifx 2025)
     $0 -o -n                        Skip all CI tests
+    $0 -S                           Skip cmake configure
 EOF
 )
 
 clean=0
 skip_old=0
 skip_new=0
+skip_config=0
+progress=0
 
-while getopts "hcon" opt; do
+while getopts "hpcsonS" opt; do
     case $opt in
         h)
             echo "$usage"
@@ -39,6 +45,12 @@ while getopts "hcon" opt; do
             ;;
         n)
             skip_new=1
+            ;;
+        p)
+            progress=1
+            ;;
+        S)
+            skip_config=1
             ;;
         *)
             echo "$usage"
@@ -65,12 +77,14 @@ function f_config_build_test() {
     llvm_dir="$(dirname $(dirname $(which llvm-dis)))"
     llvm_cmake_dir="${llvm_dir}/lib/cmake/llvm"
 
-    # configure 
-    cmake ${enzyme_src} -GNinja -DCMAKE_BUILD_TYPE=Release\
-        -DLLVM_DIR=${llvm_cmake_dir}\
-        -DLLVM_EXTERNAL_LIT=`which lit` \
-        -DENZYME_FORTRAN=ON \
-        -DCMAKE_Fortran_COMPILER=ifx
+    if [ ${skip_config} -eq 0 ]; then
+        # configure 
+        cmake ${enzyme_src} -GNinja -DCMAKE_BUILD_TYPE=Release\
+            -DLLVM_DIR=${llvm_cmake_dir}\
+            -DLLVM_EXTERNAL_LIT=`which lit` \
+            -DENZYME_FORTRAN=ON \
+            -DCMAKE_Fortran_COMPILER=ifx
+    fi
 
     # compile·
     llvm_major_version=$(llvm-dis --version | grep version | grep --perl-regexp -o "\d{2}")
@@ -93,16 +107,22 @@ echo "[INFO]: Run local IFX CI"
 if [ ${skip_old} -eq 0 ]; then
     echo "[INFO]: Run ifx 2023 tests"
     f_config_build_test 2023.0.0 15.0.7 > logs/test_2023_0_0.log 2>&1 & 
-    x-terminal-emulator "ifx 2023.0.0" -e "tail -f logs/test_2023_0_0.log" &
+    if [ ${progress} -eq 1 ]; then
+        x-terminal-emulator "ifx 2023.0.0" -e "tail -f logs/test_2023_0_0.log" &
+    fi
 
     f_config_build_test 2023.2.0 17.0.6 > logs/test_2023_2_0.log 2>&1 &
-    x-terminal-emulator "ifx 2023.2.0" -e "tail -f logs/test_2023_2_0.log" &
+    if [ ${progress} -eq 1 ]; then
+        x-terminal-emulator "ifx 2023.2.0" -e "tail -f logs/test_2023_2_0.log" &
+    fi
 fi
 
 if [ ${skip_new} -eq 0 ]; then
     echo "[INFO]: Run ifx 2025 tests"
     f_config_build_test 2025.3.2 21.1.8 > logs/test_2025_3_2.log 2>&1 &
-    x-terminal-emulator "ifx 2025.3.2" -e "tail -f logs/test_2025_3_2.log" &
+    if [ ${progress} -eq 1 ]; then
+        x-terminal-emulator "ifx 2025.3.2" -e "tail -f logs/test_2025_3_2.log" &
+    fi
 fi
 wait 
 echo "[SUCCESS]: Local IFX CI Complete"
