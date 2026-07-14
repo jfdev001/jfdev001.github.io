@@ -49,3 +49,43 @@ for IFX 2025.3.3 and we know already that minor version shouldn't really make
 a difference
 
 https://community.intel.com/t5/Intel-Fortran-Compiler/Where-are-the-release-notes-for-2025-3-3/m-p/1742315#M178614
+
+## Intel subscript arg count difference
+
+```llvm
+; ifx 2023.0.0 and LLVM 15.0.7
+%"X[]" = tail call float* @llvm.intel.subscript.p0f32.i64.i64.p0f32.i64(
+    i8 0,                                    ; 0
+    i64 1,                                   ; 1
+    i64 4,                                   ; 2
+    float* nonnull elementtype(float) %X,    ; 3
+    i64 1),                                  ; 4
+!llfort.type_idx !8                          
+arg_size=5
+```
+
+```llvm
+; ifx 2023.2.0 and LLVM 17.0.6
+%"X[]" = tail call ptr @llvm.intel.subscript.p0.i64.i64.p0.i64(
+  i8 0,                                ; 0
+  i64 1,                               ; 1
+  i64 4,                               ; 2
+  ptr nonnull elementtype(float) %X,   ; 3
+  i64 1),                              ; 4
+!llfort.type_idx !2                    
+arg_size=5
+```
+
+```llvm
+; ifx 2025.3.2 and LLVM 21.1.8
+%"X[]" = tail call ptr @llvm.intel.subscript.p0.i64.i64.p0.i64.i64(
+    i8 0,                               ; 0 
+    i64 1,                              ; 1
+    i64 4,                              ; 2
+    ptr nonnull elementtype(float) %X,  ; 3
+    i64 1,                              ; 4
+    i64 %int_sext),                     ; 5
+!llfort.type_idx !9 
+arg_size=6
+```
+
