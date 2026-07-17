@@ -4,6 +4,6 @@ enzyme_dir=${HOME}/dev/Enzyme
 cp -t . \
     ${enzyme_dir}/config_build_test \
     ${enzyme_dir}/container_depinstall_config_build_test \
-    ${enzyme_dir}/Dockerfile \
+    ${enzyme_dir}/Dockerfile* \
     ${enzyme_dir}/README.md \
     ${enzyme_dir}/run_all_ifx_ci
