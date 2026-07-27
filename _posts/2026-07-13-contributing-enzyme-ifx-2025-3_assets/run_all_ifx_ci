@@ -71,8 +71,26 @@ function f_config_build_test() {
     cd  build/build-${ifx_version}
     spack load intel-oneapi-compilers@${ifx_version}
     spack load llvm@${llvm_version}
-    echo "$(ifx --version)"
-    echo "$(llvm-dis --version)"
+    if [[ -z $(which ifx) ]]
+    then
+        echo "[ERROR]: Missing ifx"
+        exit 1 
+    else
+        echo "$(ifx --version)"
+    fi
+
+    if [[ -z $(which llvm-dis) ]] 
+    then
+        echo "[ERROR]: Missing llvm"
+    else
+        echo "$(llvm-dis --version)"
+    fi
+
+    if [[ -z $(which lit) ]]
+    then
+        echo "[ERROR]: Missing lit"
+        exit 1
+    fi
 
     llvm_dir="$(dirname $(dirname $(which llvm-dis)))"
     llvm_cmake_dir="${llvm_dir}/lib/cmake/llvm"

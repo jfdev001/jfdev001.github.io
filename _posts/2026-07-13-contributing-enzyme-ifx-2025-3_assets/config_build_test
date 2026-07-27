@@ -28,14 +28,15 @@ cmake ../enzyme -GNinja -DCMAKE_BUILD_TYPE=Release\
     -DLLVM_DIR=${llvm_cmake_dir}\
     -DLLVM_EXTERNAL_LIT=`which lit` \
     -DENZYME_FORTRAN=ON \
-    -DCMAKE_Fortran_COMPILER=ifx
+    -DCMAKE_Fortran_COMPILER=ifx \
+    -DCMAKE_INSTALL_PREFIX=$(pwd)/installed
 
-# compile·
+# compile
 llvm_major_version=$(llvm-dis --version | grep version | grep --perl-regexp -o "\d{2}")   
-ninja LLVMEnzyme-${llvm_major_version}                                                    
+ninja LLVMEnzyme-${llvm_major_version}
 
 # run tests
-llvm_libexec_dir="${llvm_dir}/libexec/llvm"                   
-export PATH=${llvm_libexec_dir}:${PATH}                       
+llvm_libexec_dir="${llvm_dir}/libexec/llvm"
+export PATH=${llvm_libexec_dir}:${PATH}
 ninja check-enzyme-fortran
 )
