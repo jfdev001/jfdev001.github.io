@@ -3,7 +3,7 @@
 . $HOME/dev/spack/share/spack/setup-env.sh
 
 usage=$(cat << EOF
-usage: $0 [-h] [-p] [-c] [-o] [-n] [-S]
+usage: $0 [-h] [-p] [-c] [-o] [-n] [-S] [-I]
 
 arguments:
     -h      Print usage document and exit.
@@ -13,6 +13,7 @@ arguments:
     -o      Skip old CI tests (e.g., ifx 2023). By default false.
     -n      Skip new CI tests (e.g., ifx 2025). By default false.
     -S      Skip configuration (cmake + ninja build), run tests only. By default false.
+    -I      Skip install step after tests. By default, install is performed.
 
 examples:
     $0                              Run all CI tests
@@ -22,6 +23,7 @@ examples:
     $0 -n                           Skip new CI tests (ifx 2025)
     $0 -o -n                        Skip all CI tests
     $0 -S                           Skip cmake configure
+    $0 -I                           Skip ninja install
 EOF
 )
 
@@ -29,9 +31,10 @@ clean=0
 skip_old=0
 skip_new=0
 skip_config=0
+skip_install=0
 progress=0
 
-while getopts "hpcsonS" opt; do
+while getopts "hpcsonSI" opt; do
     case $opt in
         h)
             echo "$usage"
@@ -52,6 +55,9 @@ while getopts "hpcsonS" opt; do
         S)
             skip_config=1
             ;;
+        I)
+            skip_install=1
+            ;;
         *)
             echo "$usage"
             exit 1
@@ -65,6 +71,7 @@ function f_config_build_test() {
     local enzyme_src=${HOME}/dev/Enzyme/enzyme/
     (
     if [ ${clean} -eq 1 ]; then
+        echo "[INFO]: Cleaning build directory"
         rm -rf build/build-${ifx_version}
     fi
     mkdir -p build/build-${ifx_version}
@@ -82,6 +89,7 @@ function f_config_build_test() {
     if [[ -z $(which llvm-dis) ]] 
     then
         echo "[ERROR]: Missing llvm"
+        exit 1 
     else
         echo "$(llvm-dis --version)"
     fi
@@ -96,22 +104,30 @@ function f_config_build_test() {
     llvm_cmake_dir="${llvm_dir}/lib/cmake/llvm"
 
     if [ ${skip_config} -eq 0 ]; then
-        # configure 
+        echo "[INFO]: Configuring"
         cmake ${enzyme_src} -GNinja -DCMAKE_BUILD_TYPE=Release\
             -DLLVM_DIR=${llvm_cmake_dir}\
             -DLLVM_EXTERNAL_LIT=`which lit` \
             -DENZYME_FORTRAN=ON \
-            -DCMAKE_Fortran_COMPILER=ifx
+            -DCMAKE_Fortran_COMPILER=ifx \
+            -DCMAKE_INSTALL_PREFIX=$(pwd)/installed
     fi
 
-    # compile·
+    # compile
+    echo "[INFO]: Compiling"
     llvm_major_version=$(llvm-dis --version | grep version | grep --perl-regexp -o "\d{2}")
     ninja LLVMEnzyme-${llvm_major_version}
 
     # run tests
+    echo "[INFO]: Testing"
     llvm_libexec_dir="${llvm_dir}/libexec/llvm"
     export PATH=${llvm_libexec_dir}:${PATH}
     ninja check-enzyme-fortran
+
+    if [ ${skip_install} -eq 0 ]; then
+        echo "[INFO]: Installing"
+        ninja install
+    fi
 
     # clean up spack
     spack unload intel-oneapi-compilers@${ifx_version}
