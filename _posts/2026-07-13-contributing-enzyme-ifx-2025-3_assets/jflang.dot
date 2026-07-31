@@ -1,0 +1,75 @@
+digraph FlangPipeline {
+    splines=ortho;
+    nodesep=0.5;
+    ranksep=0.8;
+
+    node [shape=box, style="rounded"];
+
+    Source [label="Fortran Source\n(.f90, headers)"];
+
+    subgraph cluster_analysis {
+        label="Analysis";
+        style=rounded;
+
+        Prescan [
+            label="Prescan & Preprocess\n\nInput:\n• Source files\n• Macros\n• Directives\n\nOutput:\n• Cooked character stream\n• Provenance"
+        ];
+
+        Parsing [
+            label="Parsing\n\nInput:\n• Cooked character stream\n\nOutput:\n• Parse tree"
+        ];
+
+        Semantics [
+            label="Semantic Processing\n\nInput:\n• Parse tree\n• Cooked stream\n• Provenance\n\nOutput:\n• Symbol table\n• Decorated parse tree\n• Module files\n• Intrinsic table\n• Target characteristics\n• Runtime type info"
+        ];
+    }
+
+    subgraph cluster_lowering {
+        label="Lowering";
+        style=rounded;
+
+        Bridge [
+            label="Create Lowering Bridge\n\nCollects:\n• Parse tree\n• Symbol table\n• Intrinsics\n• Target info\n• KIND mappings\n• Triple\n• Cooked source"
+        ];
+
+        PFT [
+            label="Initial Lowering\n\nParse Tree\n↓\nPFT (Pre-FIR Tree)\n↓\nInitial FIR (MLIR)"
+        ];
+
+        Passes [
+            label="MLIR/FIR Pass Pipeline\n\n• Verify\n• Optimize\n• Transform\n↓\nLLVM IR"
+        ];
+    }
+
+    subgraph cluster_codegen {
+        label="Code Generation";
+        style=rounded;
+
+        CodeGen [
+            label="LLVM Backend\n\nLLVM IR\n↓\nObject Code"
+        ];
+
+        Link [
+            label="Linker\n\nExecutable"
+        ];
+    }
+
+    Source [shape=note]
+    Source -> Prescan;
+    Prescan -> Parsing;
+    Parsing -> Semantics;
+    Semantics -> Bridge;
+    Bridge -> PFT;
+    PFT -> Passes;
+    Passes -> CodeGen;
+    CodeGen -> Link;
+
+    ParseTree [shape=note, label="Parse Tree"];
+    Symbols [shape=note, label="Symbol Table"];
+
+    Parsing -> ParseTree [style=dashed];
+    Semantics -> Symbols [style=dashed];
+
+    ParseTree -> Bridge [style=dashed];
+    Symbols -> Bridge [style=dashed];
+}
