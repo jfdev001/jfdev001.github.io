@@ -1,0 +1,190 @@
+// @brief Expanded flang pipeline, I/O shown
+// https://github.com/llvm/llvm-project/blob/main/flang/docs/Overview.md
+digraph FlangPipeline {
+    rankdir=LR;
+    splines=ortho;
+    nodesep=0.5;
+    ranksep=0.8;
+
+    node [shape=box, style="rounded"];
+
+    // -------------
+    // ANALYSIS 
+    // -------------
+
+    // input analysis phase 
+    Source [label="Fortran Source\n(.f90, headers)"];
+
+    subgraph cluster_analysis {
+        label="Analysis";
+        style=rounded;
+
+        Prescan [
+            label="Prescan/Preprocessing"
+        ];
+
+        Parsing [
+            label="Parsing"
+        ];
+
+        SemanticProcessing [
+            label="Semantic Processing"
+        ];
+    }
+
+    // prescan outputs:
+    CookedCharacterStream [
+        label="Cooked Character Stream",
+        shape=note
+    ];
+
+    Provenance [
+        label="Provenance",
+        shape=note
+    ];
+
+    Prescan -> CookedCharacterStream [style=dashed]
+    CookedCharacterStream -> Parsing [style=dashed]
+    CookedCharacterStream -> SemanticProcessing [style=dashed]
+    CookedCharacterStream -> CreateLoweringBridge [style=dashed]
+
+    Prescan -> Provenance[style=dashed]
+    Provenance -> SemanticProcessing[style=dashed]
+
+    // parsing outputs:
+    ParseTree [
+        label="Parse Tree",
+        shape=note
+    ];
+
+    Parsing -> ParseTree [style=dashed]
+    ParseTree -> SemanticProcessing [style=dashed]
+
+    // semantic processing outputs:
+    SymbolTable [
+        label="Symbol Table",
+        shape=note
+    ];
+
+    ModifiedParseTree [
+        label="Modified Parse Tree",
+        shape=note
+    ];
+
+    ModuleFiles [
+        label="Module Files",
+        shape=note
+    ];
+
+
+    IntrinsicProcedureTable [
+        label="Intrinsic Procedure Table",
+        shape=note
+    ];
+
+
+    TargetCharacteristics [
+        label="Target Characteristics",
+        shape=note
+    ];
+
+
+    RuntimeDerivedTypeTables [
+        label="Runtime Derived Type Tables",
+        shape=note
+    ];
+
+    SemanticProcessing -> SymbolTable [style=dashed]
+    SemanticProcessing -> ModifiedParseTree [style=dashed]
+    SemanticProcessing -> ModuleFiles [style=dashed]
+    SemanticProcessing -> IntrinsicProcedureTable [style=dashed]
+    SemanticProcessing -> TargetCharacteristics [style=dashed]
+    SemanticProcessing -> RuntimeDerivedTypeTables [style=dashed]
+
+    SymbolTable -> CreateLoweringBridge [style=dashed]
+    ModifiedParseTree -> CreateLoweringBridge [style=dashed]
+    ModuleFiles -> CreateLoweringBridge [style=dashed]
+    IntrinsicProcedureTable -> CreateLoweringBridge [style=dashed]
+    TargetCharacteristics -> CreateLoweringBridge [style=dashed]
+    RuntimeDerivedTypeTables -> CreateLoweringBridge [style=dashed]
+
+
+    // ---------------
+    // LOWERING 
+    // ---------------
+
+    subgraph cluster_lowering {
+        label="Lowering";
+        style=rounded;
+
+        CreateLoweringBridge [
+            label="Create Lowering Bridge"
+        ];
+
+        InitialLowering [
+            label="Initial Lowering"
+        ];
+
+        TransformationPasses [
+            label="Transformation Passes"
+        ];
+    }
+
+    // Lowering outputs
+    FIR [ 
+        label="Fortran IR"
+        shape=note
+    ];
+
+    MLIR [ 
+        label="MLIR",
+        shape=note
+    ]
+
+    InitialLowering -> FIR [style=dashed]
+    FIR -> TransformationPasses [style=dashed]
+
+    TransformationPasses -> MLIR [style=dashed]
+    MLIR -> Compiler [style=dashed]
+
+    // ----------
+    // LLC 
+    // ----------
+    subgraph cluster_codegen {
+        label="Object Code Generation and Linking";
+        style=rounded;
+
+        subgraph cluster_llc {
+        label="llc";
+        style="rounded,dashed";
+        Compiler [
+            label="Compiler (llc -filetype=obj)"
+        ];
+
+        Linker [
+            label="Linker (ld.lld)"
+        ];
+
+
+        Compiler -> Linker;
+        }
+    }
+
+    // ---
+    // Total pipeline
+    // ---
+    Source [shape=note]
+
+    // Analysis
+    Source -> Prescan;
+    Prescan -> Parsing;
+    Parsing -> SemanticProcessing;
+
+    // lowering
+    SemanticProcessing -> CreateLoweringBridge;
+    CreateLoweringBridge -> InitialLowering;
+    InitialLowering -> TransformationPasses;
+
+    // code generation
+    TransformationPasses -> Compiler;
+}

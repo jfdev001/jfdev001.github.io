@@ -32,3 +32,7 @@ FIR
 * https://medium.com/@princejain_77044/understanding-llvm-v-s-mlir-a-comprehensive-comparison-overview-9afc0214adc1
 
 * https://news.ycombinator.com/item?id=35791960
+
+* On generation of assembly code and assembly to linking: https://discourse.llvm.org/t/how-to-convert-llvm-ir-to-object-code/1739/2
+
+* Optimization passes and pipeline for enzyme: https://docs.pasteurlabs.ai/projects/tesseract-core/latest/blog/2026-07-09-enzyme-lfortran-autodiff/
