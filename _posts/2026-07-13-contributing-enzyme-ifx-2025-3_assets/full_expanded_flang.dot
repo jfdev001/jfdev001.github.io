@@ -132,20 +132,20 @@ digraph FlangPipeline {
 
     // Lowering outputs
     FIR [ 
-        label="Fortran IR"
+        label="Fortran IR (FIR)"
         shape=note
     ];
 
-    MLIR [ 
-        label="MLIR",
+    LLVMIR [ 
+        label="LLVM IR",
         shape=note
     ]
 
     InitialLowering -> FIR [style=dashed]
     FIR -> TransformationPasses [style=dashed]
 
-    TransformationPasses -> MLIR [style=dashed]
-    MLIR -> Compiler [style=dashed]
+    TransformationPasses -> LLVMIR [style=dashed]
+    LLVMIR -> Compiler [style=dashed]
 
     // ----------
     // LLC 
@@ -154,8 +154,8 @@ digraph FlangPipeline {
         label="Object Code Generation and Linking";
         style=rounded;
 
-        subgraph cluster_llc {
-        label="llc";
+        subgraph cluster_llvm_backend {
+        label="LLVM Backend";
         style="rounded,dashed";
         Compiler [
             label="Compiler (llc -filetype=obj)"
@@ -187,4 +187,11 @@ digraph FlangPipeline {
 
     // code generation
     TransformationPasses -> Compiler;
+
+    // using cmake syntax: add_executable, add_target(shared lib...)
+    Outputs [
+        label="a.out\n.so\n.a\n...";
+        shape=note
+    ]
+    Linker -> Outputs;
 }

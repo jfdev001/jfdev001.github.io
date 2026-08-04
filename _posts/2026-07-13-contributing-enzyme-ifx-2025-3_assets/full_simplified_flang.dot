@@ -14,7 +14,10 @@ digraph FlangPipeline {
     // -------------
 
     // input analysis phase 
-    Source [label="Fortran Source\n(.f90, headers)"];
+    Source [
+        label="Fortran Source\n(.f90, headers)";
+        shape=note;
+    ];
 
     subgraph cluster_analysis {
         label="Analysis";
@@ -59,12 +62,13 @@ digraph FlangPipeline {
     // ----------
     // LLC 
     // ----------
+
     subgraph cluster_codegen {
         label="Object Code Generation and Linking";
         style=rounded;
 
-        subgraph cluster_llc {
-            label="llc";
+        subgraph cluster_llvm_backend {
+            label="LLVM Backend";
             style="rounded,dashed";
             Compiler [
                 label="Compiler (llc -filetype=obj)"
@@ -79,10 +83,10 @@ digraph FlangPipeline {
         }
     }
 
+
     // ---
     // Total pipeline
     // ---
-    Source [shape=note]
 
     // Analysis
     Source -> Prescan;
@@ -96,4 +100,11 @@ digraph FlangPipeline {
 
     // code generation
     TransformationPasses -> Compiler;
+
+    // using cmake syntax: add_executable, add_target(shared lib...)
+    Outputs [
+        label="a.out\n.so\n.a\n...";
+        shape=note
+    ]
+    Linker -> Outputs;
 }

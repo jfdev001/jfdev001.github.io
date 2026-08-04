@@ -1,0 +1,115 @@
+// @brief Simplified flang pipeline, no I/O shown
+// https://github.com/llvm/llvm-project/blob/main/flang/docs/Overview.md
+digraph FlangPipeline {
+    rankdir=LR;
+    splines=ortho;
+    nodesep=0.5;
+    ranksep=0.8;
+
+    node [shape=box, style="rounded"];
+
+
+    // -------------
+    // INPUT 
+    // -------------
+    Source [label="Fortran Source\n(.f90, headers)"];
+
+
+    // -------------
+    // FLANG DRIVER
+    // -------------
+    subgraph cluster_flang {
+        label="\nflang";
+        fontsize=24;
+        fontname="Helvetica-Bold";
+        style=rounded;
+        padding=12;
+
+        // -------------
+        // ANALYSIS 
+        // -------------
+        subgraph cluster_analysis {
+            label="Analysis";
+            fontsize=18;
+            fontname="Helvetica";
+            style=rounded;
+
+            Prescan [
+                label="Prescan/Preprocessing"
+            ];
+
+            Parsing [
+                label="Parsing"
+            ];
+
+            SemanticProcessing [
+                label="Semantic Processing"
+            ];
+        }
+
+
+        // ---------------
+        // LOWERING 
+        // ---------------
+        subgraph cluster_lowering {
+            label="Lowering";
+            fontsize=18;
+            fontname="Helvetica";
+            style=rounded;
+
+            CreateLoweringBridge [
+                label="Create Lowering Bridge"
+            ];
+
+            InitialLowering [
+                label="Initial Lowering"
+            ];
+
+            TransformationPasses [
+                label="Transformation Passes"
+            ];
+        }
+
+
+        // ----------
+        // LLC 
+        // ----------
+        subgraph cluster_codegen {
+            label="Object Code Generation and Linking";
+            fontsize=18;
+            fontname="Helvetica";
+            style=rounded;
+
+            subgraph cluster_llc {
+                label="llc";
+                fontsize=18;
+                fontname="Helvetica";
+                style="rounded,dashed";
+                Compiler [
+                    label="Compiler (llc -filetype=obj)"
+                ];
+
+                Linker [
+                    label="Linker (ld.lld)"
+                ];
+
+
+                Compiler -> Linker;
+            }
+        }
+    }
+
+
+    // ----
+    // Edges
+    // ----
+    Source -> Prescan;
+    Prescan -> Parsing;
+    Parsing -> SemanticProcessing;
+
+    SemanticProcessing -> CreateLoweringBridge;
+    CreateLoweringBridge -> InitialLowering;
+    InitialLowering -> TransformationPasses;
+
+    TransformationPasses -> Compiler;
+}
