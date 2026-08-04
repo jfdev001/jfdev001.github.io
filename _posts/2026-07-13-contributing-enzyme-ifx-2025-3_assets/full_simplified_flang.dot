@@ -8,6 +8,7 @@ digraph FlangPipeline {
 
     node [shape=box, style="rounded"];
 
+
     // -------------
     // ANALYSIS 
     // -------------
@@ -63,18 +64,18 @@ digraph FlangPipeline {
         style=rounded;
 
         subgraph cluster_llc {
-        label="llc";
-        style="rounded,dashed";
-        Compiler [
-            label="Compiler (llc -filetype=obj)"
-        ];
+            label="llc";
+            style="rounded,dashed";
+            Compiler [
+                label="Compiler (llc -filetype=obj)"
+            ];
 
-        Linker [
-            label="Linker (ld.lld)"
-        ];
+            Linker [
+                label="Linker (ld.lld)"
+            ];
 
 
-        Compiler -> Linker;
+            Compiler -> Linker;
         }
     }
 

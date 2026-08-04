@@ -1,0 +1,70 @@
+digraph EnzymeIFXPipeline {
+
+    rankdir=LR;
+    splines=ortho;
+    nodesep=0.5;
+    ranksep=0.8;
+
+    node [
+        shape=box,
+        style="rounded",
+        fontname="Helvetica"
+    ];
+
+    edge [
+        fontname="Helvetica",
+        fontsize=10
+    ];
+
+    Source [
+        label="test_enzyme.f90"
+    ];
+
+    subgraph cluster_nolto {
+        label="NO LTO (fails)";
+        style="rounded,dashed";
+
+        CompileNoLTO [
+            label="ifx -O1\ncompile + link\n(no -flto)"
+        ];
+
+        Fail [
+            label="❌ Link failure\n\nundefined reference:\nf__enzyme_autodiff_",
+            shape=note
+        ];
+
+        CompileNoLTO -> Fail;
+    }
+
+
+    subgraph cluster_lto {
+        label="LTO Pipeline (works)";
+        style="rounded";
+
+        Bitcode [
+            label="ifx -flto -O1 -c\n\nLLVM bitcode\n(test_enzyme.bc)"
+        ];
+
+        Enzyme [
+            label="opt\n\nLoad Enzyme pass\nLLVMEnzyme-15.so\n\nOptimized bitcode\n(opt_test_enzyme.bc)"
+        ];
+
+        Link [
+            label="ifx -flto -O1\n\nFinal LTO link\n\nExecutable\n(opt_test_enzyme)"
+        ];
+
+        Run [
+            label="✓ Working executable\nruns test",
+            shape=note
+        ];
+
+        Bitcode -> Enzyme;
+        Enzyme -> Link;
+        Link -> Run;
+    }
+
+
+    Source -> CompileNoLTO;
+    Source -> Bitcode;
+
+}
