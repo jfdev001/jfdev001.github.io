@@ -1,86 +1,96 @@
-# @brief Build a simple test file following the testing pipeline for IFX,
-#        see enzyme/test/Fortran/**/*.f90
-# 
-# @description This test file basically replicates the lit test syntax
-# `RUN: %fc -flto -O1 -c %loadFortran %s -o /dev/stdout | %opt %loadEnzyme %enzyme -o %t.ll && %fc -flto -O1 %t.ll -o %t1 && %t1 | FileCheck %s`
-# but as a Makefile
+###############################################################################
 #
-# In enzyme/test/Fortran/**/*.f90, you see lit syntax like
-# `%<SYMBOL>`. You can find the generic definitions in enzyme/test/lit.site.cfg.py.in
-# and the realized definitions **/build/test/lit.site.cfg.py
+#  Generic single-file Fortran + Enzyme build pipeline
 #
-# NOTE: I rely on spack to load llvm and intel compiler dependencies:
-# spack load intel-oneapi-compilers@2023.0.0
-# spack load llvm@15.0.7
+#  This replicates the lit test syntax
+#  `RUN: %fc -flto -O1 -c %loadFortran %s -o /dev/stdout | %opt %loadEnzyme %enzyme -o %t.ll && %fc -flto -O1 %t.ll -o %t1 && %t1 | FileCheck %s`
+#  but as a Makefile.
 #
-# NOTE: You can replicate this on levante but spack load intel-oneapi-compilers@2023.0.0 will
-# fail for some reason... so you need to manually source the intel environment files...
-# spack location -i intel-oneapi-compilers@2023.0.0
-# /sw/spack-levante/intel-oneapi-compilers-2023.0.0-65ewtu/setvars.sh
-.PHONY: lto nolto ll all
+#  The compiler is selected with the COMPILER variable; the corresponding
+#  per-compiler configuration file is then included automatically:
+#
+#      make COMPILER=ifx      # use Intel ifx   (loads ifx.mk)
+#      make COMPILER=flang    # use LLVM Flang  (loads flang.mk)
+#
+#  In enzyme/test/Fortran/**/*.f90 you see lit syntax like
+#  `%<SYMBOL>`. The generic definitions live in enzyme/test/lit.site.cfg.py.in
+#  and the realized definitions in **/build/test/lit.site.cfg.py.
+#
+###############################################################################
 
-fc = $(shell which ifx)
+###############################################################################
+# Compiler selection
+###############################################################################
 
-opt = $(shell which opt)
+COMPILER ?= ifx
 
-disassemble = $(shell which llvm-dis)
+ifeq ($(COMPILER),ifx)
+  include ifx.mk
+else ifeq ($(COMPILER),flang)
+  include flang.mk
+else
+  $(error Unsupported COMPILER "$(COMPILER)". Supported values: ifx, flang)
+endif
 
-# TODO: this is a bit weird... because the config tests uses the build
-# artifacts not the install artifacts... though it's unclear to me how to use
-# the install artifacts...
-# i wonder if there is an even an intention to use the install artifacts...
-loadFortran = -I/home/jf01/dev/Enzyme/build/build-2023.0.0/modules
+###############################################################################
+# Source file
+###############################################################################
 
-# uses old pass manager flags since LLVM <= 16 in this example... required
-# inspecting lit cfg *.py file
-loadEnzyme = --enable-new-pm=0 -load=/home/jf01/dev/Enzyme/build/build-2023.0.0/Enzyme/LLVMEnzyme-15.so --enzyme-attributor=0
+SRC ?= test_enzyme.f90
 
-# NOTE: pay attention to this, i am using llvm <= 16 so may be different for you
-enzyme = -enzyme
+BC   := $(basename $(SRC)).bc
+ADBC := opt_$(basename $(SRC)).bc
+ADLL := opt_$(basename $(SRC)).ll
+EXE  := opt_$(basename $(SRC))
+EXE_DIRECT := $(basename $(SRC))
 
-# ---- TARGETS  ----
-all:  # empty target 
+###############################################################################
+# Convenience targets
+###############################################################################
 
-# link-time optimization target to generate llvm bitcode
-lto: test_enzyme.bc
+.PHONY: lto nolto ll exec all clean
 
-# FAILS!! no link-time optimization, so attempts per file compilation, so crash
-nolto: test_enzyme
+all: ll
 
-# produce human readable optimized LLVM IR after enzyme passes 
-ll: opt_test_enzyme.ll
+# link-time optimization target to generate LLVM bitcode
+lto: $(BC)
+
+# no link-time optimization -> attempts per-file compilation, so it crashes
+# on the unresolved Enzyme symbols (kept to document the failure)
+nolto: $(EXE_DIRECT)
+
+# produce human-readable optimized LLVM IR after the Enzyme passes
+ll: $(ADLL)
 
 # produce a working executable binary
-exec: opt_test_enzyme
+exec: $(EXE)
 
 clean:
-	rm *test_enzyme *.bc *.ll
+	rm -f $(BC) $(ADBC) $(ADLL) $(EXE) *.mod
 
-# ---- END TARGETS  ----
+###############################################################################
+# Targets
+###############################################################################
 
-# flto means defers global optimizations until final link stage... this is
-# because there are symbols that cannot be resolved here which can be 
-# only resolved if loadEnzyme passes occur
-test_enzyme.bc: test_enzyme.f90
-	$(fc) -flto -O1 -c $(loadFortran) $< -o $@
+# -flto defers global optimizations until the final link stage; this is
+# needed because symbols can only be resolved after the loadEnzyme passes
+# have run
+$(BC): $(SRC)
+	$(FC) $(FFLAGS) -c $(LOAD_FORTRAN) $< -o $@
 
 # optimized LLVM bitcode with Enzyme loaded
-opt_test_enzyme.bc: test_enzyme.bc 
-	$(opt) $< $(loadEnzyme) $(enzyme) -o $@
+$(ADBC): $(BC)
+	$(OPT) $< $(LOAD_ENZYME) $(ENZYME) -o $@
 
-# optimized human readable code 
-opt_test_enzyme.ll: opt_test_enzyme.bc
-	$(disassemble) $< -o $@
+# optimized human-readable code
+$(ADLL): $(ADBC)
+	$(DIS) $< -o $@
 
-# Get executable from this optimized LLVM IR and perform final linking 
-opt_test_enzyme: opt_test_enzyme.ll
-	$(fc) -flto -O1 $< -o $@
+# get an executable from the optimized LLVM bitcode and do the final link
+$(EXE): $(ADBC)
+	$(FC) $(FFLAGS) $< -o $@
 
-# includes final link stage and will crash due to undefined symbols!!
-#
-# [jf01@lapfrazier] simple_enzyme$ make nolto 
-# ifx -O1 -I/home/jf01/dev/Enzyme/build/build-2023.0.0/modules test_enzyme.f90 -o test_enzy
-# ld: /tmp/ifx0052089676NTAddZ/ifx39HOZO.o: in function `MAIN__':
-# test_enzyme.f90:(.text+0x3f): undefined reference to `f__enzyme_autodiff_'
-test_enzyme: test_enzyme.f90
-	$(FC) -O1 $(loadFortran) $< -o $@
+# direct compile without LTO: fails with undefined reference to
+# `f__enzyme_autodiff_` because the Enzyme passes never run
+$(EXE_DIRECT): $(SRC)
+	$(FC) -O1 $(LOAD_FORTRAN) $< -o $@

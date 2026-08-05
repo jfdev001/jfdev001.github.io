@@ -1,0 +1,165 @@
+// @brief Flang pipeline showing where Enzyme gets injected
+//
+// Per flang/docs/Overview.md the "Transformation Passes" run over FIR
+// (MLIR) and end with the pass that emits LLVM IR. Enzyme is NOT one of
+// those FIR passes: it is an LLVM middle-end optimization pass, so it
+// hooks into the LLVM IR only AFTER flang/ifx has emitted it and BEFORE
+// llc does object code generation.
+//
+// Per Enzyme enzyme/Fortran/README.md:
+//   - flang:  FlangEnzyme-XX.so loaded with -fpass-plugin, runs in the
+//             flang LLVM optimization pipeline.
+//   - ifx:    plugin route is flang-only; use the opt pipeline on the
+//             emitted LLVM IR instead:
+//             ifx ... -I/path/to/Enzyme/build/modules -flto -c -o *.bc | # emit LLVM bitcode
+//             opt -load-pass-plugin=LLVMEnzyme-XX.so -passes=enzyme | # only for LLVM >= 16
+//             ifx -flto ... -o a.out  # assemble/link
+//
+// https://github.com/llvm/llvm-project/blob/main/flang/docs/Overview.md
+// https://enzyme.mit.edu/
+digraph FlangPipeline {
+    rankdir=LR;
+    splines=ortho;
+    nodesep=0.5;
+    ranksep=0.8;
+
+    node [shape=box, style="rounded"];
+
+    // -------------
+    // ANALYSIS
+    // -------------
+
+    Source [
+        label="Fortran Source\n(.f90, headers)";
+        shape=note;
+    ];
+
+    subgraph cluster_analysis {
+        label="Analysis";
+        style=rounded;
+
+        Prescan [
+            label="Prescan/Preprocessing"
+        ];
+
+        Parsing [
+            label="Parsing"
+        ];
+
+        SemanticProcessing [
+            label="Semantic Processing"
+        ];
+    }
+
+
+    // ---------------
+    // LOWERING
+    // ---------------
+
+    subgraph cluster_lowering {
+        label="Lowering";
+        style=rounded;
+
+        CreateLoweringBridge [
+            label="Create Lowering Bridge"
+        ];
+
+        InitialLowering [
+            label="Initial Lowering"
+        ];
+
+        TransformationPasses [
+            label="Transformation Passes\n(FIR verification + optimizations;\nfinal pass emits LLVM IR)"
+        ];
+    }
+
+
+    // ----------
+    // ENZYME INJECTION POINT
+    // ----------
+
+    // Enzyme is an LLVM middle-end optimization pass injected into the
+    // LLVM IR here, after flang/ifx emits it and before codegen. On ifx
+    // it runs via opt (see top-of-file comment).
+    Enzyme [
+        label="Enzyme\n(LLVM optimization pass,\nopt -load-pass-plugin=LLVMEnzyme)";
+        shape=hexagon;
+        style="rounded,filled";
+        fillcolor=lightgoldenrodyellow;
+        color=orange;
+        penwidth=2;
+    ];
+
+    subgraph cluster_injection {
+        label="Injection point";
+        style="rounded,dashed";
+        color=orange;
+
+        LLVMIR [
+            label="LLVM IR",
+            shape=note
+        ];
+
+        LLVMIRwithEnzyme [
+            label="LLVM IR\n(+ Enzyme AD passes)\n";
+            shape=note;
+            style="rounded,filled";
+            fillcolor=lightgoldenrodyellow;
+        ];
+    }
+
+
+    // ----------
+    // LLC
+    // ----------
+
+    subgraph cluster_codegen {
+        label="Object Code Generation and Linking";
+        style=rounded;
+
+        subgraph cluster_llvm_backend {
+            label="LLVM Backend";
+            style="rounded,dashed";
+            Compiler [
+                label="Compiler (llc -filetype=obj)"
+            ];
+
+            Linker [
+                label="Linker (ld.lld)"
+            ];
+
+            Compiler -> Linker;
+        }
+    }
+
+
+    // ---
+    // Total pipeline
+    // ---
+
+    // Analysis
+    Source -> Prescan;
+    Prescan -> Parsing;
+    Parsing -> SemanticProcessing;
+
+    // lowering
+    SemanticProcessing -> CreateLoweringBridge;
+    CreateLoweringBridge -> InitialLowering;
+    InitialLowering -> TransformationPasses;
+
+    // the flang "Transformation Passes" run over FIR (MLIR) and their
+    // final pass emits LLVM IR; Enzyme is NOT part of those FIR passes.
+    // Enzyme is an LLVM middle-end pass that runs on the emitted LLVM IR,
+    // before llc codegen.
+    TransformationPasses -> LLVMIR [style=dashed];
+    LLVMIR -> LLVMIRwithEnzyme [color=orange, penwidth=2];
+    Enzyme -> LLVMIRwithEnzyme [color=orange, penwidth=2, style=bold];
+    LLVMIRwithEnzyme -> Compiler [style=dashed];
+
+    // using cmake syntax: add_executable, add_target(shared lib...)
+    Outputs [
+        label="a.out\n.so\n.a\n...";
+        shape=note
+    ]
+    Linker -> Outputs;
+}

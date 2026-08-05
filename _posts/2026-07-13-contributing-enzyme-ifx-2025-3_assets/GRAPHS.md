@@ -36,3 +36,5 @@ FIR
 * On generation of assembly code and assembly to linking: https://discourse.llvm.org/t/how-to-convert-llvm-ir-to-object-code/1739/2
 
 * Optimization passes and pipeline for enzyme: https://docs.pasteurlabs.ai/projects/tesseract-core/latest/blog/2026-07-09-enzyme-lfortran-autodiff/
+
+* [optimization passes in LLVM](https://llvm.org/docs/Passes.html)
