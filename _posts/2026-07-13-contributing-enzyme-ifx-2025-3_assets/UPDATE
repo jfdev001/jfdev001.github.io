@@ -1,10 +1,12 @@
 #!/usr/bin/bash
 set -x 
 enzyme_dir=${HOME}/dev/Enzyme
+icon_dir=${HOME}/dev/iap/icon-model-public
 cp -r -t . \
     ${enzyme_dir}/config_build_test \
     ${enzyme_dir}/container_depinstall_config_build_test \
     ${enzyme_dir}/Dockerfile* \
     ${enzyme_dir}/README.md \
     ${enzyme_dir}/run_all_ifx_ci \
-    ${enzyme_dir}/tmp
+    ${enzyme_dir}/tmp \
+    ${icon_dir}/planning

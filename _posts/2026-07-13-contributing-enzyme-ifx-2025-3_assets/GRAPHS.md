@@ -23,7 +23,7 @@ FIR
 
 * https://aosabook.org/en/v1/llvm.html
 
-* https://github.com/llvm/llvm-project/blob/main/flang/docs/Overview.md
+* [Flang overview](https://github.com/llvm/llvm-project/blob/main/flang/docs/Overview.md)
 
 * Hsu2021: LLVM Techniques Tips and Best Practices... mentions pass manager
 
@@ -38,3 +38,5 @@ FIR
 * Optimization passes and pipeline for enzyme: https://docs.pasteurlabs.ai/projects/tesseract-core/latest/blog/2026-07-09-enzyme-lfortran-autodiff/
 
 * [optimization passes in LLVM](https://llvm.org/docs/Passes.html)
+
+* [FlangDriver Overview](https://flang.llvm.org/docs/FlangDriver.html)

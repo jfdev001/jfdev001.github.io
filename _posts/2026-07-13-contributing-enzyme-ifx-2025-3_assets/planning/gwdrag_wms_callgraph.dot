@@ -1,0 +1,142 @@
+// Call graph for ICON non-orographic gravity wave drag parameterization.
+// Root: gwdrag_wms (mo_gwd_wms).
+// Colors:
+//   green  = physics parameterization (kernel-level scheme)
+//   yellow = physics driver / suite orchestration
+//   blue   = dynamical core / model-state update
+//   gray   = configuration / tuning (namelist & init)
+//   orange = parallel / halo exchange & external services
+//
+// Solid edges = static call. Dashed edges = data-flow (tendency / state) handoff.
+
+digraph gwdrag_wms_callgraph {
+
+  graph [rankdir="LR", splines="true", nodesep="0.35", ranksep="0.6",
+         fontname="Helvetica", label="ICON NWP: gwdrag_wms call & data graph",
+         labelloc="t", fontsize=18];
+  node  [fontname="Helvetica", style="rounded,filled", shape="box", fontsize=10];
+  edge  [fontname="Helvetica", fontsize=9, color="gray40"];
+
+  // ------------------------------------------------------------------
+  //  CLUSTER 0 : config / tuning  (gray)
+  // ------------------------------------------------------------------
+  subgraph cluster_config {
+    label="Configuration / tuning (namelist, init-time)";
+    style="dashed"; color="gray50"; fontname="Helvetica"; fontsize=12;
+
+    tune_gfluxlaun [label="mo_nwp_tuning_config\ntune_gfluxlaun / tune_gcstar\n(namelist scalar, domain-independent)", fillcolor="#d0d0d0"];
+    icpl_gwd_prec [label="mo_atm_phy_nwp_config\nicpl_gwd_prec  (namelist switch)", fillcolor="#d0d0d0"];
+    ens_pert      [label="mo_ensemble_pert_config\nperturbs tune_gfluxlaun\n(SPPT/SPP ensemble)", fillcolor="#d0d0d0"];
+    sugwwms       [label="data_gwd :: sugwwms\nINIT: sets gfluxlaun, gcstar,\nnslope=1, gptwo=2, ngauss=1,\nggaussa, ggaussb, gcoeff,\nlozpr <- icpl_gwd_prec;\ncomputes klaunch (45 hPa)\nSETS module state of data_gwd",
+                   fillcolor="#e0e0e0"];
+    nwp_phy_init  [label="mo_nwp_phy_init\nnwp_phy_init\nCALL sugwwms -> phy_params%klaunch", fillcolor="#d0d0d0"];
+  }
+
+  // ------------------------------------------------------------------
+  //  CLUSTER 1 : physics parameterization kernels  (green)
+  // ------------------------------------------------------------------
+  subgraph cluster_phys {
+    label="Physics parameterizations";
+    style="dashed"; color="green"; fontname="Helvetica"; fontsize=12;
+
+    gwdrag_wms [label="mo_gwd_wms :: gwdrag_wms\n\nINPUTS: u,v,T,pres,pres_ifc,geo,lat,precip\ntime step, klaunch\nMODULE: data_gwd%gfluxlaun, gcstar,\n  nslope, gptwo, ggaussa, ggaussb,\n  ngauss, gcoeff, lozpr\nOUTPUTS: ddt_u_gwd, ddt_v_gwd\n  (zonal/meridional momentum tendencies)\n  pfluxu, pfluxv (vertical mom. fluxes)\nCALLS: none (leaf kernel)\nOpenACC data/parallel regions", fillcolor="#a8e6a3"];
+    sso [label="mo_sso_cosmo :: sso\norographic GWD (sibling scheme,\nsame driver, different tuning)\nOUTPUTS: ddt_u_sso, ddt_v_sso", fillcolor="#a8e6a3"];
+    turbdiff [label="mo_nwp_turbdiff_interface\nnwp_turbdiff -> turbdiff\nreads ddt_u_gwd/v_gwd\n(dissipative heating branch)", fillcolor="#a8e6a3"];
+  }
+
+  // ------------------------------------------------------------------
+  //  CLUSTER 2 : physics suite / drivers  (yellow)
+  // ------------------------------------------------------------------
+  subgraph cluster_driver {
+    label="Physics driver / suite orchestration";
+    style="dashed"; color="goldenrod3"; fontname="Helvetica"; fontsize=12;
+
+    nwp_gwdrag [label="mo_nwp_gw_interface :: nwp_gwdrag\n\nInputs: patch, metrics, diag, phy_params,\n  atm_phy_nwp_config(inwp_gwd, inwp_sso)\nCALLS: gwdrag_wms, sso,\n  get_indices_c, set_acc_host_or_device\nPost-processing: scale top level x0.125,\n  cap |tend|<=0.05, SPPT pert.\nMODULE: vct_a, itype_stoch_phys,\n  phy_params, atm_phy_nwp_config", fillcolor="#f9e79f"];
+    nwp_nh_interface [label="mo_nh_interface_nwp :: nwp_nh_interface\n(the physics suite driver)\n\nCALLS: nwp_gwdrag, nwp_msgwam_interface,\n  radiation, convection, gscp, turbdiff,\n  cloud cover, sfc, stochastics, upatmo,\n  coupling (waves/hydrodisc/ocean),\n  sync_patch_array*, pert_tend,\n  rbf_vec_interpol_cell, nwp_statistics...\n\nSTATE HANDOFF:\n  ddt_u_gwd+ddt_v_gwd+sso+raylfric+pconv\n    -> z_ddt_u_tot/z_ddt_v_tot\n  dissipative heating -> z_ddt_temp\n  -> pt_diag%ddt_exner_phy\n  z_ddt_u/v_tot (cells) -> pt_diag%ddt_vn_phy (edges)\n  + direct update pt_prog%vn", fillcolor="#f9e79f"];
+    get_indices_c [label="mo_loopindices\nget_indices_c", fillcolor="#f5deb3"];
+    set_acc       [label="mo_fortran_tools\nset_acc_host_or_device", fillcolor="#f5deb3"];
+    pert_tend     [label="mo_stochastics\npert_tend (SPPT)", fillcolor="#f5deb3"];
+    calc_qsum     [label="calc_qsum", fillcolor="#f5deb3"];
+    apply_ls      [label="apply_ls_forc_nudge_uvt\n(LES forcing path)", fillcolor="#f5deb3"];
+    nwp_opt_diag  [label="nwp_opt_diagnostics_2", fillcolor="#f5deb3"];
+    nwp_stats     [label="nwp_statistics", fillcolor="#f5deb3"];
+    dpsdt         [label="compute_dpsdt", fillcolor="#f5deb3"];
+    nwp_upatmo    [label="nwp_upatmo_update\n(upper-atm physics, optional)", fillcolor="#f5deb3"];
+    icon_cb       [label="icon_call_callback\n(COMIn, EP_ATM_GWDRAG_AFTER)", fillcolor="#f5deb3"];
+  }
+
+  // ------------------------------------------------------------------
+  //  CLUSTER 3 : dynamical core / state update  (blue)
+  // ------------------------------------------------------------------
+  subgraph cluster_dyn {
+    label="Dynamical core / model-state update";
+    style="dashed"; color="steelblue3"; fontname="Helvetica"; fontsize=12;
+
+    solve_nh  [label="mo_solve_nonhydro :: solve_nh\n\nuses pt_diag%ddt_vn_phy (edge wind forcing)\n  -> vn(nnew) = vn(nnow) + dtime*\n     (adv+cor+pgr+ddt_vn_phy)\nuses pt_diag%ddt_exner_phy\n  -> exner_expl += dtime*ddt_exner_phy\n  -> exner_pr, theta_v, rho update\nCALLS: advection, h2d/d2h halo exchange,\n  divdamp, rayleigh, nest, IAU", fillcolor="#a9cce3"];
+    integrate_nh [label="mo_nh_stepping :: integrate_nh\n\ntimestep driver: mtime_ctrl_physics ->\nCALL nwp_nh_interface (slow physics)\nCALL perform_dyn_substepping -> solve_nh", fillcolor="#85b6d9"];
+    perform_loop [label="mo_nh_stepping\nperform_nh_timeloop / perform_nh_stepping\n(model driver: loops timesteps, IAU, LBC)", fillcolor="#85b6d9"];
+  }
+
+  // ------------------------------------------------------------------
+  //  CLUSTER 4 : parallel / external services  (orange)
+  // ------------------------------------------------------------------
+  subgraph cluster_ext {
+    label="Parallel & external services";
+    style="dashed"; color="orange"; fontname="Helvetica"; fontsize=12;
+    sync [label="sync_patch_array(_mult)\nMPI halo exchange", fillcolor="#fad7a0"];
+    mpi  [label="MPI / OpenMP runtime\n(work_mpi_barrier, omp blocks)", fillcolor="#fad7a0"];
+    drhook [label="dr_hook (profiling)\nin sugwwms only", fillcolor="#fad7a0"];
+  }
+
+  // ------------------------------------------------------------------
+  //  EDGES : static calls (solid)
+  // ------------------------------------------------------------------
+  nwp_gwdrag  -> gwdrag_wms  [label="CALL gwdrag_wms\n(kidia..kfdia block)"];
+  nwp_gwdrag  -> sso         [label="CALL sso (if inwp_sso=1)"];
+  nwp_gwdrag  -> get_indices_c;
+  nwp_gwdrag  -> set_acc;
+
+  nwp_nh_interface -> nwp_gwdrag [label="CALL nwp_gwdrag\n(dt_loc, dt_phy(itgwd))"];
+  nwp_nh_interface -> get_indices_c;
+  nwp_nh_interface -> pert_tend;
+  nwp_nh_interface -> calc_qsum;
+  nwp_nh_interface -> apply_ls;
+  nwp_nh_interface -> nwp_opt_diag;
+  nwp_nh_interface -> nwp_stats;
+  nwp_nh_interface -> dpsdt;
+  nwp_nh_interface -> nwp_upatmo;
+  nwp_nh_interface -> icon_cb;
+  nwp_nh_interface -> sync;
+
+  nwp_turbdiff -> turbdiff;
+
+  integrate_nh -> nwp_nh_interface [label="CALL nwp_nh_interface\n(physics suite)"];
+  integrate_nh -> solve_nh         [label="CALL solve_nh (via\nperform_dyn_substepping)"];
+  integrate_nh -> perform_loop     [label="internal to\nmo_nh_stepping"];
+  solve_nh -> sync;
+
+  sugwwms -> tune_gfluxlaun [style="dashed", label="reads"];
+  sugwwms -> icpl_gwd_prec [style="dashed", label="reads"];
+  ens_pert -> tune_gfluxlaun [style="dashed", label="perturbs"];
+  nwp_phy_init -> sugwwms [label="CALL sugwwms\nsets phy_params%klaunch"];
+
+  // ------------------------------------------------------------------
+  //  EDGES : data flow (dashed)  -- tendencies / state
+  // ------------------------------------------------------------------
+  gwdrag_wms -> nwp_gwdrag  [style="dashed", dir="back",
+    label="ddt_u_gwd, ddt_v_gwd,\npfluxu, pfluxv"];
+  nwp_gwdrag -> nwp_nh_interface [style="dashed", dir="back",
+    label="ddt_u_gwd, ddt_v_gwd\n(+ssp, raylfr, pconv)"];
+  nwp_gwdrag -> nwp_turbdiff [style="dashed",
+    label="ddt_u_gwd/v_gwd\n(dissip. heat)"];
+  nwp_nh_interface -> solve_nh [style="dashed",
+    label="pt_diag%ddt_vn_phy (edge)\npt_diag%ddt_exner_phy (T->Exner)\npt_prog%vn direct update"];
+  nwp_nh_interface -> integrate_nh [style="dashed", dir="back",
+    label="vn(nnew), theta_v, exner,\ntracer(nnew) updated"];
+
+  // U,V,T state variables of interest
+  u_v_t [label="Scientific state:\n u (zonal wind)  <- ddt_vn_phy(comp1)\n v (meridional wind) <- ddt_vn_phy(comp2)\n T (temperature) <- ddt_exner_phy\n (dissipative heating path)",
+         shape="note", fillcolor="#eaf2f8", style="rounded"];
+  nwp_nh_interface -> u_v_t [style="dashed"];
+  solve_nh -> u_v_t [style="dashed"];
+}
